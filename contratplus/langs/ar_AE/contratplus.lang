@@ -1,0 +1,265 @@
+# Dolibarr language file - fr_FR - ContratPlus
+
+CHARSET=UTF-8
+
+##
+#admin/configextra.php
+SetupExtraPropal=                                                           ﻝﺎﻤﻋﻻ﻿ﺍ ﺕﺎﺣﺮﺘﻘﻣ ﻪﺤﻔﺻ
+SetupExtraFacture=                                                                 ﺓﺭﻮﺗﺎﻔﻟﺍ ﻪﺤﻔﺻ
+ContratPlusDureePropalActive=                                                      ﺔﺟﺭﺎﺨﻟﺍ ﺔﻛﺭﺎﺸﻤﻟﺍ ﻩﺪﻣ ﺽﺮﻋ
+ContratPlusDureeFactActive=                                                      ﺔﺟﺭﺎﺨﻟﺍ ﺔﻛﺭﺎﺸﻤﻟﺍ ﻩﺪﻣ ﺽﺮﻋ
+ContratPlusDateStartFactActive=                                                     ﻲﺟﺭﺎﺨﻟﺍ ﻒﻴﻠﻜﺘﻟﺍ ﺦﻳﺭﺎﺗ ﺽﺮﻋ
+ContratPlusDateEndFactActive=                                                     ﻲﺟﺭﺎﺨﻟﺍ ﺔﺑﻮﻄﺨﻟﺍ ﺦﻳﺭﺎﺗ ﺽﺮﻋ
+ExtraSetup=<i class="fa fa-briefcase" aria-hidden="true"></i>                                                                   ﺝﺭﺎﺨﻟﺍ ﺽﺮﻋ
+ContratPlusSetupExtra=                                                                  ﺝﺭﺎﺨﻟﺍ ﻦﻳﻮﻜﺗ
+
+
+
+##
+#admin/config.php
+
+SetupContratPlus=                                                                       ﻩﺭﺍﺩﻻ﻿ﺍ
+ContratP=                                                         ﻢﻜﺤﺘﻟﺍ ﻪﺣﻮﻟ-ﺲﻠﺑ ﺪﻘﻌﻟﺍ
+ContratPlusConfigurationWizard=                                                       ﻡﻮﻴﻟﺍ ﺔﻟﺎﺳﺭ ﺪﻋﺎﺴﻣ ﺩﺍﺪﻋﺍ
+ContratPlusSetup=                                                  ﺪﻳﺪﺠﺘﻠﻟ ﺔﻴﻄﻤﻨﻟﺍ ﺓﺪﺣﻮﻟﺍ ﻦﻳﻮﻜﺗ
+ModelPDF=                                                                     PDF ﺝﺫﻮﻤﻧ
+CPMode1=                                                             .ﻂﻘﻓ ﺪﻳﺪﺠﺘﻟﺍ ﻂﺸﻨﻳ
+CPMode2=                                            ﻩءﺎﺸﻧﺇﻭ ﺓﺭﻮﺗﺎﻔﻟﺍ ﻉﻭﺮﺸﻣ ﺪﻳﺪﺠﺗ ﻂﻴﺸﻨﺗ
+CPMode3=                         ﺓﺭﻮﺗﺎﻔﻟﺍ ﺔﺤﺻ ﻦﻣ ﻖﻘﺤﺘﻟﺍﻭ ﺓﺩﻮﺴﻤﻟﺍ ﺓﺭﻮﺗﺎﻓﻭ ﺪﻳﺪﺠﺘﻟﺍ ﻂﻴﺸﻨﺗ
+CPMode4=ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺎﺑ ﻞﻴﻤﻌﻟﺍ ﻰﻟﺇ ﺓﺭﻮﺗﺎﻔﻟﺍ ﻝﺎﺳﺭﺇﻭ ﺓﺭﻮﺗﺎﻔﻟﺍ ﺔﺤﺻ ﻦﻣ ﻖﻘﺤﺘﻟﺍﻭ ingup ﺓﺩﻮﺴ
+BypassValidation=                                           ﺪﻳﺪﺠﺘﻟﺍ ءﺎﻨﺛﺍ ﺔﺤﺼﻟﺍ ﻦﻣ ﻖﻘﺤﺘﻟﺍ ﻑﺎﻘﻳﺇ
+ContratPlusInfo=                         ﺎﻬﺑ ﺔﻄﺒﺗﺮﻤﻟﺍ ﺕﺎﻣﺪﺨﻟﺍﻭ ﺩﻮﻘﻌﻠﻟ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻠﻟ ﺕﺎﻣﻮﻠﻌﻣ
+ContratPlusDateStart=                                                                   ءﺪﺒﻟﺍ ﺦﻳﺭﺎﺗ
+ContratPlusDateEnd=                                                                 ءﺎﻬﺘﻧﻻ﻿ﺍ ﺦﻳﺭﺎﺗ
+ContratPlusBillDate=                                                          ﺓﺭﻮﺗﺎﻔﻟﺍ ءﺎﺸﻧﺇ ﺦﻳﺭﺎﺗ
+ContratPlusBillNote=                                            ﻥﻮﻧﺎﻘﻟﺍ ﻉﻭﺮﺸﻣ ﻰﻟﺇ ﻪﻣﺎﻋ ﻩﺮﻛﺬﻣ ﻪﻓﺎﺿﺃ
+ContratPlusBillNotePrivate=                                             ﻥﻮﻧﺎﻘﻟﺍ ﻉﻭﺮﺸﻣ ﻰﻟﺇ ﻑﺎﻀﺗ ﻪﺻﺎﺧ ﻪﻈﺣﻼ﻿ﻣ
+ContratplusCompteDefaut=                                                        ﻲﺿﺍﺮﺘﻓﻻ﻿ﺍ ﻲﻜﻨﺒﻟﺍ ﺏﺎﺴﺤﻟﺍ
+AdminManageRuleInvitation=                                             ﻙﻮﻠﺴﻟﺍﻭ ﺓﺮﻴﻐﺘﻤﻟﺍ ﻩﺭﺍﺩﻻ﻿ﺍ-ﺲﻠﺑ ﺪﻘﻌﻟﺍ
+contratplus_bypass=                                                      ﻪﻴﺒﻨﺘﻟﺍ ﺭﺎﻃﺍ ﻞﻴﻐﺸﺗ ﻑﺎﻘﻳﺇ
+CreateTest=                                                             ﺭﺎﺒﺘﺧﻻ﻿ﺍ ﺪﻘﻋ ءﺎﺸﻧﺇ
+PopulateDateEnd=                                                   ﺔﻛﺭﺎﺸﻤﻟﺍ ﺔﻳﺎﻬﻧ ﺦﻳﺭﺍﻮﺗ ءﺎﺸﻧﺇ
+CleanDateEnd=                                                      ﺔﺑﻮﻄﺨﻟﺍ ﺔﻳﺎﻬﻧ ﺦﻳﺭﺍﻮﺗ ﻑﺬﺣ
+ErrorDate=                                        ءﺪﺒﻟﺍ ﺦﻳﺭﺎﺘﻟ ﻖﺑﺎﺴﻟﺍ ءﺎﻬﺘﻧﻻ﻿ﺍ ﺦﻳﺭﺎﺗ :ﺎﻄﺧ
+Error=                                                                        :ﺎﻄﺨﻟﺍ
+SupplierOption=OPTION: ﻦﻳﺩﺭﻮﻤﻠﻟ ﺍﺭﺎﻴﺧ ﺮﺘﺧﺍ
+ActivateSupplierInvoiceCreation=                                        ﺪﻳﺪﺠﺘﻟﺍﻭ ءﺎﺸﻧﻹ﻿ﺍ ﻦﻴﻜﻤﺗﻭ ، ﻦﻳﺩﺭﻮﻤﻟﺍ ﺩﻮﻘﻋ
+ModelPDFCustomer=                                                      ﻞﻴﻤﻌﻟﺍ ﺓﺭﻮﺗﺎﻔﻟ Pdf ﺝﺫﻮﻤﻧ
+ModelPDFSupplier=                                                      ﺩﺭﻮﻤﻟﺍ ﺓﺭﻮﺗﺎﻔﻟ Pdf ﺝﺫﻮﻤﻧ
+MailSetup=<i class="fa fa-envelope-o" aria-hidden="true"></i>                                                             ﻲﻧﻭﺮﺘﻜﻟﻻ﻿ﺍ ﺪﻳﺮﺒﻟﺍ
+MailHistory=<i class="fa fa-envelope"></i>                                                        ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﺦﻳﺭﺎﺗ
+CronSetup=<i class="fa fa-cogs" aria-hidden="true"></i>                                                                 ﻰﻟﻷ﻿ﺍ ﺪﻳﺪﺠﺘﻟﺍ
+ContratplusCondPaiementDefaut=                                   ﻞﻴﻤﻌﻟﺍ ﺔﻗﺎﻄﺑ ﻢﻠﻋ ﻲﻠﻋ ﻦﻜﻳ ﻢﻟ ﺍﺫﺇ ، ﻊﻓﺪﻟﺍ ﻁﺮﺷ
+ContratplusMethodPaiementDefaut=                                ﻞﻴﻤﻌﻟﺍ ﺔﻗﺎﻄﺒﺑ ﻢﻠﻋ ﻲﻠﻋ ﻦﻜﺗ ﻢﻟ ﺍﺫﺇ ، ﻊﻓﺪﻟﺍ ﻪﻘﻳﺮﻃ
+OptionRenew=Mode
+
+##
+#admin/configmail.php
+
+SelectEmailTemplate=                                                      ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺑ ﺐﻟﺎﻗ ﺪﻳﺪﺤﺗ
+Object=                                                         ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﻉﻮﺿﻮﻣ
+Content=                                                         ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﻱﻮﺘﺤﻣ
+Use=                                                                       ﻡﺍﺪﺨﺘﺳﺍ
+LastMassSending=                                                              ﺓﺩﺪﻌﺘﻣ ﺕﺎﻨﺤﺷ ﺮﺧﺁ
+LastSimpleSending=                                                              ﺓﺩﺮﻔﻨﻣ ﺕﺎﻨﺤﺷ ﺮﺧﺁ
+Invoice=                                                                           ﻞﻴﺑ
+ToMail=                                                                       ﻢﻠﺘﺴﻤﻟﺍ
+SubstitVariable=                                                      ﺔﺣﺎﺘﻤﻟﺍ ﻝﺍﺪﺒﺘﺳﻻ﻿ﺍ ﺕﺍﺮﻴﻐﺘﻣ
+DoTestSendHTML=                                                               ﻱﺭﺎﺒﺘﺧﻻ﻿ﺍ ﺪﻳﺮﺒﻟﺍ
+ContratPlusTestMail=                                                               ﻱﺭﺎﺒﺘﺧﻻ﻿ﺍ ﺪﻳﺮﺒﻟﺍ
+
+##
+#class/actions_contratplus.class.php
+
+Renewal=                                                                  ﺪﻳﺰﻤﻟﺍ ﺪﻳﺪﺠﺗ
+ConfirmRenewal=                                                         ﺪﻳﺪﺠﺘﻟﺍ ﺔﺤﺻ ﻦﻣ ﻖﻘﺤﺘﻟﺍ
+Contratname=                                                           s-br/br %ﺪﻘﻌﻟﺍ ﻊﺟﺮﻣ
+NoServices=                                                !ﻩﺮﺷﺎﺒﻣ ﺪﻳﺪﺠﺘﻠﻟ ﺕﺎﻣﺪﺧ ﺪﺟﻮﺗ ﻻ﻿-
+RenewalConfirmation=                                           </br> :ﺔﻴﻟﺎﺘﻟﺍ ﺕﺎﻣﺪﺨﻟﺍ ﺪﻳﺪﺠﺘﺑ ﻡﻮﻘﻨﺳ
+ContratPlusindex=                                                                     ﺲﻠﺑ ﺪﻘﻌﻟﺍ
+contratPlusDetailService=                                                   </s <br %ﺦﻳﺭﺎﺘﻟ :s %ﺔﻣﺪﺨﻟﺍ-
+CreateFournContract=                                                              ﺩﺭﻮﻤﻟﺍ ﺪﻘﻋ ءﺎﺸﻧﺇ
+ContratPlusNotConfigured=                                     (ﻩﺩﺍﺪﻋﻻ﻿ ﺎﻨﻫ ﺮﻘﻧﺍ) ﺪﺋﺍﺯ ﺪﻘﻌﻟﺍ ﻦﻳﻮﻜﺗ ﻢﺘﻳ ﻢﻟ
+ContratPlusMailNotConfigured=                 (ﻩﺩﺍﺪﻋﻻ﻿ ﺎﻨﻫ ﺮﻘﻧﺍ) ﺲﻠﺑ ﺪﻘﻌﻠﻟ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﺭﺎﻴﺧ ﺩﺍﺪﻋﺍ ﻢﺘﻳ ﻢﻟ
+ContratplusAutomated=                                                              ﻰﻟﻷ﻿ﺍ ﺪﻳﺪﺠﺘﻟﺍ ﺪﻘﻋ
+ServicesActiveInContract=                                       ﺔﻄﺸﻨﻟﺍ ﺕﺎﻣﺪﺨﻟﺍ ﻊﻣ ﺪﻘﻋ ﻕﻼ﻿ﻏﺇ ﻲﻠﻋ ﺭﺩﺎﻗ ﺮﻴﻏ
+ContratplusClosed=                                                                 ﺪﻘﻌﻟﺍ ﻕﻼ﻿ﻏﺇ ﻢﺗ
+CloseContract=                                                                    ﺪﻘﻌﻟﺍ ﻕﻼ﻿ﻏﺇ
+OpenContract=                                                                   ﺪﻘﻌﻟﺍ ﻞﻴﻌﻔﺗ
+
+##
+#class/renew.class.php
+
+MissMailConfig=                                 ﺪﺋﺍﺯ ﺪﻘﻌﻟﺍ ﻩﺪﺣﻮﻟ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﻦﻳﻮﻜﺗ ﺪﺟﻮﻳ ﻻ﻿
+MailNotSent=                                                  ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﻝﺎﺳﺭﺇ ﻢﺘﻳ ﻢﻟ
+MailAddressNotSet=                                   ﺚﻟﺎﺜﻟﺍ ﻰﻟﺇ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺑ ﻥﺍﻮﻨﻋ ﻦﻴﻴﻌﺗ ﻢﺘﻳ ﻢﻟ
+MailSentTo=                                                   :ﻰﻟﺇ ﻞﺳﺮﻤﻟﺍ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ
+ContratPlusMailSent=                                    ﺪﻘﻌﻟﺍ ﻰﻟﺇ ﻪﻓﺎﺿﻻ﻿ﺎﺑ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﻝﺎﺳﺭﺇ ﻢﺗ
+Invoice=                                                                           ﻞﻴﺑ
+MailSent=                                                                        ﻝﺎﺳﺭﺍ
+
+##
+#contrats.php
+
+ModeSelect=                                                   ﺩﺪﺤﻤﻟﺍ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻊﺿﻭ
+RenewallAllConfirmation=                                            </br> :ﺔﻴﻟﺎﺘﻟﺍ ﺩﻮﻘﻌﻟﺍ ﺪﻳﺪﺠﺘﺑ ﻡﻮﻘﻨﺳ
+ValidRenewal=                                                         ﺪﻳﺪﺠﺘﻟﺍ ﺔﺤﺻ ﻦﻣ ﻖﻘﺤﺘﻟﺍ
+RenewContrat=                                                            ﺩﺪﺤﻤﻟﺍ ﺪﻘﻌﻟﺍ ﺪﻳﺪﺠﺗ
+RenewContratinfo=                                           ﻲﺋﺎﻘﻠﺘﻟﺍ ﻱﻭﺪﻴﻟﺍ ﺪﻳﺪﺠﺘﻠﻟ ﻪﻧﻮﻜﻣ ﺮﺻﺎﻨﻋ
+ContratAllClientFournisseur=                                                           :ﺩﺭﻮﻤﻟﺍ/ﻞﻴﻤﻌﻟﺍ/ﻞﻜﻟﺍ
+CustomerContract=                                                                    ﻞﻴﻤﻌﻟﺍ ﺪﻘﻋ
+SupplierContract=                                                                  ﻦﻳﺩﺭﻮﻤﻟﺍ ﺪﻘﻋ
+NoContractSelected=                                                               ﺩﺪﺤﻣ ﺪﻘﻋ ﺪﺟﻮﻳ ﻻ﻿
+ErrorRenewal=                                                                ﺪﻳﺪﺠﺘﻟﺍ ﻲﻓ ﺎﻄﺧ
+NotCustomerWithCustomerContract=                                      ﻞﻴﻤﻌﻟﺍ ﺪﻘﻋ ﻊﻗﻮﺗ ﻻ﻿/ﻞﻴﻤﻌﻟﺍ ﻻ﻿ ﺩﺭﻮﻤﻠﻟ ﻦﻜﻤﻳ ﻻ﻿
+NotSupplierWithSupplierContract=                              ﺩﺭﻮﻣ ﺪﻘﻋ ﻲﻠﻋ ﻝﻮﺼﺤﻟﺍ ، ﺩﺭﻮﻤﻟﺍ ﺮﻴﻏ ، ﻞﻴﻤﻌﻠﻟ ﻦﻜﻤﻳ ﻻ﻿
+SupplierOptionNotActive=            ﺪﻘﻌﻟﺍ ﺍﺬﻫ ﻲﻓ ﺕﺎﻣﺪﺨﻟﺍ ﻪﻤﺋﺎﻗ ﺽﺮﻋ ﻦﻣ ﻦﻜﻤﺘﺗ ﻦﻟ ، ﺮﻓﻮﻤﻟﺍ ﺪﻘﻋ ﺭﺎﻴﺧ ﻞﻴﻄﻌﺗ
+NoMailForSupplier=                                                    ﺩﺭﻮﻤﻟﺍ ﺮﻴﺗﺍﻮﻓ ﻝﺎﺳﺭﺇ ﻦﻜﻤﻳ ﻻ﻿
+NoMailContact=                                            ﺔﻛﺮﺸﻠﻟ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺑ ﻪﻋﻮﻤﺠﻣ ﺪﺟﻮﺗ ﻻ﻿
+Mail=                                                    ﻦﻜﻤﻣ ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺒﻟﺍ ﻝﺎﺳﺭﺇ
+MailTitle=                                                           ﻲﻧﻭﺮﺘﻜﻟﺍ ﺪﻳﺮﺑ ﻝﺎﺳﺭﺇ
+Automated=                                                                  ﻰﻟﻷ﻿ﺍ ﺪﻳﺪﺠﺘﻟﺍ
+NotAutomated=                                                               ﺖﻤﺗﺆﻣ ﺮﻴﻏ ﺪﻳﺪﺠﺗ
+ContractSelectedForAutoRenew=                                                     ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻠﻟ ﺩﺪﺤﻣ ﺪﻘﻋ
+ContractDeselectedForAutoRenew=                                                ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻠﻟ ﺐﺨﺘﻨﻣ ﺮﻴﻏ ﺪﻘﻋ
+UnactivateContractForCron=                                                  ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻞﻴﻐﺸﺗ ﻑﺎﻘﻳﺇ
+UnactivateContractConfirmation=                                   ؟ ﺪﻘﻌﻟﺍ ﺍﺬﻬﻟ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻞﻴﻄﻌﺗ ﺪﻳﺮﺗ ﻞﻫ
+ActivateContractForCron=                                                        ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻦﻴﻜﻤﺗ
+ActivateContractConfirmation=                                   ؟ ﺪﻘﻌﻟﺍ ﺍﺬﻬﻟ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻂﻴﺸﻨﺗ ﺪﻳﺮﺗ ﻞﻫ
+Unactivate=                                                                         ﻞﻴﻄﻌﺗ
+AddAutomated=                                                  ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻑﺎﻘﻳﺇ/ﻞﻴﻐﺸﺗ
+ContractsAutomated=                                              ﻰﻟﻷ﻿ﺍ ﺪﻳﺪﺠﺘﻠﻟ ﺐﺨﺘﻨﻣ ﺮﻴﻏ/ﺭﺎﺘﺨﻣ ﺪﻘﻋ
+
+##
+#services.php && core/modulesmodContratPlus.class.php
+
+ServiceAllClientFournisseur=                                                           :ﺩﺭﻮﻤﻟﺍ/ﻞﻴﻤﻌﻟﺍ/ﻞﻜﻟﺍ
+ContratplusDateStart=                                                             ﻞﻴﻐﺸﺘﻟﺍ ءﺪﺑ ﺦﻳﺭﺎﺗ
+ContratplusDateEnd=                                                                 ءﺎﻬﺘﻧﻻ﻿ﺍ ﺦﻳﺭﺎﺗ
+ContratplusEngage=                                                           (ﺮﻬﺷﻷ﻿ﺎﺑ) ﻡﺍﺰﺘﻟﺍ ﺖﻗﻭ
+SubtotalSupplier=                                                              ﺩﺭﻮﻤﻟﺍ ﻉﻮﻤﺠﻣ ﺖﺤﺗ
+SubtotalCustomer=                                                             ﻞﻴﻤﻌﻟﺍ ﻲﻟﺎﻤﺟﺇ ﻦﻤﺿ
+ContratplusBank=                                                                 ﻲﻜﻨﺒﻟﺍ ﺏﺎﺴﺤﻟﺍ
+
+##
+#core/modules/modContratPlus.class.php
+
+ViewModule=                                                            ﺔﻴﻄﻤﻨﻟﺍ ﺓﺪﺣﻮﻟﺍ ﺽﺮﻋ
+Contratplus_ListePlus=                                                             ﺮﺜﻛﺃ ﻪﻤﺋﺎﻗ-ﺩﻮﻘﻌﻟﺍ
+Contratplus_ServicePlus=                                                               ﺲﻠﺑ ﻪﻤﺋﺎﻗ-ﺕﺎﻣﺪﺧ
+ConfigurateModule=                                                          ﺔﻴﻄﻤﻨﻟﺍ ﺓﺪﺣﻮﻟﺍ ﺩﺍﺪﻋﺍ
+ConfigurateAutomate=                                                          ﺎﻴﺋﺎﻘﻠﺗ ﺩﻮﻘﻌﻟﺍ ﺪﻳﺪﺠﺗ
+ModSupplierContract=                                                                  ﻦﻳﺩﺭﻮﻤﻟﺍ ﺪﻘﻋ
+CreateContract=                                                                     ﺪﻘﻋ ءﺎﺸﻧﺇ
+ConfigurateRenewSimple=                                                                     ﺪﻘﻋ ﺪﻳﺪﺠﺗ
+ConfigurateRenewAll=                                                             ﺓﺩﺪﻌﺘﻣ ﺩﻮﻘﻋ ﺪﻳﺪﺠﺗ
+Module448001Desc=                                      ﻦﻳﺩﺭﻮﻤﻟﺍﻭ ءﻼ﻿ﻤﻌﻟﺍ ﺩﻮﻘﻋ ﻪﺘﻤﺗﺃﻭ ﻩﺭﺍﺩﺃ ﻦﻴﺴﺤﺗ
+Module448001Name=                                                                     ﺲﻠﺑ ﺪﻘﻌﻟﺍ
+
+##
+#doc/
+PDFContratPlusCustomerDescription=                                           ءﻼ﻿ﻤﻌﻟﺍ ﺮﻴﺗﺍﻮﻔﻟ ﺪﺋﺍﺯ ﺪﻘﻌﻟﺍ pdf ﺝﺫﻮﻤﻧ
+PDFContratPlusSupplierDescription=                                           ﺩﺭﻮﻤﻟﺍ ﺮﻴﺗﺍﻮﻔﻟ ﺪﺋﺍﺯ pdf ﺪﻘﻌﻟﺍ ﺝﺫﻮﻤﻧ
+
+##
+#admin/configcron.php
+CronOption=                                                  ﺩﻮﻘﻌﻠﻟ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﺭﺎﻴﺧ
+ActivateMassContractSelection=                                ﺎﻴﺋﺎﻘﻠﺗ ﻩﺪﻳﺪﺠﺗ ﻢﺘﻴﻟ ﺩﺪﻌﺘﻤﻟﺍ ﺪﻘﻌﻟﺍ ﺭﺎﻴﺘﺧﺍ ﻂﻴﺸﻨﺗ
+SetupSaved=                                                                ﻅﻮﻔﺤﻤﻟﺍ ﺩﺍﺪﻋﻻ﻿ﺍ
+Error=                                                                         ﺎﻄﺨﻟﺍ
+ChooseDateForRenew=                                           ﻲﻟﺎﺘﻟﺍ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻠﻟ ﺎﺨﻳﺭﺎﺗ ﺮﺘﺧﺍ
+NextTimeCron=                                                       ﻲﻟﺎﺘﻟﺍ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ
+CronContratPlus=                                                     ﻰﻟﻷ﻿ﺍ ﺪﻳﺪﺠﺘﻟﺍ-ﻲﻓﺎﺿﻹ﻿ﺍ ﺪﻘﻌﻟﺍ
+RenewDate=                                                        ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﺦﻳﺭﺎﺗ
+
+##
+#core/automatefunction.php
+ValidAutomate=                                                  ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻑﺎﻘﻳﺇ/ﻞﻴﻐﺸﺗ
+AutomateContractConfirmation=                           ؟ ﻲﻟﺎﺘﻟﺍ ﺪﻘﻌﻠﻟ ﻲﺋﺎﻘﻠﺘﻟﺍ ﺪﻳﺪﺠﺘﻟﺍ ﻑﺎﻘﻳﺇ/ﻞﻴﻐﺸﺗ ﺪﻳﺮﺗ ﻞﻫ
+ContractToActivate=                                                                 :ﻞﻴﻌﻔﺘﻟﺍ ﺩﻮﻘﻋ
+NoContractToActivate=                                                           ﻂﻴﺸﻨﺘﻠﻟ ﺩﻮﻘﻋ ﺪﺟﻮﺗ ﻻ﻿
+ContractToDeactivate=                                                                  :ﻞﻴﻄﻌﺘﻟ ﺩﻮﻘﻋ
+NoContractToDeactivate=                                                            ﻞﻴﻄﻌﺘﻟ ﺩﻮﻘﻋ ﺪﺟﻮﺗ ﻻ﻿
+
+
+
+
+##
+#admin/configwizard.php
+WizardSetup=<i class="fa fa-commenting" aria-hidden="true"></i>                                                                        ﺪﻋﺎﺴﻣ
+SetupWizard = <i class="fa fa-comments-o" aria-hidden="true"></i>                                                                ﻞﺋﺎﺳﺮﻟﺍ ﺩﺍﺪﻋﺍ
+ActivateWizardMode                =                                                                ﻞﺋﺎﺳﺮﻟﺍ ﻞﻴﻐﺸﺗ
+wizardindex=                                                       ﻢﻜﺤﺘﻟﺍ ﻪﺣﻮﻟ/ﻡﻮﻴﻟﺍ ﺔﻟﺎﺳﺭ
+wizardcontrat=                                                  ﺲﻠﺑ ﻪﻤﺋﺎﻗ-ﺪﻘﻌﻟﺍ/ﺔﻟﺎﺳﺮﻟﺍ ﻪﺤﻔﺻ
+wizardservice=                                                ﺲﻠﺑ ﻪﻤﺋﺎﻗ-ﺕﺎﻣﺪﺧ ﺔﺤﻔﺼﻟﺍ/ﺔﻟﺎﺳﺮﻟﺍ
+
+##
+#admin/configpdf.php
+PdfSetup=<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Pdf
+SetupPdf=                                                               Pdf ﺕﺎﻔﻠﻣ ﺩﺍﺪﻋﺍ
+ContratPlusDateEndActive=                                                       ﺔﺑﻮﻄﺨﻟﺍ ﺔﻳﺎﻬﻧ ﺦﻳﺭﺎﺗ ﺽﺮﻋ
+
+##
+# Hook
+BillPeriod      =                                                                 ﺓﺮﺗﻮﻔﻟﺍ ﻩﺮﺘﻓ
+
+##
+# Stats
+CPStats                             =                                                                     ﺕﺍءﺎﺼﺣﻻ﻿ﺍ
+IndexStats                          =                                                                       ﻪﻣﺎﻌﻟﺍ
+ContractStats                       =                                                                  ءﻼ﻿ﻤﻌﻟﺍ ﺩﻮﻘﻋ
+ServiceStats                        =                                                                 ﺕﺎﻣﺪﺨﻟﺍ ﻞﻴﻤﻋ
+CustomerContractNbByStatut          = Nb ﺔﻟﺎﺤﻟﺍ ﺐﺴﺣ ءﻼ﻿ﻤﻌﻟﺍ ﺩﻮﻘﻋ
+FournContractNbByStatut             = Nb ﺔﻟﺎﺤﻟﺍ ﺐﺴﺣ ﻦﻳﺩﺭﻮﻤﻟﺍ ﺩﻮﻘﻋ
+CustomerServiceNbByStatut           = Nb ﺔﻟﺎﺤﻟﺍ ﺐﺴﺣ ءﻼ﻿ﻤﻌﻟﺍ ﺕﺎﻣﺪﺧ
+SupplierServiceNbByStatut           = Nb ﺔﻟﺎﺤﻟﺍ ﺐﺴﺣ ﺕﺎﻣﺪﺨﻟﺍ ﻲﻣﺪﻘﻣ
+allDraftContractListing             =                                                            ﺩﻮﻘﻌﻟﺍ ﻊﻳﺭﺎﺸﻣ ﺮﺧﺁ
+allLastCreatedContractListing       =                                        ﺎﻫﺅﺎﺸﻧﺇ ﻢﺗ ﻲﺘﻟﺍ ﻩﺮﻴﺧﻻ﻿ﺍ ﺔﻠﻴﻠﻘﻟﺍ ﺩﻮﻘﻌﻟﺍ
+customerDraftContractListing        = % s ﺶﻳﻮﺸﺘﻟﺍ ﺪﻘﻌﻟﺍ ءﻼ﻿ﻤﻋ ﺙﺪﺣﺃ
+customerLastCreatedContractListing  =                                               ﻩﺮﻴﺧﻻ﻿ﺍ s %ءﻼ﻿ﻤﻌﻟﺍ ﺩﻮﻘﻋ ءﺎﺸﻧﺇ ﻢﺗ
+supplierDraftContractListing        =                                            ﺶﻳﻮﺸﺘﻟﺍ s %ﻦﻳ+ ﺩﺭﻮﻤﻟﺍ ﺩﻮﻘﻌﻟﺍ ﺙﺪﺣﺃ
+supplierLastCreatedContractListing  =                                           s %ﻩ+ ﺮﻴﺧﻷ﻿ﺍ ﻦﻳﺩﺭﻮﻤﻟﺍ ﺩﻮﻘﻋ ءﺎﺸﻧﺇ ﻢﺗ
+NbContract                          =                                                               ﺔﻣﺮﺒﻤﻟﺍ ﺩﻮﻘﻌﻟﺍ
+CustomerContractNbByStatutForYear   =                 ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﻪﻨﺴﻟﺍ/ﺚﻟﺎﺜﻟﺍ ﻑﺮﻄﻟﺍ ﺰﻛﺮﻣ ﺐﺴﺣ ﺔﻣﺮﺒﻤﻟﺍ ﺩﻮﻘﻌﻟﺍ
+FournContractNotActivated           =                                                     .ﺩﺭﻮﻤﻟﺍ ﺪﻘﻋ ﻞﻴﻌﻔﺗ ﻢﺘﻳ ﻢﻟ
+ContractNbContract                  =                                           ﺭﺎﺘﺨﻤﻟﺍ ﺕﺎﻌﻴﺒﻤﻟﺍ ﺏﻭﺪﻨﻣﻭ ﻪﻨﺴﻟﺍ ﺩﻮﻘﻋ
+ContractNbContractByMonth           =                          ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﻪﻨﺴﻟﺍ/ﺚﻟﺎﺜﻟﺍ ﻑﺮﻄﻠﻟ ﺔﻳﺮﻬﺸﻟﺍ ﺩﻮﻘﻌﻟﺍ
+ContractCAContract                  =                       ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﺔﻣﺎﻌﻟﺍ/ﺔﺜﻟﺎﺜﻟﺍ ﻪﻨﺴﻠﻟ ﻲﻤﻛﺍﺮﺘﻟﺍ .C.Aﻝﺍ
+ContractCAContractByMonth           =                    ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﻪﻨﺴﻟﺍ/ﺔﺜﻟﺎﺜﻟﺍ ﻪﻨﺴﻠﻟ ﺎﻳﺮﻬﺷ ﺍ .ﺝ ﻲﻤﻛﺍﺮﺘﻟﺍ
+NbService                           =                                                               ﺕﺎﻈﺣﻼ﻿ﻤﻟﺍ ﺕﺎﻣﺪﺧ
+CAService                           =                                                                      ﻒﻟﺍ-ﻢﻴﺟ
+ServiceNbByStatut                   =                            ﺭﺎﺘﺨﻤﻟﺍ ﺕﺎﻌﻴﺒﻤﻟﺍ ﺏﻭﺪﻨﻣﻭ ﻡﺎﻌﻠﻟ ﺔﻟﺎﺤﻟﺍ ﺐﺴﺤﺑ ﺕﺎﻣﺪﺨﻟﺍ
+ServiceNbByStatutForYear            =                     ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﻪﻨﺴﻟﺍ/ﺮﻴﻐﻠﻟ ﺰﻛﺮﻤﻟﺍ ﺐﺴﺣ ﺔﻣﺪﻘﻤﻟﺍ ﺕﺎﻣﺪﺨﻟﺍ
+ServiceNbService                    =                                 ﺭﺎﺘﺨﻤﻟﺍ ﺕﺎﻌﻴﺒﻤﻟﺍ ﺏﻭﺪﻨﻣﻭ ﻡﺎﻌﻠﻟ ﺔﻣﺎﻌﻟﺍ ﺕﺎﻣﺪﺨﻟﺍ
+ServiceNbServiceByMonth             =             ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﻪﻨﺴﻟﺍ/ﺚﻟﺎﺜﻟﺍ ﺮﻬﺸﻟﺍ ﻲﻓ ﺎﻬﻠﻴﻌﻔﺗ ﻢﺘﻳ ﻲﺘﻟﺍ ﺕﺎﻣﺪﺨﻟﺍ
+ServiceCAService                    = C.A. ﺭﺎﺘﺨﻤﻟﺍ ﺕﺎﻌﻴﺒﻤﻟﺍ ﺏﻭﺪﻨﻣﻭ ﻡﺎﻌﻠﻟ
+ServiceCAServiceByMonth             =                                   ﺓﺭﺎﺘﺨﻤﻟﺍ ﺔﻳﺭﺎﺠﺘﻟﺍ/ﻪﻨﺴﻟﺍ/ﺚﻟﺎﺜﻟﺍ ﺮﻬﺸﻟﺍ ﺕﺎﻣﺪﺧ
+WithActivationDate                  =                                                                   ﺦﻳﺭﺎﺘﻟﺍ ﻊﻣ
+WithoutActivationDate               =                                                                         ﺥﺭﺆﻣ
+ServiceWithoutDate                  =                                                   ﻞﻴﻌﻔﺘﻟﺍ ﺦﻳﺭﺎﺗ ﻥﻭﺪﺑ ﺕﺎﻣﺪﺨﻟﺍ
+
+#
+# v.10.0.1
+#
+ContractClosed                      =                                                                ﺪﻘﻌﻟﺍ ﻕﻼ﻿ﻏﺇ ﻢﺗ
+ErrorCloseContract                  =                                      ﺕﺎﻣﺪﺨﻟﺍ ﺔﻓﺎﻛ ﻕﻼ﻿ﻏﺇ ﺔﻟﻭﺎﺤﻣ .ﻞﻤﺘﻜﻣ ﺮﻴﻏ ﺪﻘﻋ
+ContractOpened                      =                                                               ﺪﻘﻌﻟﺍ ﻞﻴﻌﻔﺗ ﻢﺗ
+ErrorOpenContract                   =                                ﺕﺎﻣﺪﺨﻟﺍ ﺔﻓﺎﻛ ﻂﻴﺸﻨﺗ ﺔﻟﻭﺎﺤﻣ .ﺪﻘﻌﻟﺍ ﻞﻴﻌﻔﺗ ﻢﺘﻳ ﻢﻟ
+
+#
+# v.10.0.2
+#
+Week                                =                                                                       ﻉﻮﺒﺳﻻ﻿ﺍ
+Quarter                             =                                                                        ﻊﺑﺮﻟﺍ
+Half                                =                                                                ﻲﺳﺍﺭﺪﻟﺍ ﻞﺼﻔﻟﺍ
+MassSetDate                         =                                         ﺔﺑﻮﻄﺨﻟﺍ ﺖﻗﻭ ﻭﺃ/ﻭ ﻂﻴﺸﻨﺘﻟﺍ ﺦﻳﺭﺎﺗ ﻪﻓﺎﺿﺃ
+SelectDateAndDuration               =  ﺎﻴﺋﺎﻘﻠﺗ ﺔﻣﺪﺨﻟﺍ ءﺎﻬﺘﻧﺍ ﺦﻳﺭﺎﺗ ﺏﺎﺴﺘﺣﺍ ﻢﺘﻴﺳ .ﺔﺑﻮﻄﺨﻟﺍ ﺖﻗﻭ ﻭﺃ/ﻭ ﻂﻴﺸﻨﺘﻟﺍ ﺦﻳﺭﺎﺗ ﺩﺪﺣ
+DateStartRequired                   =                                                         ﻲﻣﺍﺰﻟﺇ ﻞﻴﻌﻔﺘﻟﺍ ﺦﻳﺭﺎﺗ
+SetDateError                        =                                               ﻲﻋﺎﻤﺠﻟﺍ ﻞﻤﻌﻟﺎﺑ ﻡﺎﻴﻘﻟﺍ ﻦﺴﺘﻳ ﻢﻟﻭ
+SetDateDone                         =                                                       ﻲﻋﺎﻤﺠﻟﺍ ﻞﻤﻌﻟﺍ ﻱﺮﺟﺍ ﺪﻗﻭ
+ListContractMenu                    =                                                         ﺓﺪﺋﺍﺰﻟﺍ ﺩﻮﻘﻌﻟﺍ ﻪﻤﺋﺎﻗ
+CreateContractMenu                  = <i class="fa fa-plus-square-o" aria-hidden="true"></i>                                                                       ﺪﻳﺪﺠﻟﺍ
+ListServiceMenu                     =                                                              ﺲﻠﺑ ﻪﻤﺋﺎﻗ-ﺕﺎﻣﺪﺧ
+ConfigurationMenu                   = <i class="fa fa-cog" aria-hidden="true"></i>                                                                        ﻦﻳﻮﻜﺗ
+DocumentationMenu                   = <i class="fa fa-info" aria-hidden="true"></i>                                                                      ﻖﺋﺎﺛﻮﻟﺍ
+News                                = <i class="fa fa-exclamation fa-beat" aria-hidden="true"></i>                                                                        ﺭﺎﺒﺧﺍ

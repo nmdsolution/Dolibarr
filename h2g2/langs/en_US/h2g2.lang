@@ -1,0 +1,68 @@
+# Copyright (C) 2020 SuperAdmin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#
+# Generic
+#
+
+# Module label 'ModuleH2G2Name'
+ModuleH2G2Name = H2G2
+# Module description 'ModuleH2G2Desc'
+ModuleH2G2Desc = H2G2 description
+
+#
+# Admin page
+#
+H2G2Setup = H2G2 setup
+Settings = Settings
+H2G2SetupPage = H2G2 setup page
+H2G2_MYPARAM1 = My param 1
+H2G2_MYPARAM1Tooltip = My param 1 tooltip
+H2G2_MYPARAM2=My param 2
+H2G2_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+H2G2About = About H2G2
+H2G2AboutPage = H2G2 about page
+
+#
+# Sample page
+#
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description
+
+#
+# C42 location
+#
+Preview = Preview
+PreviewMsg = Enter an address and click on 'Preview' to have a preview of your address
+StreetNumber = N°
+StreetName = Street name
+City = City
+ZipCode = Zip code
+Country = Country
+ErrorAddress = No result found for this address :
+DeleteLocation = Delete location
+ConfirmDeleteLocation = Are you sure you want to delete this object ?
+SubmitDenied = Click on 'Preview' before submit

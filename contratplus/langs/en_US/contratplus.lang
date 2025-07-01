@@ -1,0 +1,258 @@
+# Dolibarr language file - en_US - ContratPlus
+
+CHARSET=UTF-8
+
+##
+#admin/configextra.php
+SetupExtraPropal=Commercial Proposal page
+SetupExtraFacture=Invoice page
+ContratPlusDureePropalActive=Display of extrafield "Engagement duration"
+ContratPlusDureeFactActive=Display of extrafield "Engagement duration"
+ContratPlusDateStartFactActive=Display of extrafield "Commissioning starting date"
+ContratPlusDateEndFactActive=Display of extrafield "Engagement ending date"
+ExtraSetup=<i class="fa fa-briefcase" aria-hidden="true"></i> Setup of extrafields
+ContratPlusSetupExtra=Display of extrafields
+
+##
+#admin/config.php
+
+SetupContratPlus= Administration
+ContratP=Contrat Plus - Dashboard
+ContratPlusSetup=Configuration of ContratPlus Module
+ModelPDF=PDF Model
+CPMode1=Only activate renewal
+CPMode2=Activate renewal and draft invoice creation
+CPMode3=Activate renewal, draft invoice creation and validation of the invoice
+CPMode4=Activate renewal, draft invoice creation, validation of the invoice and the email sending of the invoice to the customer
+BypassValidation=Deactivate validation during a renewal
+ContratPlusInfo=Automatic renewal information
+ContratPlusDateStart=Starting date of service
+ContratPlusDateEnd=Ending date of service
+ContratPlusBillDate=Creation date of invoice
+ContratPlusBillNote=Public note added to invoice
+ContratPlusBillNotePrivate=Private note added to invoice
+ContratplusCompteDefaut=Default bank account
+AdminManageRuleInvitation=Contrat Plus - Environment and Management variable
+contratplus_bypass=Deactivate confirmation window
+CreateTest=Generate test contract
+PopulateDateEnd=Generate commitment ending date
+CleanDateEnd=Delete commitment ending date
+ErrorDate=Error: Ending date previous to starting date
+Error=Error:
+SupplierOption=OPTION : Choose an option for supplier
+ActivateSupplierInvoiceCreation=Activate creation and renewal for supplier contract
+ModelPDFCustomer=Customer pdf model
+ModelPDFSupplier=Supplier pdf model
+MailSetup=<i class="fa fa-envelope-o" aria-hidden="true"></i> Mail
+MailHistory=<i class="fa fa-envelope"></i> Mail History
+CronSetup=<i class="fa fa-cogs" aria-hidden="true"></i> Automated renew
+ContratplusCondPaiementDefaut=Condition default Paiement, if non declare on customer tab
+ContratplusMethodPaiementDefaut=Method default Paiement, if non declare on customer tab
+OptionRenew=Method
+
+##
+#admin/configmail.php
+
+SelectEmailTemplate=Select mail template
+Object=Mail object
+Content=Mail content
+LastMassSending=Last multiple sending
+LastSimpleSending=Last simple sending
+ToMail=Recipient
+SubstitVariable=Substit variable available
+DoTestSendHTML=Test mail sending
+ContratPlusTestMail=Test mail sending
+
+##
+#class/actions_contratplus.class.php
+
+Renewal=Renew
+ConfirmRenewal=Validate renewal
+Contratname=Contract num. %s<br /><br />
+NoServices= - No service(s) to renew !
+RenewalConfirmation=We will renew this service(s) : <br/>
+ContratPlusindex=Contrat Plus - Contract list
+contratPlusDetailService=- Service number %s -> %s : To %s <br/>
+CreateFournContract=Create supplier contract
+ContratPlusNotConfigured=Contrat Plus not configured (Click here for setup)
+ContratPlusMailNotConfigured=Contrat Plus mail option not configured (Click here for setup)
+ContratplusAutomated=Automated contract for renew
+ServicesActiveInContract=Can't close contract with active services
+ContratplusClosed=Contract closed
+CloseContract=Close contract
+OpenContract=Open contract
+
+##
+#class/renew.class.php
+
+MissMailConfig=No mail configuration for Contrat Plus module
+MailNotSent=Email not sent
+MailAddressNotSet=No address attributed to thirdparty
+MailSentTo=Email sent to :
+ContratPlusMailSent=Contrat Plus mail sent
+Invoice=Invoice
+MailSent= sent
+
+##
+#card.php
+Date de mise en service=Date of service
+
+##
+#contrats.php
+
+ModeSelect=Method of renewal selected
+RenewallAllConfirmation=We will renew this contract(s): <br/>
+ValidRenewal=Validate renewal
+RenewContrat=Renew selected contract(s)
+RenewContratinfo=Variable sets for automatic and manual renewal
+ContratAllClientFournisseur=All / Customer / Supplier :
+CustomerContract=Customer Contract
+SupplierContract=Supplier Contract
+NoContractSelected=No contract selected
+ErrorRenewal=Renewal error
+NotCustomerWithCustomerContract=A non-customer / non-prospect supplier can't have customer contract
+NotSupplierWithSupplierContract=A customer, non-supplier can't have supplier contract
+NoMailForSupplier=Supplier invoice can't be send
+NoMailContact=No mail defined for the thirdparty
+Mail=Mail sendable
+MailTitle=Mail sending
+Automated=Automated renew
+NotAutomated=Not automated renew
+ContractSelectedForAutoRenew=Contract selected for automated renew
+ContractDeselectedForAutoRenew=Contract unselected for automated renew
+UnactivateContractForCron=Deactivate automated renew
+UnactivateContractConfirmation=Do you want to deactivate automated renew for this contract ?
+ActivateContractForCron=Activate automated renew
+ActivateContractConfirmation=Do you want to activate automated renew for this contract ?
+AddAutomated=Activate / Deactivate automated renew
+ContractsAutomated=Contract(s) selected / deselected for automated renew
+
+##
+#services.php && core/modulesmodContratPlus.class.php
+
+ServiceAllClientFournisseur=All / Customer / Supplier :
+ContratplusDateStart=Commissioning starting date
+ContratplusDateEnd=Engagement ending date
+ContratplusEngage=Engagement duration (month)
+SubtotalSupplier=Subtotal Supplier
+SubtotalCustomer=Subtotal Customer
+ContratplusBank=Bank account
+
+##
+#core/modules/modContratPlus.class.php
+
+Contratplus_ListePlus=Contracts - List
+Contratplus_ServicePlus=Services - List
+ConfigurateModule=Configure module
+ConfigurateAutomate=Renew automatically multiple contracts
+ModSupplierContract=Supplier contract
+CreateContract=Create contract
+ConfigurateRenewSimple=Renew a contract
+ConfigurateRenewAll=Renew multiple contracts
+Module448001Desc=Improved management and automation of contracts customers and suppliers
+Module448001Name=Contrat Plus
+
+##
+#doc/
+PDFContratPlusCustomerDescription=Contrat Plus pdf model for customer invoices
+PDFContratPlusSupplierDescription=Contrat Plus pdf model for supplier invoices
+
+##
+#admin/configcron.php
+CronOption=Automated renew setup
+ActivateMassContractSelection=Activate multiple contract selection for automated renew
+SetupSaved=Setup saved
+Error=Error
+ChooseDateForRenew=Choose a date for next automated renew
+NextTimeCron=Next automated renew
+CronContratPlus=Contrat Plus - Automated renew
+RenewDate=Automated renew date
+
+##
+#core/automatefunction.php
+ValidAutomate=Activate / Deactivate automated
+AutomateContractConfirmation=Do you want to activate / deactivate automated renew for this following contract(s) ?
+ContractToActivate=Contract(s) to activate :
+NoContractToActivate=No contract(s) to activate
+ContractToDeactivate=Contrat(s) to deactivate :
+NoContractToDeactivate=No contract(s) to deactivate
+
+##
+#admin/configpdf.php
+PdfSetup=<i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF
+SetupPdf=Configuration of PDF
+ContratPlusDateEndActive=Display of the engagement ending date
+
+##
+#admin/configwizard.php
+WizardSetup=<i class="fa fa-comments-o" aria-hidden="true"></i> Assistant
+SetupWizard = <i class="fa fa-comments-o" aria-hidden="true"></i> Assistant
+ActivateWizardMode                = Activate the messages
+wizardindex=Message the day / Dashboard
+wizardcontrat=Message / Contracts Page - List Plus
+wizardservice=Message / Services Page - List Plus
+
+##
+# Hook
+BillPeriod      = Billing period
+
+##
+# Stats
+CPStats                             = Statistics
+IndexStats                          = General
+ContractStats                       = Customer contracts
+ServiceStats                        = Services client
+CustomerContractNbByStatut          = Nb customer contracts by status
+FournContractNbByStatut             = Nb supplier contracts by status
+CustomerServiceNbByStatut           = Nb customer services by status
+SupplierServiceNbByStatut           = Nb Services Providers by Status
+allDraftContractListing             = The latest draft s contracts
+allLastCreatedContractListing       = The last few contracts created
+customerDraftContractListing        = %s latest contract customers scrambles
+customerLastCreatedContractListing  = The last %s customer contracts created
+supplierDraftContractListing        = The latest %s supplier contracts scrambles
+supplierLastCreatedContractListing  = The last %s supplier contracts created
+NbContract                          = Nb contracts
+CustomerContractNbByStatutForYear   = Nb contracts by status for third party/year/commercial selected
+FournContractNotActivated           = Supplier contract not activated.
+ContractNbContract                  = Nb contracts for the year and the selected salesperson
+ContractNbContractByMonth           = Nb contracts per month for third party/year/commercial selected
+ContractCAContract                  = Cumulative C.A. for third/year/commercial selected
+ContractCAContractByMonth           = Cumulative C.A per month for third/year/commercial selected
+NbService                           = Nb services
+CAService                           = C.A
+ServiceNbByStatut                   = Nb services by status for the year and the selected salesperson
+ServiceNbByStatutForYear            = Nb services by status for third party/year/commercial selected
+ServiceNbService                    = Nb services for the year and the selected salesperson
+ServiceNbServiceByMonth             = Nb services activated in the month for third/year/commercial selected
+ServiceCAService                    = C.A. for the year and the selected salesperson
+ServiceCAServiceByMonth             = C.A services in the month for third/year/commercial selected
+WithActivationDate                  = With date
+WithoutActivationDate               = Undated
+ServiceWithoutDate                  = Services without activation date (All status)
+
+#
+# v.10.0.1
+#
+ContractClosed                      = Contract closed
+ErrorCloseContract                  = Unfinished contract. Try to close all services
+ContractOpened                      = Contract activated
+ErrorOpenContract                   = Contract not activated. Try to activate all services
+
+#
+# v.10.0.2
+#
+Week                                = Week
+Quarter                             = Quarter
+Half                                = Semester
+MassSetDate                         = Add an activation date and/or engagement time
+SelectDateAndDuration               = Select an activation date and/or engagement time. The end date of service will be calculated automatically
+DateStartRequired                   = The activation date is mandatory
+SetDateError                        = The mass action could not be carried out
+SetDateDone                         = The mass action was performed
+ListContractMenu                    = Contracts - Plus List
+CreateContractMenu                  = <i class="fa fa-plus-square-o" aria-hidden="true"></i> New
+ListServiceMenu                     = Services - List Plus
+ConfigurationMenu                   = <i class="fa fa-cog" aria-hidden="true"></i> Configuration
+DocumentationMenu                   = <i class="fa fa-info" aria-hidden="true"></i> Documentation
+News                                = <i class="fa fa-exclamation fa-beat" aria-hidden="true"></i> News

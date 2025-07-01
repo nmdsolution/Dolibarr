@@ -1,0 +1,36 @@
+.barreN
+{
+	box-shadow:2px 1px #333;
+
+}
+.barreN:hover{
+opacity: 0.75;
+}
+.valeurhistogramme
+{
+	color:#ddd;
+	text-shadow: 1px 1px #555;
+	text-align:center;
+	font-size:11px;
+}
+
+div.bulle
+{
+ display: none;
+ width:110px;
+ height:21px;
+ text-align:center;
+ background:#aaa;
+ border-radius:3px;
+ position:relative;
+ opacity:100%;
+ left:45px;
+ top:25px;
+}
+
+div.barreN:hover .bulle{
+	display:block;
+	color:#333;
+	text-shadow: 1px 1px #ddd;
+	text-align:center;
+}

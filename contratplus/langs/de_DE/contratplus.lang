@@ -1,0 +1,265 @@
+# Dolibarr language file - fr_FR - ContratPlus
+
+CHARSET=UTF-8
+
+##
+#admin/configextra.php
+SetupExtraPropal=Seite "Geschäftsvorschläge"
+SetupExtraFacture=Bill-Seite
+ContratPlusDureePropalActive=Anzeigen der Extrafield-Dauer des Engagements
+ContratPlusDureeFactActive=Anzeigen der Extrafield-Dauer des Engagements
+ContratPlusDateStartFactActive=Extrafeld-Inbetriebnahmedatum anzeigen
+ContratPlusDateEndFactActive=Anzeigen des Extrafield-Engagement-Datums
+ExtraSetup=<i class="fa fa-briefcase" aria-hidden="true"></i> Anzeigen von Extrafeldern
+ContratPlusSetupExtra=Konfiguration von Extrafeldern
+
+
+
+##
+#admin/config.php
+
+SetupContratPlus= Verwaltung
+ContratP=Contract Plus - Dashboard
+ContratPlusConfigurationWizard=Einrichten der Botschaft des Tagesassistenten
+ContratPlusSetup=Konfiguration des Erneuerungsmoduls
+ModelPDF=PDF-Modell
+CPMode1=Aktiviert nur die Erneuerung.
+CPMode2=Aktiviert die Erneuerung und Erstellung des Rechnungsentwurfs
+CPMode3=Aktiviert Verlängerung, Rechnungsentwurf und Rechnungsvalidierung
+CPMode4=Aktiviert Verlängerung, Rechnungsentwurf, Rechnungsvalidierung und E-Mail-Versand der Rechnung an den Kunden
+BypassValidation=Deaktivieren der Validierung während einer Verlängerung
+ContratPlusInfo=Informationen zur automatischen Verlängerung von Verträgen und damit verbundenen Dienstleistungen
+ContratPlusDateStart=Startdatum
+ContratPlusDateEnd=Enddatum
+ContratPlusBillDate=Datum, an dem die Rechnung erstellt wurde
+ContratPlusBillNote=Öffentliche Note zur Rechnung hinzugefügt
+ContratPlusBillNotePrivate=Private Notiz zur Rechnung hinzugefügt
+ContratplusCompteDefaut=Standardbankkonto
+AdminManageRuleInvitation=Contract Plus - Variables Management und Verhalten
+contratplus_bypass=Deaktivieren des Warnungsfensters
+CreateTest=Erstellen des Testvertrags
+PopulateDateEnd=Generieren von End-of-Engagement-Datumsangaben
+CleanDateEnd=Löschen von End-of-Engagement-Datumsangaben
+ErrorDate=Fehler: Vorheriges Enddatum zum Startdatum
+Error=Fehler:
+SupplierOption=OPTION: Wählen Sie eine Option für Lieferanten
+ActivateSupplierInvoiceCreation=Lieferantenverträge, ermöglichen die Erstellung und Erneuerung
+ModelPDFCustomer=Pdf-Modell für Kundenrechnung
+ModelPDFSupplier=Pdf-Modell für Lieferantenrechnung
+MailSetup=<i class="fa fa-envelope-o" aria-hidden="true"></i> E-Mail
+MailHistory=<i class="fa fa-envelope"></i> E-Mail-Verlauf
+CronSetup=<i class="fa fa-cogs" aria-hidden="true"></i> Automatisierte Erneuerung
+ContratplusCondPaiementDefaut=Zahlungsbedingung, wenn nicht auf der Kundenkarte informiert
+ContratplusMethodPaiementDefaut=Zahlungsmethode, wenn nicht auf der Kundenkarte informiert
+OptionRenew=Modus
+
+##
+#admin/configmail.php
+
+SelectEmailTemplate=Auswählen einer E-Mail-Vorlage
+Object=Der Betreff der E-Mail
+Content=E-Mail-Inhalt
+Use=Verwenden
+LastMassSending=Letzte mehrfache Sendungen
+LastSimpleSending=Letzte Einzelsendungen
+Invoice=Rechnung
+ToMail=Empfänger
+SubstitVariable=Substitutionsvariablen verfügbar
+DoTestSendHTML=Test-Mailing
+ContratPlusTestMail=Test-Mailing
+
+##
+#class/actions_contratplus.class.php
+
+Renewal=Erneuern Sie Mehr
+ConfirmRenewal=Validierung der Erneuerung
+Contratname=Auftrags-Ref. %s-br/br
+NoServices= - Es gibt keine Dienstleistungen direkt zu erneuern!
+RenewalConfirmation=Wir werden die folgenden Dienste erneuern:<br/>
+ContratPlusindex=Vertrag Plus
+contratPlusDetailService=- Dienst %s: Für das Datum von %s<br/>
+CreateFournContract=Lieferantenvertrag erstellen
+ContratPlusNotConfigured=Contract Plus ist nicht konfiguriert (Klicken Sie hier, um es einzurichten)
+ContratPlusMailNotConfigured=Die E-Mail-Option von Contract Plus ist nicht eingerichtet (Klicken Sie hier, um sie einzurichten)
+ContratplusAutomated=Automatisierter Vertrag zur Verlängerung
+ServicesActiveInContract=Ein Vertrag mit aktiven Diensten kann nicht geschlossen werden
+ContratplusClosed=Vertrag geschlossen
+CloseContract=Schließen des Vertrags
+OpenContract=Aktivieren des Vertrags
+
+##
+#class/renew.class.php
+
+MissMailConfig=Keine E-Mail-Konfiguration für das Contract Plus-Modul
+MailNotSent=E-Mail nicht gesendet
+MailAddressNotSet=Keine E-Mail-Adresse, die dem dritten zugewiesen ist
+MailSentTo=E-Mail gesendet an:
+ContratPlusMailSent=Vertrags Plus-E-Mail gesendet
+Invoice=Rechnung
+MailSent= gesandt
+
+##
+#contrats.php
+
+ModeSelect=Ausgewählter automatischer Verlängerungsmodus
+RenewallAllConfirmation=Wir verlängern folgende Verträge:<br/>
+ValidRenewal=Validierung der Erneuerung
+RenewContrat=Erneuern des ausgewählten Vertrags
+RenewContratinfo=Für manuelle Elemente konfigurierte Elemente - automatische Erneuerung
+ContratAllClientFournisseur=Alle / Kunde / Lieferant:
+CustomerContract=Kundenvertrag
+SupplierContract=Lieferantenvertrag
+NoContractSelected=Kein Vertrag ausgewählt
+ErrorRenewal=Erneuerungsfehler
+NotCustomerWithCustomerContract=Ein Lieferant, weder Kunde noch Interessent, kann keinen Kundenvertrag haben
+NotSupplierWithSupplierContract=Ein Kunde, kein Lieferant, kann keinen Lieferantenvertrag haben
+SupplierOptionNotActive=Anbietervertragsoption deaktiviert, können Sie die Liste der Dienste in diesem Vertrag nicht anzeigen
+NoMailForSupplier=Lieferantenrechnungen können nicht gesendet werden
+NoMailContact=Keine E-Mail-Einstellung für das Unternehmen
+Mail=Senden von E-Mails möglich
+MailTitle=Senden von E-Mails
+Automated=Automatisierte Erneuerung
+NotAutomated=Unautomatisierte Erneuerung
+ContractSelectedForAutoRenew=Ausgewählter Vertrag für automatische Verlängerung
+ContractDeselectedForAutoRenew=Vomwahlvertrag für automatische Verlängerung
+UnactivateContractForCron=Automatische Verlängerung deaktivieren
+UnactivateContractConfirmation=Möchten Sie die automatische Verlängerung für diesen Vertrag deaktivieren?
+ActivateContractForCron=Automatische Verlängerung aktivieren
+ActivateContractConfirmation=Möchten Sie die automatische Verlängerung für diesen Vertrag aktivieren?
+Unactivate=Deaktivieren
+AddAutomated=Automatische Erneuerung ein-/ausschalten
+ContractsAutomated=Ausgewählter/abgewählter Vertrag für automatisierte Verlängerung
+
+##
+#services.php && core/modulesmodContratPlus.class.php
+
+ServiceAllClientFournisseur=Alle / Kunde / Lieferant:
+ContratplusDateStart=Anlaufdatum
+ContratplusDateEnd=Enddatum
+ContratplusEngage=Verpflichtungszeit (Monate)
+SubtotalSupplier=Unter Gesamtlieferant
+SubtotalCustomer=Unter Gesamtclient
+ContratplusBank=Bankkonto
+
+##
+#core/modules/modContratPlus.class.php
+
+ViewModule=Modul anzeigen
+Contratplus_ListePlus=Verträge - Liste mehr
+Contratplus_ServicePlus=Dienstleistungen - Liste Plus
+ConfigurateModule=Einrichten des Moduls
+ConfigurateAutomate=Automatische Vertragsverlängerung
+ModSupplierContract=Lieferantenvertrag
+CreateContract=Erstellen eines Vertrags
+ConfigurateRenewSimple=Vertragsverlängerung
+ConfigurateRenewAll=Verlängerung mehrerer Verträge
+Module448001Desc=Verbessertes Management und Automatisierung von Kunden- und Lieferantenverträgen
+Module448001Name=Vertrag Plus
+
+##
+#doc/
+PDFContratPlusCustomerDescription=Modell pdf Contract Plus für Kundenrechnungen
+PDFContratPlusSupplierDescription=Modell pdf Contract Plus für Lieferantenrechnungen
+
+##
+#admin/configcron.php
+CronOption=Option zur automatischen Vertragsverlängerung
+ActivateMassContractSelection=Aktivieren Sie die Mehrfachvertragsauswahl, die automatisch erneuert werden soll
+SetupSaved=Gespeicherte Einrichtung
+Error=Fehler
+ChooseDateForRenew=Wählen Sie ein Datum für die nächste automatische Verlängerung
+NextTimeCron=Nächste automatische Erneuerung
+CronContratPlus=Contract Plus - Automatisierte Verlängerung
+RenewDate=Automatisiertes Verlängerungsdatum
+
+##
+#core/automatefunction.php
+ValidAutomate=Automatische Verlängerung ein-/ausschalten
+AutomateContractConfirmation=Möchten Sie die automatische Verlängerung für den nächsten Vertrag aktivieren/deaktivieren?
+ContractToActivate=Zu aktivierende Verträge:
+NoContractToActivate=Keine Verträge zu aktivieren
+ContractToDeactivate=Zu deaktivierende Verträge:
+NoContractToDeactivate=Keine Verträge zum Deaktivieren
+
+
+
+
+##
+#admin/configwizard.php
+WizardSetup=<i class="fa fa-commenting" aria-hidden="true"></i> Assistent
+SetupWizard = <i class="fa fa-comments-o" aria-hidden="true"></i> Einrichten von Nachrichten
+ActivateWizardMode                = Aktivieren von Nachrichten
+wizardindex=Nachricht des Tages/ Dashboard
+wizardcontrat=Nachricht / Vertragsseite - Liste Plus
+wizardservice=Nachricht / Seitendienste - Liste Plus
+
+##
+#admin/configpdf.php
+PdfSetup=<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Pdf
+SetupPdf=Einrichten von PDFs
+ContratPlusDateEndActive=Datum zum Ende der Verpflichtung anzeigen
+
+##
+# Hook
+BillPeriod      = Abrechnungszeitraum
+
+##
+# Stats
+CPStats                             = Statistiken
+IndexStats                          = Allgemeine
+ContractStats                       = Kundenverträge
+ServiceStats                        = Services-Client
+CustomerContractNbByStatut          = Nb-Kundenverträge nach Status
+FournContractNbByStatut             = Nb Lieferantenverträge nach Status
+CustomerServiceNbByStatut           = Nb Kundenservice nach Status
+SupplierServiceNbByStatut           = Nb-Dienstleister nach Status
+allDraftContractListing             = Die neuesten Vertragsentwürfe
+allLastCreatedContractListing       = Die letzten Verträge, die
+customerDraftContractListing        = %s neueste Vertragskunden scrambles
+customerLastCreatedContractListing  = Die letzten %s-Kundenverträge, die erstellt wurden
+supplierDraftContractListing        = Die neuesten %s Lieferantenverträge
+supplierLastCreatedContractListing  = Die letzten %s-Lieferantenverträge, die erstellt wurden
+NbContract                          = Nb-Verträge
+CustomerContractNbByStatutForYear   = Nb-Verträge nach Status für Dritte/Jahr/kommerziell ausgewählt
+FournContractNotActivated           = Lieferantenvertrag nicht aktiviert.
+ContractNbContract                  = Nb-Verträge für das Jahr und den ausgewählten Verkäufer
+ContractNbContractByMonth           = Nb-Verträge pro Monat für Dritte/Jahr/kommerziell ausgewählt
+ContractCAContract                  = Kumulierte SA. für drittes/Jahr/kommerzielle auswahl
+ContractCAContractByMonth           = Kumulierte S.A. pro Monat für Dritte/Jahr/kommerziell ausgewählt
+NbService                           = Nb-Dienste
+CAService                           = C.A
+ServiceNbByStatut                   = NB-Dienstleistungen nach Status für das Jahr und dem ausgewählten Verkäufer
+ServiceNbByStatutForYear            = Nb-Dienste nach Status für Dritte/Jahr/kommerziell ausgewählt
+ServiceNbService                    = NB-Dienstleistungen für das Jahr und den ausgewählten Verkäufer
+ServiceNbServiceByMonth             = NB-Dienste aktiviert im Monat für Dritte/Jahr/kommerziell ausgewählte
+ServiceCAService                    = C.A. für das Jahr und den ausgewählten Verkäufer
+ServiceCAServiceByMonth             = C.A-Dienstleistungen im Monat für Dritte/Jahr/kommerzielle ausgewählte
+WithActivationDate                  = Mit Datum
+WithoutActivationDate               = Undatiert
+ServiceWithoutDate                  = Dienstleistungen ohne Aktivierungsdatum (alle status)
+
+#
+# v.10.0.1
+#
+ContractClosed                      = Vertrag geschlossen
+ErrorCloseContract                  = Unfertiger Vertrag. Versuchen Sie, alle Dienste zu schließen
+ContractOpened                      = Vertrag aktiviert
+ErrorOpenContract                   = Vertrag nicht aktiviert. Versuchen Sie, alle Dienste zu aktivieren
+
+#
+# v.10.0.2
+#
+Week                                = Woche
+Quarter                             = Quartal
+Half                                = Semester
+MassSetDate                         = Hinzufügen eines Aktivierungsdatums und/oder einer Interaktionszeit
+SelectDateAndDuration               = Wählen Sie ein Aktivierungsdatum und/oder eine Interaktionszeit aus. Das Enddatum des Dienstes wird automatisch berechnet
+DateStartRequired                   = Das Aktivierungsdatum ist obligatorisch
+SetDateError                        = Die Massenaktion konnte nicht durchgeführt werden
+SetDateDone                         = Die Massenaktion wurde durchgeführt
+ListContractMenu                    = Verträge - Plus Liste
+CreateContractMenu                  = <i class="fa fa-plus-square-o" aria-hidden="true"></i> Neu
+ListServiceMenu                     = Dienstleistungen - Liste Plus
+ConfigurationMenu                   = <i class="fa fa-cog" aria-hidden="true"></i> Konfiguration
+DocumentationMenu                   = <i class="fa fa-info" aria-hidden="true"></i> Dokumentation
+News                                = <i class="fa fa-exclamation fa-beat" aria-hidden="true"></i> Nachrichten

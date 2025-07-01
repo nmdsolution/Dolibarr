@@ -1,0 +1,291 @@
+# Dolibarr language file - fr_FR - ContratPlus
+
+CHARSET=UTF-8
+
+##
+#admin/configextra.php
+SetupExtraPropal=Page propositions commerciales
+SetupExtraFacture=Page factures
+ContratPlusDureePropalActive=Affichage de l'extrafield Durée de l'engagement
+ContratPlusDureeFactActive=Affichage de l'extrafield Durée de l'engagement
+ContratPlusDateStartFactActive=Affichage de l'extrafield Date d'activation
+ContratPlusDateEndFactActive=Affichage de l'extrafield Date de fin d'engagement
+ExtraSetup=<i class="fa fa-briefcase" aria-hidden="true"></i> Affichage des extrafields
+ContratPlusSetupExtra=Configuration des extrafields
+
+
+
+##
+#admin/config.php
+
+SetupContratPlus= Administration
+ContratP=Contrat Plus - Tableau de bord
+ContratPlusConfigurationWizard=Configuration de l'assistant Message du jour
+ContratPlusSetup=Configuration du module Renouvellement
+ModelPDF=Modèle PDF
+CPMode1=Active seulement le renouvellement.
+CPMode2=Active le renouvellement et la création du brouillon de la facture
+CPMode3=Active le renouvellement, la création du brouillon de la facture et la validation de la facture
+CPMode4=Active le renouvellement, la création du brouillon de la facture, la validation de la facture et l'envoi par Email de la facture au client
+BypassValidation=Désactiver la validation lors d'un renouvellement
+ContratPlusInfo=Information pour le renouvellement automatique des contrats et services associés
+ContratPlusDateStart=Date d'activation du service
+ContratPlusDateEnd=Date de fin du service
+ContratPlusBillDate=Date de création de la facture
+ContratPlusBillNote=Note publique ajoutée à la facture
+ContratPlusBillNotePrivate=Note privée ajoutée à la facture
+ContratplusCompteDefaut=Compte bancaire par défaut
+AdminManageRuleInvitation=Contrat Plus - Variable de gestion et comportement
+contratplus_bypass=Désactivation de la fenêtre d'alerte
+CreateTest=Créer le contrat de test
+PopulateDateEnd=Générer les dates de fin d'engagement
+CleanDateEnd=Supprimer les dates de fin d'engagement
+ErrorDate=Erreur: Date de fin antérieur à date d'activation
+Error=Erreur:
+SupplierOption=OPTION : Choisir une option pour les fournisseurs
+ActivateSupplierInvoiceCreation=Contrats FOURNISSEUR, activer la création et le renouvellement
+ModelPDFCustomer=Modèle pdf pour la facture client
+ModelPDFSupplier=Modèle pdf pour la facture fournisseur
+MailSetup=<i class="fa fa-envelope-o" aria-hidden="true"></i> Email
+MailHistory=<i class="fa fa-envelope"></i> Historique Email
+CronSetup=<i class="fa fa-cogs" aria-hidden="true"></i> Renouvellement automatisé
+ContratplusCondPaiementDefaut=Condition de Paiement, si non renseigné sur la fiche client
+ContratplusMethodPaiementDefaut=Méthode de Paiement, si non renseigné sur la fiche client
+OptionRenew=Mode
+
+##
+#admin/configmail.php
+
+SelectEmailTemplate=Sélectionner un template d'email
+Object=Objet de l'email
+Content=Contenu de l'email
+Use=Utiliser
+LastMassSending=Derniers envois multiples
+LastSimpleSending=Derniers envois simples
+Invoice=Facture
+ToMail=Destinataire
+SubstitVariable=Variables de substitution disponibles
+DoTestSendHTML=Tester envoi mail
+ContratPlusTestMail=Tester envoi mail
+
+##
+#class/actions_contratplus.class.php
+
+Renewal=Renouveler Plus
+ConfirmRenewal=Valider le renouvellement
+Contratname=Contrat réf. %s<br /><br />
+NoServices= - Il n'y a aucun service(s) à renouveller directement !
+RenewalConfirmation=Nous allons renouveller le/les service(s) suivant(s): <br/>
+ContratPlusindex=Contrat Plus
+contratPlusDetailService=- Service  %s : Pour la date du %s <br/>
+CreateFournContract=Créer contrat fournisseur
+ContratPlusNotConfigured=Contrat Plus n'est pas configuré (Cliquez ici pour le configurer)
+ContratPlusMailNotConfigured=L'option mail de Contrat Plus n'est pas configurée (Cliquez ici pour le configurer)
+ContratplusAutomated=Contrat automatisé pour le renouvellement
+ServicesActiveInContract=Impossible de clôturer un contrat avec des services actifs
+ContratplusClosed=Contrat clôturé
+CloseContract=Clôturer le contrat
+OpenContract=Activer le contrat
+
+##
+#class/renew.class.php
+
+MissMailConfig=Aucune configuration email pour le module Contrat Plus
+MailNotSent=Email non envoyé
+MailAddressNotSet=Aucune adresse email attribuée au tier
+MailSentTo=Email envoyé à l'adresse :
+ContratPlusMailSent=Contrat Plus email envoyé
+Invoice=Facture
+MailSent= envoyée
+
+##
+#contrats.php
+
+ModeSelect=Mode de renouvellement automatique sélectionné
+RenewallAllConfirmation=Nous allons renouveler le/les contrat(s) suivant(s): <br/>
+ValidRenewal=Valider le renouvellement
+RenewContrat=Renouveler le(s) contrat(s) sélectionné(s)
+RenewContratinfo=Elements configurés pour le renouvellement manuel & automatique
+ContratAllClientFournisseur=Tous / Client / Fournisseur :
+CustomerContract=Contrat Client
+SupplierContract=Contrat Fournisseur
+NoContractSelected=Aucun contrat sélectionné
+ErrorRenewal=Erreur de renouvellement
+NotCustomerWithCustomerContract=Un fournisseur ni client / ni prospect ne peut pas avoir de contrat client
+NotSupplierWithSupplierContract=Un client, non fournisseur ne peut pas avoir de contrat fournisseur
+SupplierOptionNotActive=Option contrats fournisseurs désactivée, vous ne pourrez pas afficher la liste des services de ce contrat
+NoMailForSupplier=Les factures fournisseurs ne peuvent être envoyées
+NoMailContact=Aucun mail défini pour la société
+Mail=Envoi de mail possible
+MailTitle=Envoi de mail
+Automated=Renouvellement automatisé
+NotAutomated=Renouvellement non automatisé
+ContractSelectedForAutoRenew=Contrat sélectionné pour le renouvellement automatique
+ContractDeselectedForAutoRenew=Contrat déselectionné pour le renouvellement automatique
+UnactivateContractForCron=Désactiver le renouvellement automatique
+UnactivateContractConfirmation=Voulez-vous désactiver le renouvellement automatique pour ce contrat ?
+ActivateContractForCron=Activer le renouvellement automatique
+ActivateContractConfirmation=Voulez-vous activer le renouvellement automatique pour ce contrat ?
+Unactivate=Désactiver
+AddAutomated=Activer / Désactiver le renouvellement automatisé
+ContractsAutomated=Contrat(s) sélectionné(s) / déselectionné(s) pour le renouvellement automatisé
+
+##
+#services.php && core/modulesmodContratPlus.class.php
+
+ServiceAllClientFournisseur=Tous / Client / Fournisseur :
+ContratplusDateStart=Date d'activation
+ContratplusDateEnd=Date de fin d'engagement
+ContratplusEngage=Durée d'engagement (mois)
+SubtotalSupplier=Sous Total Fournisseur
+SubtotalCustomer=Sous Total Client
+ContratplusBank=Compte bancaire
+
+##
+#core/modules/modContratPlus.class.php
+
+ViewModule=Afficher le module
+Contratplus_ListePlus=Contrats - Liste plus
+Contratplus_ServicePlus=Services - Liste Plus
+ConfigurateModule=Configurer le module
+ConfigurateAutomate=Renouveler automatiquement les contrats
+ModSupplierContract=Contrat fournisseur
+CreateContract=Créer un contrat
+ConfigurateRenewSimple=Renouveler un contrat
+ConfigurateRenewAll=Renouveler plusieurs contrats
+Module448001Desc=Gestion améliorée et automatisation des contrats clients et fournisseurs
+Module448001Name=Contrat Plus
+
+##
+#doc/
+PDFContratPlusCustomerDescription=Modèle pdf Contrat Plus pour les factures clients
+PDFContratPlusSupplierDescription=Modèle pdf Contrat Plus pour les factures fournisseurs
+
+##
+#admin/configcron.php
+CronOption=Option pour le renouvellement automatique des contrats
+ActivateMassContractSelection=Activer la sélection multiple de contrat à renouveler automatiquement
+SetupSaved=Configuration sauvegardé
+Error=Erreur
+ChooseDateForRenew=Choisir une date pour le prochain renouvellement automatique
+NextTimeCron=Prochain renouvellement automatique
+CronContratPlus=Contrat Plus - Renouvellement automatisé
+RenewDate=Date renouvellement automatisé
+
+##
+#core/automatefunction.php
+ValidAutomate=Activer / Désactiver le renouvellement automatique
+AutomateContractConfirmation=Voulez-vous activer / désactiver le renouvellement automatique pour le(s) contrat(s) suivant(s) ?
+ContractToActivate=Contrat(s) à activer :
+NoContractToActivate=Aucun(s) contrat(s) à activer
+ContractToDeactivate=Contrat(s) à désactiver :
+NoContractToDeactivate=Aucun(s) contrat(s) à désactiver
+
+
+
+
+##
+#admin/configwizard.php
+WizardSetup=<i class="fa fa-commenting" aria-hidden="true"></i> Assistant
+SetupWizard = <i class="fa fa-comments-o" aria-hidden="true"></i> Configuration des messages
+ActivateWizardMode                = Activer les messages
+wizardindex=Message du jour/ Tableau de bord
+wizardcontrat=Message / Page Contrats - Liste Plus
+wizardservice=Message / Page Services - Liste Plus
+
+##
+#admin/configpdf.php
+PdfSetup=<i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF
+SetupPdf=Factures
+SetupPdfContract=Contrats
+ContratPlusDateEndActive=Affichage de la date de fin d'engagement
+ContratPlusDureePDF=Affichage de la durée d'engagement
+ContratPlusDateStartPDF=Affichage de la date d'activation
+ContratPlusAllPdf=Activer tous / Désactiver tous
+StandardContractsTemplateContratPlus=Modèle de PDF Contrat Plus
+
+##
+# Hook
+BillPeriod      = Période de facturation
+
+##
+# Stats
+CPStats                             = Statistiques
+IndexStats                          = Générales
+ContractStats                       = Contrats client
+ServiceStats                        = Services client
+CustomerContractNbByStatut          = Nb contrats client par statut
+FournContractNbByStatut             = Nb contrats fournisseur par statut
+CustomerServiceNbByStatut           = Nb services clients par statut
+SupplierServiceNbByStatut           = Nb services fournisseurs par statut
+allDraftContractListing             = Les %s derniers contrats brouillons
+allLastCreatedContractListing       = Les %s derniers contrats créés
+customerDraftContractListing        = Les %s derniers contrats clients brouillons
+customerLastCreatedContractListing  = Les %s derniers contrats clients créés
+supplierDraftContractListing        = Les %s derniers contrats fournisseurs brouillons
+supplierLastCreatedContractListing  = Les %s derniers contrats fournisseurs créés
+NbContract                          = Nb contrats
+CustomerContractNbByStatutForYear   = Nb contrats par statut pour tiers / année / commerciale sélectionné
+FournContractNotActivated           = Contrat fournisseur non activé.
+ContractNbContract                  = Nb contrats pour l'année et le commercial sélectionné
+ContractNbContractByMonth           = Nb contrats par mois pour tiers / année / commerciale sélectionné
+ContractCAContract                  = C.A cumulé pour pour tiers / année / commerciale sélectionné
+ContractCAContractByMonth           = C.A cumulé par mois pour tiers / année / commerciale sélectionné
+NbService                           = Nb services
+CAService                           = C.A
+ServiceNbByStatut                   = Nb services par statut pour l'année et le commercial sélectionné
+ServiceNbByStatutForYear            = Nb services par statut pour tiers / année / commerciale sélectionné
+ServiceNbService                    = Nb services pour l'année et le commercial sélectionné
+ServiceNbServiceByMonth             = Nb services activés dans le mois pour tiers / année / commerciale sélectionné
+ServiceCAService                    = C.A pour l'année et le commercial sélectionné
+ServiceCAServiceByMonth             = C.A des services dans le mois pour tiers / année / commerciale sélectionné
+WithActivationDate                  = Avec date
+WithoutActivationDate               = Sans date
+ServiceWithoutDate                  = Services sans date d'activation (Tout statuts)
+
+#
+# v.10.0.1
+#
+ContractClosed                      = Contrat clôturé
+ErrorCloseContract                  = Contrat non clôturé. Essayez de clôturer tous les services
+ContractOpened                      = Contrat activé
+ErrorOpenContract                   = Contrat non activé. Essayez d'activer tous les services
+
+#
+# v.10.0.2
+#
+Week                                = Semaine
+Quarter                             = Trimestre
+Half                                = Semestre
+MassSetDate                         = Ajouter une date d'activation et / ou une durée d'engagement
+SelectDateAndDuration               = Sélectionner une date d'activation et / ou une durée d'engagement. La date de fin de service sera calculée automatiquement
+DateStartRequired                   = La date d'activation est obligatoire
+SetDateError                        = L'action de masse n'a pas pu être exécutée
+SetDateDone                         = L'action de masse a été exécutée
+ListContractMenu                    = Contrats - Liste Plus
+CreateContractMenu                  = <i class="fa fa-plus-square-o" aria-hidden="true"></i> Nouveau
+ListServiceMenu                     = Services - Liste Plus
+ConfigurationMenu                   = <i class="fa fa-cog" aria-hidden="true"></i> Configuration
+DocumentationMenu                   = <i class="fa fa-info" aria-hidden="true"></i> Documentation
+News                                = <i class="fa fa-exclamation fa-beat" aria-hidden="true"></i> Nouveautés
+
+#
+# v.10.0.3
+#
+DebitModuleNotActivated             = Le module prélèvement est désactivé
+SepaOption                          = OPTION : Choisir une option pour la génération du prélèvement SEPA
+ActivateSepaLink                    = Activer la génération du prélèvement SEPA sur les contrats choisis
+ContratplusSepaActivated            = Génération du prélèvement SEPA (Non actif pour les contrats fournisseur)
+
+#
+# v.12.0.1
+#
+ServicesNumber = Nombre de services
+
+#
+# v.12.0.2
+#
+AssocThirdPartyCommClosed = Présence d'une commande non Traitée, non Facturée
+AssocCommClosedOk = La société liée comprend des commandes non Traitées, non Facturées
+AssocCommClosedKo = La société liée ne comprend pas de commandes ou en comprend des Traitées Facturées
+AssocCommClosedNoFour = Les commandes fournisseur ne sont pas prises en compte

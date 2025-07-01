@@ -1,0 +1,52 @@
+# Copyright (C) 2020 SuperAdmin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#
+# Générique
+#
+
+# Module label 'ModuleH2G2Name'
+ModuleH2G2Name = H2G2
+# Module description 'ModuleH2G2Desc'
+ModuleH2G2Desc = Librairie utilisé par les modules Code 42
+
+#
+# Page d'administration
+#
+H2G2Setup = Configuration du module H2G2
+Settings = Réglages
+H2G2SetupPage = Page de configuration du module H2G2
+
+#
+# Page À propos
+#
+About = À propos
+H2G2About = À propos de H2G2
+H2G2AboutPage = Page à propos de H2G2
+
+#
+# C42 location
+#
+Preview = Aperçu
+PreviewMsg = Entré une adresse et cliquer sur 'Aperçu' pour avoir une prévisualisation de l'adresse renseigné
+StreetNumber = N°
+StreetName = Nom de la rue
+City = Ville
+ZipCode = Code postal
+Country = Pays
+ErrorAddress = Pas de resultats trouvés pour l'adresse suivante :
+DeleteLocation = Supprimer la location
+ConfirmDeleteLocation = Voulez-vous vraiment supprimer cet objet ?
+SubmitDenied = Cliquez sur 'Aperçu' avant d'enregister

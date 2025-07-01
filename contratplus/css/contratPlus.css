@@ -1,0 +1,123 @@
+.contratdet_extras_serv_date_end input,
+.contratdet_extras_serv_date_end button {
+    visibility: collapse;
+}
+
+.supplier {
+    font-style: oblique;
+}
+
+.subtotal {
+    color: #3c6 !important;
+    font-weight: bold !important;
+}
+
+.no_contact, .no_contact a {
+    color: #ddd !important;
+}
+
+.no_contact img {
+    -webkit-filter: opacity(50%);
+    opacity: 0.6;
+}
+
+.forceListStyle ul {
+    list-style-type: disc;
+}
+
+.forceListStyle ul ul {
+    list-style-type: circle;
+}
+
+.forceListStyle p {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.forceListStyle blockquote {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 40px;
+    -webkit-margin-end: 40px;
+}
+
+.column-5 {
+    column-count: 5;
+}
+
+.reminder_cron {
+    background-color: indianred;
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+    max-width: 30%;
+    color: white;
+    margin: 10px 0px 10px 0px;
+}
+
+.services {
+background-color: gray;
+    padding-top: 15px;
+}
+
+.cp-demo-div {
+    padding-bottom: 1%;
+    width: 100%;
+}
+
+.cp-infobox {
+    margin-bottom: 2% !important;
+    border-radius: 5px;
+}
+
+#service_card {
+    opacity: 0.7;
+}
+
+#ligne_service_status {
+    vertical-align: top;
+}
+
+.statut_contrat {
+    margin-right: 5%;
+}
+
+.ctp-header-right {
+    text-align: right;
+    padding-bottom: 2%;
+}
+
+.fa-beat {
+    animation:fa-beat 5s ease infinite;
+    color: #ed6b00;
+}
+
+@keyframes fa-beat {
+    0% {
+        transform:scale(1);
+    }
+    5% {
+        transform:scale(1.25);
+    }
+    20% {
+        transform:scale(1);
+    }
+    30% {
+        transform:scale(1);
+    }
+    35% {
+        transform:scale(1.25);
+    }
+    50% {
+        transform:scale(1);
+    }
+    55% {
+        transform:scale(1.25);
+    }
+    70% {
+        transform:scale(1);
+    }
+}
