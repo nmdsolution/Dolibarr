@@ -29,6 +29,7 @@ require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
 require_once DOL_DOCUMENT_ROOT.'/compta/sociales/class/chargesociales.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formsocialcontrib.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/tax.lib.php';
+require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 if (!empty($conf->projet->enabled))
 {
@@ -86,7 +87,14 @@ if ($action == 'reopen' && $user->rights->tax->charges->creer) {
 		}
 	}
 }
-
+// Link to a company
+if ($action == 'setcompany' && $user->rights->tax->charges->creer)
+{
+    $object->fetch($id);
+    $result = $object->setValueFrom('fk_soc', GETPOST('socid', 'int'), '', '', 'int', '', $user, 'TAX_MODIFY');
+    if ($result < 0)
+        setEventMessages($object->error, $object->errors, 'errors');
+}
 // Link to a project
 if ($action == 'classin' && $user->rights->tax->charges->creer)
 {
@@ -167,24 +175,26 @@ if ($action == 'add' && $user->rights->tax->charges->creer)
 		$action = 'create';
 	}
 	else
-	{
-		$object->type = $actioncode;
-		$object->label = GETPOST('label', 'alpha');
-		$object->date_ech = $dateech;
-		$object->periode			= $dateperiod;
-		$object->amount				= $amount;
-		$object->mode_reglement_id = GETPOST('mode_reglement_id');
-		$object->fk_account			= GETPOST('fk_account', 'int');
-		$object->fk_project			= GETPOST('fk_project');
+	  {
+        $object->type = $actioncode;
+        $object->label = GETPOST('label', 'alpha');
+        $object->date_ech = $dateech;
+        $object->periode = $dateperiod;
+        $object->amount = $amount;
+        $object->mode_reglement_id = GETPOST('mode_reglement_id');
+        $object->fk_account = GETPOST('fk_account', 'int');
+        $object->fk_project = GETPOST('fk_project');
+        $object->fk_soc = GETPOST('fk_soc', 'int');  // ADD THIS LINE
 
-		$id = $object->create($user);
-		if ($id <= 0)
-		{
-			setEventMessages($object->error, $object->errors, 'errors');
-			$action = 'create';
-		}
-	}
+        $id = $object->create($user);
+        if ($id <= 0)
+        {
+            setEventMessages($object->error, $object->errors, 'errors');
+            $action = 'create';
+        }
+    }
 }
+
 
 
 if ($action == 'update' && !$_POST["cancel"] && $user->rights->tax->charges->creer)
@@ -380,6 +390,15 @@ if ($action == 'create')
 		print '</td></tr>';
 	}
 
+	// Third party
+if (!empty($conf->societe->enabled))
+{
+    print '<tr><td>'.$langs->trans("ThirdParty").'</td><td>';
+    $selected_soc = (GETPOST('fk_soc', 'int') ? GETPOST('fk_soc', 'int') : 0);
+    print $form->select_company($selected_soc, 'fk_soc', '', 1, 1, 0, array(), 0, 'minwidth300');
+    print '</td></tr>';
+}
+
 	// Payment Mode
 	print '<tr><td>'.$langs->trans('PaymentMode').'</td><td colspan="2">';
 	$form->select_types_paiements($mode_reglement_id, 'mode_reglement_id');
@@ -501,6 +520,41 @@ if ($id > 0)
 			}
 		}
 		$morehtmlref .= '</div>';
+		// Third Party
+if (!empty($conf->societe->enabled))
+{
+    $morehtmlref .= '<br>'.$langs->trans('ThirdParty').' ';
+    if ($user->rights->tax->charges->creer)
+    {
+        if ($action != 'setcompany') {
+            $morehtmlref .= '<a class="editfielda" href="'.$_SERVER['PHP_SELF'].'?action=setcompany&amp;id='.$object->id.'">'.img_edit($langs->transnoentitiesnoconv('SetThirdParty')).'</a> : ';
+        }
+        if ($action == 'setcompany') {
+            $morehtmlref .= '<form method="post" action="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'">';
+            $morehtmlref .= '<input type="hidden" name="action" value="setcompany">';
+            $morehtmlref .= '<input type="hidden" name="token" value="'.newToken().'">';
+            $morehtmlref .= $form->select_company($object->fk_soc, 'socid', '', 1, 1, 0, array(), 0, 'minwidth300');
+            $morehtmlref .= '<input type="submit" class="button valignmiddle" value="'.$langs->trans("Modify").'">';
+            $morehtmlref .= '</form>';
+        } else {
+            if (!empty($object->fk_soc)) {
+                $soc = new Societe($db);
+                $soc->fetch($object->fk_soc);
+                $morehtmlref .= $soc->getNomUrl(1);
+            } else {
+                $morehtmlref .= '<span class="opacitymedium">'.$langs->trans("None").'</span>';
+            }
+        }
+    } else {
+        if (!empty($object->fk_soc)) {
+            $soc = new Societe($db);
+            $soc->fetch($object->fk_soc);
+            $morehtmlref .= $soc->getNomUrl(1);
+        } else {
+            $morehtmlref .= '<span class="opacitymedium">'.$langs->trans("None").'</span>';
+        }
+    }
+}
 
 		$linkback = '<a href="'.DOL_URL_ROOT.'/compta/sociales/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 

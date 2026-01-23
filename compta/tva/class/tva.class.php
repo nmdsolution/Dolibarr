@@ -55,6 +55,16 @@ class Tva extends CommonObject
 	public $type_payment;
 	public $num_payment;
 
+    /**
+ * @var int Project ID
+ */
+public $fk_project;
+
+/**
+ * @var int Company ID  
+ */
+public $fk_soc;
+
 	/**
      * @var string label
      */
@@ -172,65 +182,79 @@ class Tva extends CommonObject
      * @param	int		$notrigger	    0=no, 1=yes (no update trigger)
      * @return  int         			<0 if KO, >0 if OK
      */
-    public function update($user, $notrigger = 0)
-    {
-    	global $conf, $langs;
+public function update($user, $notrigger = 0)
+{
+    global $conf, $langs;
 
-		$error=0;
+    $error=0;
 
-		// Clean parameters
-		$this->amount=trim($this->amount);
-		$this->label=trim($this->label);
-		$this->note=trim($this->note);
-		$this->fk_bank = (int) $this->fk_bank;
-		$this->fk_user_creat = (int) $this->fk_user_creat;
-		$this->fk_user_modif = (int) $this->fk_user_modif;
-
-		// Check parameters
-		// Put here code to add control on parameters values
-
-		$this->db->begin();
-
-		// Update request
-        $sql = "UPDATE ".MAIN_DB_PREFIX."tva SET";
-		$sql.= " tms='".$this->db->idate($this->tms)."',";
-		$sql.= " datep='".$this->db->idate($this->datep)."',";
-		$sql.= " datev='".$this->db->idate($this->datev)."',";
-		$sql.= " amount=".price2num($this->amount).",";
-		$sql.= " label='".$this->db->escape($this->label)."',";
-		$sql.= " note='".$this->db->escape($this->note)."',";
-		$sql.= " fk_bank=".$this->fk_bank.",";
-		$sql.= " fk_user_creat=".$this->fk_user_creat.",";
-		$sql.= " fk_user_modif=".($this->fk_user_modif>0?$this->fk_user_modif:$user->id)."";
-        $sql.= " WHERE rowid=".$this->id;
-
-        dol_syslog(get_class($this)."::update", LOG_DEBUG);
-        $resql = $this->db->query($sql);
-        if (! $resql)
-        {
-            $this->error="Error ".$this->db->lasterror();
-            $error++;
-        }
-
-		if (! $error && ! $notrigger)
-		{
-            // Call trigger
-            $result=$this->call_trigger('TVA_MODIFY', $user);
-            if ($result < 0) $error++;
-            // End call triggers
-    	}
-
-        if (! $error)
-    	{
-    		$this->db->commit();
-    		return 1;
-    	}
-    	else
-    	{
-    		$this->db->rollback();
-    		return -1;
-    	}
+    // Clean parameters
+    $this->amount=trim($this->amount);
+    $this->label=trim($this->label);
+    $this->note=trim($this->note);
+    $this->fk_bank = (int) $this->fk_bank;
+    $this->fk_user_creat = (int) $this->fk_user_creat;
+    $this->fk_user_modif = (int) $this->fk_user_modif;
+    
+    // CORRECTION: Ne pas réinitialiser à null si la propriété existe déjà
+    if (isset($this->fk_project)) {
+        $this->fk_project = ($this->fk_project > 0) ? (int) $this->fk_project : null;
     }
+    if (isset($this->fk_soc)) {
+        $this->fk_soc = ($this->fk_soc > 0) ? (int) $this->fk_soc : null;
+    }
+
+    $this->db->begin();
+
+    // Update request
+    $sql = "UPDATE ".MAIN_DB_PREFIX."tva SET";
+    $sql.= " tms='".$this->db->idate(dol_now())."',";
+    $sql.= " datep='".$this->db->idate($this->datep)."',";
+    $sql.= " datev='".$this->db->idate($this->datev)."',";
+    $sql.= " amount=".price2num($this->amount).",";
+    $sql.= " label='".$this->db->escape($this->label)."',";
+    $sql.= " note='".$this->db->escape($this->note)."',";
+    $sql.= " fk_bank=".$this->fk_bank.",";
+    $sql.= " fk_user_creat=".$this->fk_user_creat.",";
+    $sql.= " fk_user_modif=".($this->fk_user_modif>0?$this->fk_user_modif:$user->id);
+    
+    // CORRECTION: Ajouter fk_project et fk_soc correctement
+    if (isset($this->fk_project)) {
+        $sql.= ", fk_project=".($this->fk_project !== null ? (int)$this->fk_project : "NULL");
+    }
+    if (isset($this->fk_soc)) {
+        $sql.= ", fk_soc=".($this->fk_soc !== null ? (int)$this->fk_soc : "NULL");
+    }
+    
+    $sql.= " WHERE rowid=".$this->id;
+
+    dol_syslog(get_class($this)."::update", LOG_DEBUG);
+    $resql = $this->db->query($sql);
+    if (! $resql)
+    {
+        $this->error="Error ".$this->db->lasterror();
+        $error++;
+    }
+
+    if (! $error && ! $notrigger)
+    {
+        // Call trigger
+        $result=$this->call_trigger('TVA_MODIFY', $user);
+        if ($result < 0) $error++;
+        // End call triggers
+    }
+
+    if (! $error)
+    {
+        $this->db->commit();
+        return 1;
+    }
+    else
+    {
+        $this->db->rollback();
+        return -1;
+    }
+}
 
 
     /**
@@ -240,66 +264,71 @@ class Tva extends CommonObject
      *  @param  User	$user       User that load
      *  @return int         		<0 if KO, >0 if OK
      */
-    public function fetch($id, $user = null)
+   public function fetch($id, $user = null)
+{
+    global $langs;
+    $sql = "SELECT";
+    $sql.= " t.rowid,";
+    $sql.= " t.tms,";
+    $sql.= " t.datep,";
+    $sql.= " t.datev,";
+    $sql.= " t.amount,";
+    $sql.= " t.fk_typepayment,";
+    $sql.= " t.num_payment,";
+    $sql.= " t.label,";
+    $sql.= " t.note,";
+    $sql.= " t.fk_bank,";
+    $sql.= " t.fk_user_creat,";
+    $sql.= " t.fk_user_modif,";
+    // ADDED: Include fk_project and fk_soc in SELECT
+    $sql.= " t.fk_project,";
+    $sql.= " t.fk_soc,";
+    $sql.= " b.fk_account,";
+    $sql.= " b.fk_type,";
+    $sql.= " b.rappro";
+
+    $sql.= " FROM ".MAIN_DB_PREFIX."tva as t";
+    $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."bank as b ON t.fk_bank = b.rowid";
+    $sql.= " WHERE t.rowid = ".$id;
+
+    dol_syslog(get_class($this)."::fetch", LOG_DEBUG);
+    $resql=$this->db->query($sql);
+    if ($resql)
     {
-    	global $langs;
-        $sql = "SELECT";
-		$sql.= " t.rowid,";
-
-		$sql.= " t.tms,";
-		$sql.= " t.datep,";
-		$sql.= " t.datev,";
-		$sql.= " t.amount,";
-		$sql.= " t.fk_typepayment,";
-		$sql.= " t.num_payment,";
-		$sql.= " t.label,";
-		$sql.= " t.note,";
-		$sql.= " t.fk_bank,";
-		$sql.= " t.fk_user_creat,";
-		$sql.= " t.fk_user_modif,";
-		$sql.= " b.fk_account,";
-		$sql.= " b.fk_type,";
-		$sql.= " b.rappro";
-
-        $sql.= " FROM ".MAIN_DB_PREFIX."tva as t";
-		$sql.= " LEFT JOIN ".MAIN_DB_PREFIX."bank as b ON t.fk_bank = b.rowid";
-        $sql.= " WHERE t.rowid = ".$id;
-
-    	dol_syslog(get_class($this)."::fetch", LOG_DEBUG);
-        $resql=$this->db->query($sql);
-        if ($resql)
+        if ($this->db->num_rows($resql))
         {
-            if ($this->db->num_rows($resql))
-            {
-                $obj = $this->db->fetch_object($resql);
+            $obj = $this->db->fetch_object($resql);
 
-                $this->id    = $obj->rowid;
-                $this->ref   = $obj->rowid;
-				$this->tms   = $this->db->jdate($obj->tms);
-				$this->datep = $this->db->jdate($obj->datep);
-				$this->datev = $this->db->jdate($obj->datev);
-				$this->amount = $obj->amount;
-				$this->type_payment = $obj->fk_typepayment;
-				$this->num_payment = $obj->num_payment;
-				$this->label = $obj->label;
-				$this->note  = $obj->note;
-				$this->fk_bank = $obj->fk_bank;
-				$this->fk_user_creat = $obj->fk_user_creat;
-				$this->fk_user_modif = $obj->fk_user_modif;
-				$this->fk_account = $obj->fk_account;
-				$this->fk_type = $obj->fk_type;
-				$this->rappro  = $obj->rappro;
-            }
-            $this->db->free($resql);
+            $this->id    = $obj->rowid;
+            $this->ref   = $obj->rowid;
+            $this->tms   = $this->db->jdate($obj->tms);
+            $this->datep = $this->db->jdate($obj->datep);
+            $this->datev = $this->db->jdate($obj->datev);
+            $this->amount = $obj->amount;
+            $this->type_payment = $obj->fk_typepayment;
+            $this->num_payment = $obj->num_payment;
+            $this->label = $obj->label;
+            $this->note  = $obj->note;
+            $this->fk_bank = $obj->fk_bank;
+            $this->fk_user_creat = $obj->fk_user_creat;
+            $this->fk_user_modif = $obj->fk_user_modif;
+            // ADDED: Set fk_project and fk_soc properties
+            $this->fk_project = $obj->fk_project;
+            $this->fk_soc = $obj->fk_soc;
+            $this->fk_account = $obj->fk_account;
+            $this->fk_type = $obj->fk_type;
+            $this->rappro  = $obj->rappro;
+        }
+        $this->db->free($resql);
 
-            return 1;
-        }
-        else
-        {
-      	    $this->error="Error ".$this->db->lasterror();
-            return -1;
-        }
+        return 1;
     }
+    else
+    {
+        $this->error="Error ".$this->db->lasterror();
+        return -1;
+    }
+}
 
 
  	/**
@@ -509,149 +538,163 @@ class Tva extends CommonObject
 	 *	@param	User	$user		Object user that insert
 	 *	@return	int					<0 if KO, rowid in tva table if OK
      */
-    public function addPayment($user)
+  public function addPayment($user)
+{
+    global $conf,$langs;
+
+    $this->db->begin();
+
+    // Clean parameters
+    $this->amount=price2num(trim($this->amount));
+    $this->label=trim($this->label);
+    $this->note=trim($this->note);
+    $this->fk_bank = (int) $this->fk_bank;
+    $this->fk_user_creat = (int) $this->fk_user_creat;
+    $this->fk_user_modif = (int) $this->fk_user_modif;
+    
+    // ADDED: Clean project and company parameters
+    $this->fk_project = (!empty($this->fk_project) && $this->fk_project > 0) ? (int) $this->fk_project : null;
+    $this->fk_soc = (!empty($this->fk_soc) && $this->fk_soc > 0) ? (int) $this->fk_soc : null;
+    
+    if (empty($this->datec)) $this->datec = dol_now();
+
+    // Check parameters
+    if (! $this->label)
     {
-        global $conf,$langs;
+        $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("Label"));
+        return -3;
+    }
+    if ($this->amount == '')
+    {
+        $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("Amount"));
+        return -4;
+    }
+    if (! empty($conf->banque->enabled) && (empty($this->accountid) || $this->accountid <= 0))
+    {
+        $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("Account"));
+        return -5;
+    }
+    if (! empty($conf->banque->enabled) && (empty($this->type_payment) || $this->type_payment <= 0))
+    {
+        $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("PaymentMode"));
+        return -5;
+    }
 
-        $this->db->begin();
+    // Insert into llx_tva
+    $sql = "INSERT INTO ".MAIN_DB_PREFIX."tva (";
+    $sql.= "datec";
+    $sql.= ", datep";
+    $sql.= ", datev";
+    $sql.= ", amount";
+    $sql.= ", fk_typepayment";
+    $sql.= ", num_payment";
+    if ($this->note)  $sql.= ", note";
+    if ($this->label) $sql.= ", label";
+    $sql.= ", fk_user_creat";
+    $sql.= ", fk_bank";
+    $sql.= ", entity";
+    
+    // ADDED: Include fk_project and fk_soc in the INSERT statement
+    if ($this->fk_project !== null) $sql.= ", fk_project";
+    if ($this->fk_soc !== null) $sql.= ", fk_soc";
+    
+    $sql.= ") ";
+    $sql.= " VALUES (";
+    $sql.= " '".$this->db->idate($this->datec)."'";
+    $sql.= ", '".$this->db->idate($this->datep)."'";
+    $sql.= ", '".$this->db->idate($this->datev)."'";
+    $sql.= ", ".$this->amount;
+    $sql.= ", '".$this->db->escape($this->type_payment)."'";
+    $sql.= ", '".$this->db->escape($this->num_payment)."'";
+    if ($this->note)  $sql.=", '".$this->db->escape($this->note)."'";
+    if ($this->label) $sql.=", '".$this->db->escape($this->label)."'";
+    $sql.= ", '".$this->db->escape($user->id)."'";
+    $sql.= ", NULL";
+    $sql.= ", ".$conf->entity;
+    
+    // ADDED: Include values for fk_project and fk_soc
+    if ($this->fk_project !== null) $sql.= ", ".(int)$this->fk_project;
+    if ($this->fk_soc !== null) $sql.= ", ".(int)$this->fk_soc;
+    
+    $sql.= ")";
 
-        // Clean parameters
-        $this->amount=price2num(trim($this->amount));
-        $this->label=trim($this->label);
-		$this->note=trim($this->note);
-		$this->fk_bank = (int) $this->fk_bank;
-		$this->fk_user_creat = (int) $this->fk_user_creat;
-		$this->fk_user_modif = (int) $this->fk_user_modif;
-		if (empty($this->datec)) $this->datec = dol_now();
+    dol_syslog(get_class($this)."::addPayment", LOG_DEBUG);
+    $result = $this->db->query($sql);
+    if ($result)
+    {
+        $this->id = $this->db->last_insert_id(MAIN_DB_PREFIX."tva");
 
-        // Check parameters
-		if (! $this->label)
-		{
-			$this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("Label"));
-			return -3;
-		}
-        if ($this->amount == '')
+        // Call trigger
+        $result=$this->call_trigger('TVA_ADDPAYMENT', $user);
+        if ($result < 0)
         {
-            $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("Amount"));
-            return -4;
+            $this->id = 0;
+            $ok = 0;
         }
-        if (! empty($conf->banque->enabled) && (empty($this->accountid) || $this->accountid <= 0))
-        {
-            $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("Account"));
-            return -5;
-        }
-        if (! empty($conf->banque->enabled) && (empty($this->type_payment) || $this->type_payment <= 0))
-        {
-            $this->error=$langs->trans("ErrorFieldRequired", $langs->transnoentities("PaymentMode"));
-            return -5;
-        }
+        // End call triggers
 
-        // Insert into llx_tva
-        $sql = "INSERT INTO ".MAIN_DB_PREFIX."tva (";
-        $sql.= "datec";
-        $sql.= ", datep";
-        $sql.= ", datev";
-		$sql.= ", amount";
-		$sql.= ", fk_typepayment";
-		$sql.= ", num_payment";
-		if ($this->note)  $sql.= ", note";
-        if ($this->label) $sql.= ", label";
-        $sql.= ", fk_user_creat";
-		$sql.= ", fk_bank";
-		$sql.= ", entity";
-		$sql.= ") ";
-        $sql.= " VALUES (";
-        $sql.= " '".$this->db->idate($this->datec)."'";
-        $sql.= ", '".$this->db->idate($this->datep)."'";
-        $sql.= ", '".$this->db->idate($this->datev)."'";
-		$sql.= ", ".$this->amount;
-        $sql.= ", '".$this->db->escape($this->type_payment)."'";
-		$sql.= ", '".$this->db->escape($this->num_payment)."'";
-		if ($this->note)  $sql.=", '".$this->db->escape($this->note)."'";
-        if ($this->label) $sql.=", '".$this->db->escape($this->label)."'";
-        $sql.= ", '".$this->db->escape($user->id)."'";
-		$sql.= ", NULL";
-		$sql.= ", ".$conf->entity;
-        $sql.= ")";
-
-		dol_syslog(get_class($this)."::addPayment", LOG_DEBUG);
-        $result = $this->db->query($sql);
-        if ($result)
+        if ($this->id > 0)
         {
-            $this->id = $this->db->last_insert_id(MAIN_DB_PREFIX."tva");    // TODO should be called 'payment_vat'
-
-            // Call trigger
-            //XXX: Should be done just befor commit no ?
-            $result=$this->call_trigger('TVA_ADDPAYMENT', $user);
-            if ($result < 0)
+            $ok=1;
+            if (! empty($conf->banque->enabled) && ! empty($this->amount))
             {
-            	$this->id = 0;
-            	$ok = 0;
-            }
-            // End call triggers
+                // Insert into llx_bank
+                require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
 
-            if ($this->id > 0)
-            {
-                $ok=1;
-				if (! empty($conf->banque->enabled) && ! empty($this->amount))
+                $acc = new Account($this->db);
+                $result=$acc->fetch($this->accountid);
+                if ($result <= 0) dol_print_error($this->db);
+
+                if ($this->amount > 0) {
+                    $bank_line_id = $acc->addline($this->datep, $this->type_payment, $this->label, -abs($this->amount), '', '', $user);
+                } else {
+                    $bank_line_id = $acc->addline($this->datep, $this->type_payment, $this->label, abs($this->amount), '', '', $user);
+                }
+
+                // Update fk_bank into llx_tva. So we know vat line used to generate bank transaction
+                if ($bank_line_id > 0)
                 {
-                    // Insert into llx_bank
-                    require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
+                    $this->update_fk_bank($bank_line_id);
+                }
+                else
+                {
+                    $this->error=$acc->error;
+                    $ok=0;
+                }
 
-                    $acc = new Account($this->db);
-					$result=$acc->fetch($this->accountid);
-					if ($result <= 0) dol_print_error($this->db);
+                // Update links
+                $result=$acc->add_url_line($bank_line_id, $this->id, DOL_URL_ROOT.'/compta/tva/card.php?id=', "(VATPayment)", "payment_vat");
+                if ($result < 0)
+                {
+                    $this->error=$acc->error;
+                    $ok=0;
+                }
+            }
 
-					if ($this->amount > 0) {
-						$bank_line_id = $acc->addline($this->datep, $this->type_payment, $this->label, -abs($this->amount), '', '', $user);
-					} else {
-						$bank_line_id = $acc->addline($this->datep, $this->type_payment, $this->label, abs($this->amount), '', '', $user);
-					}
-
-                    // Update fk_bank into llx_tva. So we know vat line used to generate bank transaction
-                    if ($bank_line_id > 0)
-					{
-                        $this->update_fk_bank($bank_line_id);
-                    }
-					else
-					{
-						$this->error=$acc->error;
-						$ok=0;
-					}
-
-                    // Update links
-                    $result=$acc->add_url_line($bank_line_id, $this->id, DOL_URL_ROOT.'/compta/tva/card.php?id=', "(VATPayment)", "payment_vat");
-                    if ($result < 0)
-                    {
-                    	$this->error=$acc->error;
-                    	$ok=0;
-                    }
-	            }
-
-				if ($ok)
-				{
-					$this->db->commit();
-					return $this->id;
-				}
-				else
-				{
-					$this->db->rollback();
-					return -3;
-				}
+            if ($ok)
+            {
+                $this->db->commit();
+                return $this->id;
             }
             else
             {
                 $this->db->rollback();
-                return -2;
+                return -3;
             }
         }
         else
         {
-            $this->error=$this->db->error();
             $this->db->rollback();
-            return -1;
+            return -2;
         }
     }
+    else
+    {
+        $this->error=$this->db->error();
+        $this->db->rollback();
+        return -1;
+    }
+}
 
     // phpcs:disable PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
     /**

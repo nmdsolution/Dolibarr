@@ -799,6 +799,7 @@ if ($resql)
 	$generic_commande = new Commande($db);
 	$generic_product = new Product($db);
 	$userstatic = new User($db);
+	$typenArray = array();
 	$i = 0;
 	$totalarray = array();
 	while ($i < min($num, $limit))

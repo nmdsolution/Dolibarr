@@ -43,6 +43,10 @@ require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
  */
 class FactureFournisseur extends CommonInvoice
 {
+     /**
+     * @var int ID of customer for whom we buy (optional)
+     */
+    public $socid_client;
     /**
 	 * @var string ID to identify managed object
 	 */
@@ -226,7 +230,8 @@ class FactureFournisseur extends CommonInvoice
     	'ref_ext' =>array('type'=>'varchar(255)', 'label'=>'RefExt', 'enabled'=>1, 'visible'=>0, 'position'=>30),
     	'type' =>array('type'=>'smallint(6)', 'label'=>'Type', 'enabled'=>1, 'visible'=>-1, 'notnull'=>1, 'position'=>35),
     	'fk_soc' =>array('type'=>'integer:Societe:societe/class/societe.class.php', 'label'=>'ThirdParty', 'enabled'=>1, 'visible'=>-1, 'notnull'=>1, 'position'=>40),
-    	'datec' =>array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>1, 'visible'=>-1, 'position'=>45),
+    	'fk_soc_client' =>array('type'=>'integer:Societe:societe/class/societe.class.php', 'label'=>'CustomerIntermediate', 'enabled'=>1, 'visible'=>-1, 'position'=>41),  // ← AJOUTER ICI
+        'datec' =>array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>1, 'visible'=>-1, 'position'=>45),
     	'datef' =>array('type'=>'date', 'label'=>'Date', 'enabled'=>1, 'visible'=>-1, 'position'=>50),
     	'tms' =>array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>1, 'visible'=>-1, 'notnull'=>1, 'position'=>55),
     	'libelle' =>array('type'=>'varchar(255)', 'label'=>'Label', 'enabled'=>1, 'visible'=>-1, 'position'=>60),
@@ -379,6 +384,7 @@ class FactureFournisseur extends CommonInvoice
         $sql .= ", type";
         $sql .= ", libelle";
         $sql .= ", fk_soc";
+        $sql .= ", fk_soc_client"; 
         $sql .= ", datec";
         $sql .= ", datef";
 		$sql .= ", fk_projet";
@@ -402,6 +408,7 @@ class FactureFournisseur extends CommonInvoice
         $sql .= ", '".$this->db->escape($this->type)."'";
         $sql .= ", '".$this->db->escape($this->label ? $this->label : $this->libelle)."'";
         $sql .= ", ".$this->socid;
+        $sql .= ", ".($this->socid_client > 0 ? (int)$this->socid_client : "null");  // ← AJOUTER ICI
         $sql .= ", '".$this->db->idate($now)."'";
         $sql .= ", '".$this->db->idate($this->date)."'";
 		$sql .= ", ".($this->fk_project > 0 ? $this->fk_project : "null");
@@ -628,6 +635,7 @@ class FactureFournisseur extends CommonInvoice
         $sql .= " t.entity,";
         $sql .= " t.type,";
         $sql .= " t.fk_soc,";
+        $sql .= " t.fk_soc_client,";  // ← AJOUTER ICI
         $sql .= " t.datec,";
         $sql .= " t.datef,";
         $sql .= " t.tms,";
@@ -743,6 +751,7 @@ class FactureFournisseur extends CommonInvoice
                 $this->extraparams = (array) json_decode($obj->extraparams, true);
 
                 $this->socid  = $obj->socid;
+                $this->socid_client = $obj->fk_soc_client;  // ← AJOUTER ICI
                 $this->socnom = $obj->socnom;
 
                 // Retreive all extrafield
@@ -931,6 +940,7 @@ class FactureFournisseur extends CommonInvoice
         $sql .= " entity=".(isset($this->entity) ? $this->entity : "null").",";
         $sql .= " type=".(isset($this->type) ? $this->type : "null").",";
         $sql .= " fk_soc=".(isset($this->fk_soc) ? $this->fk_soc : "null").",";
+        $sql .= " fk_soc_client=".(isset($this->socid_client) ? (int)$this->socid_client : "null").",";  // ← AJOUTER ICI
         $sql .= " datec=".(dol_strlen($this->datec) != 0 ? "'".$this->db->idate($this->datec)."'" : 'null').",";
         $sql .= " datef=".(dol_strlen($this->date) != 0 ? "'".$this->db->idate($this->date)."'" : 'null').",";
         if (dol_strlen($this->tms) != 0) $sql .= " tms=".(dol_strlen($this->tms) != 0 ? "'".$this->db->idate($this->tms)."'" : 'null').",";

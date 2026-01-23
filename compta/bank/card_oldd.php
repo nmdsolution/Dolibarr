@@ -35,11 +35,6 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formbank.class.php';
 require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
-if (!empty($conf->projet->enabled)) {
-	require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
-	require_once DOL_DOCUMENT_ROOT.'/core/class/html.formprojet.class.php';
-}
 if (!empty($conf->categorie->enabled)) require_once DOL_DOCUMENT_ROOT.'/categories/class/categorie.class.php';
 if (!empty($conf->accounting->enabled)) require_once DOL_DOCUMENT_ROOT.'/core/class/html.formaccounting.class.php';
 if (!empty($conf->accounting->enabled)) require_once DOL_DOCUMENT_ROOT.'/accountancy/class/accountingaccount.class.php';
@@ -87,10 +82,6 @@ if ($action == 'add')
 	$object->clos            = $_POST["clos"];
 	$object->rappro          = (GETPOST("norappro", 'alpha') ? 0 : 1);
 	$object->url             = trim(GETPOST("url", 'alpha'));
-	
-	// Capture project and third-party IDs
-	$object->fk_project      = GETPOST('fk_project', 'int');
-	$object->fk_soc          = GETPOST('fk_soc', 'int');
 
 	$object->bank            = trim($_POST["bank"]);
 	$object->code_banque     = trim($_POST["code_banque"]);
@@ -197,10 +188,6 @@ if ($action == 'update')
 	$object->clos            = $_POST["clos"];
 	$object->rappro          = (GETPOST("norappro", 'alpha') ? 0 : 1);
 	$object->url             = trim(GETPOST("url", 'alpha'));
-	
-	// Capture project and third-party IDs
-	$object->fk_project      = GETPOST('fk_project', 'int');
-	$object->fk_soc          = GETPOST('fk_soc', 'int');
 
 	$object->bank            = trim($_POST["bank"]);
 	$object->code_banque     = trim($_POST["code_banque"]);
@@ -320,13 +307,13 @@ $form = new Form($db);
 $formbank = new FormBank($db);
 $formcompany = new FormCompany($db);
 if (!empty($conf->accounting->enabled)) $formaccounting = new FormAccounting($db);
-if (!empty($conf->projet->enabled)) $formproject = new FormProjets($db);
 
 $countrynotdefined = $langs->trans("ErrorSetACountryFirst").' ('.$langs->trans("SeeAbove").')';
 
 $title = $langs->trans("FinancialAccount")." - ".$langs->trans("Card");
 $helpurl = "";
 llxHeader("", $title, $helpurl);
+
 
 // Creation
 
@@ -381,20 +368,8 @@ if ($action == 'create')
 	$selectedcode = $object->currency_code;
 	if (!$selectedcode) $selectedcode = $conf->currency;
 	print $form->selectCurrency((isset($_POST["account_currency_code"]) ? $_POST["account_currency_code"] : $selectedcode), 'account_currency_code');
-	print '</td></tr>';
-	
-	// Project Selection
-	if (!empty($conf->projet->enabled)) {
-		print '<tr><td>'.$langs->trans("Project").'</td>';
-		print '<td>';
-		print $formproject->select_projects((isset($_POST["fk_project"]) ? $_POST["fk_project"] : $object->fk_project), 'fk_project', 0, 0, 1, 1);
-		print '</td></tr>';
-	}
-
-	// Third Party Selection
-	print '<tr><td>'.$langs->trans("ThirdParty").'</td>';
-	print '<td>';
-	print $formcompany->select_company((isset($_POST["fk_soc"]) ? $_POST["fk_soc"] : $object->fk_soc), 'fk_soc', '', 1, 1, 0, array(), 0, 'minwidth300');
+	//print $langs->trans("Currency".$conf->currency);
+	//print '<input type="hidden" name="account_currency_code" value="'.$conf->currency.'">';
 	print '</td></tr>';
 
 	// Status
@@ -671,32 +646,6 @@ else
 		print '<tr><td>'.$langs->trans("BalanceMinimalDesired").'</td>';
 		print '<td>'.$object->min_desired.'</td></tr>';
 
-		// Project
-		if (!empty($conf->projet->enabled)) {
-			print '<tr><td>'.$langs->trans("Project").'</td>';
-			print '<td>';
-			if ($object->fk_project > 0) {
-				$project = new Project($db);
-				$project->fetch($object->fk_project);
-				print $project->getNomUrl(1);
-			} else {
-				print '<span class="opacitymedium">'.$langs->trans("None").'</span>';
-			}
-			print '</td></tr>';
-		}
-
-		// Third Party
-		print '<tr><td>'.$langs->trans("ThirdParty").'</td>';
-		print '<td>';
-		if ($object->fk_soc > 0) {
-			$soc = new Societe($db);
-			$soc->fetch($object->fk_soc);
-			print $soc->getNomUrl(1);
-		} else {
-			print '<span class="opacitymedium">'.$langs->trans("None").'</span>';
-		}
-		print '</td></tr>';
-
 		// Accountancy code
 		print '<tr class="liste_titre_add"><td class="titlefield">'.$langs->trans("AccountancyCode").'</td>';
 		print '<td>';
@@ -883,6 +832,8 @@ else
 
 		dol_fiche_head(array(), 0, '', 0);
 
+		//print '<div class="underbanner clearboth"></div>';
+
 		print '<table class="border centpercent">';
 
 		// Ref
@@ -907,20 +858,8 @@ else
 		$selectedcode = $object->currency_code;
 		if (!$selectedcode) $selectedcode = $conf->currency;
 		print $form->selectCurrency((isset($_POST["account_currency_code"]) ? $_POST["account_currency_code"] : $selectedcode), 'account_currency_code');
-		print '</td></tr>';
-
-		// Project
-		if (!empty($conf->projet->enabled)) {
-			print '<tr><td>'.$langs->trans("Project").'</td>';
-			print '<td class="maxwidth200onsmartphone">';
-			print $formproject->select_projects((isset($_POST["fk_project"]) ? $_POST["fk_project"] : $object->fk_project), 'fk_project', 0, 0, 1, 1);
-			print '</td></tr>';
-		}
-
-		// Third Party
-		print '<tr><td>'.$langs->trans("ThirdParty").'</td>';
-		print '<td class="maxwidth200onsmartphone">';
-		print $formcompany->select_company((isset($_POST["fk_soc"]) ? $_POST["fk_soc"] : $object->fk_soc), 'fk_soc', '', 1, 1, 0, array(), 0, 'minwidth300');
+		//print $langs->trans("Currency".$conf->currency);
+		//print '<input type="hidden" name="account_currency_code" value="'.$conf->currency.'">';
 		print '</td></tr>';
 
 		// Status
@@ -1013,6 +952,9 @@ else
 		print '</table>';
 		print '<br>';
 
+
+		//print '<div class="underbanner clearboth"></div>';
+
 		print '<table class="border centpercent">';
 
 		// Accountancy code
@@ -1045,6 +987,8 @@ else
 		if ($_POST["type"] == Account::TYPE_SAVINGS || $_POST["type"] == Account::TYPE_CURRENT)
 		{
 			print '<br>';
+
+			//print '<div class="underbanner clearboth"></div>';
 
 			print '<table class="border centpercent">';
 

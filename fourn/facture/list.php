@@ -79,7 +79,9 @@ $search_refsupplier = GETPOST('search_refsupplier', 'alpha');
 $search_type = GETPOST('search_type', 'int');
 $search_project = GETPOST('search_project', 'alpha');
 $search_company = GETPOST('search_company', 'alpha');
+$search_company_client = GETPOST('search_company_client', 'alpha');  // NOUVEAU
 $search_montant_ht = GETPOST('search_montant_ht', 'alpha');
+
 $search_montant_vat = GETPOST('search_montant_vat', 'alpha');
 $search_montant_localtax1 = GETPOST('search_montant_localtax1', 'alpha');
 $search_montant_localtax2 = GETPOST('search_montant_localtax2', 'alpha');
@@ -153,7 +155,8 @@ $arrayfields = array(
 	'f.datef'=>array('label'=>$langs->trans("DateInvoice"), 'checked'=>1),
 	'f.date_lim_reglement'=>array('label'=>$langs->trans("DateDue"), 'checked'=>1),
 	'p.ref'=>array('label'=>$langs->trans("ProjectRef"), 'checked'=>0),
-	's.nom'=>array('label'=>$langs->trans("ThirdParty"), 'checked'=>1),
+	's.nom'=>array('label'=>$langs->trans("Supplier"), 'checked'=>1),  // RENOMMÉ
+	'sc.nom'=>array('label'=>$langs->trans("Customer"), 'checked'=>1),  // NOUVEAU
 	's.town'=>array('label'=>$langs->trans("Town"), 'checked'=>1),
 	's.zip'=>array('label'=>$langs->trans("Zip"), 'checked'=>1),
 	'state.nom'=>array('label'=>$langs->trans("StateShort"), 'checked'=>0),
@@ -211,6 +214,7 @@ if (empty($reshook))
 		$search_label="";
 		$search_project='';
 		$search_company="";
+		$search_company_client="";  // NOUVEAU
 		$search_amount_no_tax="";
 		$search_amount_all_tax="";
 		$search_montant_ht='';
@@ -271,6 +275,7 @@ $sql .= " f.total_ht, f.total_ttc, f.total_tva as total_vat, f.paye as paye, f.f
 $sql .= " f.localtax1 as total_localtax1, f.localtax2 as total_localtax2,";
 $sql .= " f.note_public, f.note_private,";
 $sql .= " s.rowid as socid, s.nom as name, s.email, s.town, s.zip, s.fk_pays, s.client, s.fournisseur, s.code_client, s.code_fournisseur, s.code_compta as code_compta_client, s.code_compta_fournisseur,";
+$sql .= " sc.rowid as socid_client, sc.nom as client_name,";  // NOUVEAU 
 $sql .= " typent.code as typent_code,";
 $sql .= " state.code_departement as state_code, state.nom as state_name,";
 $sql .= " country.code as country_code,";
@@ -296,6 +301,7 @@ if (!$search_all) $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'paiementfourn_facturefou
 if ($search_all || $search_product_category > 0) $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'facture_fourn_det as pd ON f.rowid=pd.fk_facture_fourn';
 if ($search_product_category > 0) $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'categorie_product as cp ON cp.fk_product=pd.fk_product';
 $sql .= " LEFT JOIN ".MAIN_DB_PREFIX."projet as p ON p.rowid = f.fk_projet";
+$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."societe as sc ON sc.rowid = f.fk_soc_client";  // NOUVEAU
 // We'll need this table joined to the select in order to filter by sale
 if ($search_sale > 0 || (!$user->rights->societe->client->voir && !$socid)) $sql .= ", ".MAIN_DB_PREFIX."societe_commerciaux as sc";
 if ($search_user > 0)
@@ -326,6 +332,7 @@ if ($search_type != '' && $search_type >= 0)
 }
 if ($search_project) $sql .= natural_search('p.ref', $search_project);
 if ($search_company) $sql .= natural_search('s.nom', $search_company);
+if ($search_company_client) $sql .= natural_search('sc.nom', $search_company_client);  // NOUVEAU
 if ($search_town)  $sql .= natural_search('s.town', $search_town);
 if ($search_zip)   $sql .= natural_search("s.zip", $search_zip);
 if ($search_state) $sql .= natural_search("state.nom", $search_state);
@@ -374,6 +381,7 @@ if (!$search_all)
 	$sql .= " f.localtax1, f.localtax2,";
 	$sql .= " f.note_public, f.note_private,";
 	$sql .= ' s.rowid, s.nom, s.email, s.town, s.zip, s.fk_pays, s.client, s.fournisseur, s.code_client, s.code_fournisseur, s.code_compta, s.code_compta_fournisseur,';
+	$sql .= " sc.rowid, sc.nom,";  // NOUVEAU
 	$sql .= " typent.code,";
 	$sql .= " state.code_departement, state.nom,";
 	$sql .= ' country.code,';
@@ -447,6 +455,7 @@ if ($resql)
 	if ($search_type != '')		$param .= '&search_type='.urlencode($search_type);
 	if ($search_label)      	$param .= '&search_label='.urlencode($search_label);
 	if ($search_company)      	$param .= '&search_company='.urlencode($search_company);
+	if ($search_company_client) $param .= '&search_company_client='.urlencode($search_company_client);  // NOUVEAU
 	if ($search_montant_ht != '')  $param .= '&search_montant_ht='.urlencode($search_montant_ht);
 	if ($search_montant_vat != '')  $param .= '&search_montant_vat='.urlencode($search_montant_vat);
 	if ($search_montant_localtax1 != '')  $param .= '&search_montant_localtax1='.urlencode($search_montant_localtax1);
@@ -659,11 +668,16 @@ if ($resql)
 	{
 		print '<td class="liste_titre"><input class="flat maxwidth50" type="text" name="search_project" value="'.$search_project.'"></td>';
 	}
-	// Thirpdarty
-	if (!empty($arrayfields['s.nom']['checked']))
-	{
-		print '<td class="liste_titre"><input class="flat maxwidth50" type="text" name="search_company" value="'.$search_company.'"></td>';
-	}
+	// Supplier (anciennement Thirdparty)
+    if (!empty($arrayfields['s.nom']['checked']))
+    {
+	    print '<td class="liste_titre"><input class="flat maxwidth50" type="text" name="search_company" value="'.$search_company.'"></td>';
+    }
+    // Client
+    if (!empty($arrayfields['sc.nom']['checked']))
+    {
+	    print '<td class="liste_titre"><input class="flat maxwidth50" type="text" name="search_company_client" value="'.$search_company_client.'"></td>';
+    }
 	// Town
 	if (!empty($arrayfields['s.town']['checked'])) print '<td class="liste_titre"><input class="flat maxwidth50" type="text" name="search_town" value="'.dol_escape_htmltag($search_town).'"></td>';
 	// Zip
@@ -785,6 +799,8 @@ if ($resql)
 	if (!empty($arrayfields['f.date_lim_reglement']['checked'])) print_liste_field_titre($arrayfields['f.date_lim_reglement']['label'], $_SERVER['PHP_SELF'], "f.date_lim_reglement", '', $param, '', $sortfield, $sortorder, 'center ');
 	if (!empty($arrayfields['p.ref']['checked']))                print_liste_field_titre($arrayfields['p.ref']['label'], $_SERVER['PHP_SELF'], "p.ref", '', $param, '', $sortfield, $sortorder);
 	if (!empty($arrayfields['s.nom']['checked']))                print_liste_field_titre($arrayfields['s.nom']['label'], $_SERVER['PHP_SELF'], 's.nom', '', $param, '', $sortfield, $sortorder);
+if (!empty($arrayfields['sc.nom']['checked']))                   print_liste_field_titre($arrayfields['sc.nom']['label'], $_SERVER['PHP_SELF'], 'sc.nom', '', $param, '', $sortfield, $sortorder);  // NOUVEAU  
+	
 	if (!empty($arrayfields['s.town']['checked']))               print_liste_field_titre($arrayfields['s.town']['label'], $_SERVER["PHP_SELF"], 's.town', '', $param, '', $sortfield, $sortorder);
 	if (!empty($arrayfields['s.zip']['checked']))                print_liste_field_titre($arrayfields['s.zip']['label'], $_SERVER["PHP_SELF"], 's.zip', '', $param, '', $sortfield, $sortorder, 'center ');
 	if (!empty($arrayfields['state.nom']['checked']))            print_liste_field_titre($arrayfields['state.nom']['label'], $_SERVER["PHP_SELF"], "state.nom", "", $param, '', $sortfield, $sortorder);
@@ -813,6 +829,7 @@ if ($resql)
 	$facturestatic = new FactureFournisseur($db);
 	$supplierstatic = new Fournisseur($db);
 	$projectstatic = new Project($db);
+	$typenArray = array(); // Add this line
 
 	if ($num > 0)
 	{
@@ -942,14 +959,27 @@ if ($resql)
 				if (! $i) $totalarray['nbfield']++;
 			}
 
-			// Third party
-			if (! empty($arrayfields['s.nom']['checked']))
-			{
-				print '<td class="tdoverflowmax200">';
-				print $thirdparty->getNomUrl(1, 'supplier');
-				print '</td>';
-				if (! $i) $totalarray['nbfield']++;
-			}
+			// Supplier (Third party)
+if (! empty($arrayfields['s.nom']['checked']))
+{
+	print '<td class="tdoverflowmax200">';
+	print $thirdparty->getNomUrl(1, 'supplier');
+	print '</td>';
+	if (! $i) $totalarray['nbfield']++;
+}
+// Client
+if (! empty($arrayfields['sc.nom']['checked']))
+{
+	print '<td class="tdoverflowmax200">';
+	if ($obj->socid_client > 0) {
+		$client = new Societe($db);
+		if ($client->fetch($obj->socid_client) > 0) {
+			print $client->getNomUrl(1, 'customer');
+		}
+	}
+	print '</td>';
+	if (! $i) $totalarray['nbfield']++;
+}
 			// Town
 			if (! empty($arrayfields['s.town']['checked']))
 			{

@@ -32,6 +32,10 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/commonobject.class.php';
  */
 class ChargeSociales extends CommonObject
 {
+       /**
+     * @var int Company ID  
+     */
+    public $fk_soc;
     /**
 	 * @var string ID to identify managed object
 	 */
@@ -129,60 +133,63 @@ class ChargeSociales extends CommonObject
      *  @param	string  $ref	Ref
      *  @return	int <0 KO >0 OK
      */
-    public function fetch($id, $ref = '')
+// Update the fetch method to include fk_soc
+public function fetch($id, $ref = '')
+{
+    $sql = "SELECT cs.rowid, cs.date_ech";
+    $sql .= ", cs.libelle as label, cs.fk_type, cs.amount, cs.fk_projet as fk_project, cs.paye, cs.periode, cs.import_key";
+    $sql .= ", cs.fk_account, cs.fk_mode_reglement";
+    $sql .= ", cs.fk_soc";  // ADD THIS LINE
+    $sql .= ", c.libelle";
+    $sql .= ', p.code as mode_reglement_code, p.libelle as mode_reglement_libelle';
+    $sql .= " FROM ".MAIN_DB_PREFIX."chargesociales as cs";
+    $sql .= " LEFT JOIN ".MAIN_DB_PREFIX."c_chargesociales as c ON cs.fk_type = c.id";
+    $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_paiement as p ON cs.fk_mode_reglement = p.id';
+    $sql .= ' WHERE cs.entity IN ('.getEntity('tax').')';
+    if ($ref) $sql .= " AND cs.rowid = ".$ref;
+    else $sql .= " AND cs.rowid = ".$id;
+
+    dol_syslog(get_class($this)."::fetch", LOG_DEBUG);
+    $resql = $this->db->query($sql);
+    if ($resql)
     {
-        $sql = "SELECT cs.rowid, cs.date_ech";
-        $sql .= ", cs.libelle as label, cs.fk_type, cs.amount, cs.fk_projet as fk_project, cs.paye, cs.periode, cs.import_key";
-        $sql .= ", cs.fk_account, cs.fk_mode_reglement";
-        $sql .= ", c.libelle";
-        $sql .= ', p.code as mode_reglement_code, p.libelle as mode_reglement_libelle';
-        $sql .= " FROM ".MAIN_DB_PREFIX."chargesociales as cs";
-        $sql .= " LEFT JOIN ".MAIN_DB_PREFIX."c_chargesociales as c ON cs.fk_type = c.id";
-        $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_paiement as p ON cs.fk_mode_reglement = p.id';
-        $sql .= ' WHERE cs.entity IN ('.getEntity('tax').')';
-        if ($ref) $sql .= " AND cs.rowid = ".$ref;
-        else $sql .= " AND cs.rowid = ".$id;
-
-        dol_syslog(get_class($this)."::fetch", LOG_DEBUG);
-        $resql = $this->db->query($sql);
-        if ($resql)
+        if ($this->db->num_rows($resql))
         {
-            if ($this->db->num_rows($resql))
-            {
-                $obj = $this->db->fetch_object($resql);
+            $obj = $this->db->fetch_object($resql);
 
-                $this->id = $obj->rowid;
-                $this->ref					= $obj->rowid;
-                $this->date_ech = $this->db->jdate($obj->date_ech);
-                $this->lib					= $obj->label;
-                $this->label				= $obj->label;
-                $this->type					= $obj->fk_type;
-                $this->type_label			= $obj->libelle;
-                $this->fk_account			= $obj->fk_account;
-                $this->mode_reglement_id = $obj->fk_mode_reglement;
-                $this->mode_reglement_code = $obj->mode_reglement_code;
-                $this->mode_reglement = $obj->mode_reglement_libelle;
-                $this->amount = $obj->amount;
-				$this->fk_project = $obj->fk_project;
-                $this->paye = $obj->paye;
-                $this->periode = $this->db->jdate($obj->periode);
-                $this->import_key = $this->import_key;
+            $this->id = $obj->rowid;
+            $this->ref = $obj->rowid;
+            $this->date_ech = $this->db->jdate($obj->date_ech);
+            $this->lib = $obj->label;
+            $this->label = $obj->label;
+            $this->type = $obj->fk_type;
+            $this->type_label = $obj->libelle;
+            $this->fk_account = $obj->fk_account;
+            $this->mode_reglement_id = $obj->fk_mode_reglement;
+            $this->mode_reglement_code = $obj->mode_reglement_code;
+            $this->mode_reglement = $obj->mode_reglement_libelle;
+            $this->amount = $obj->amount;
+            $this->fk_project = $obj->fk_project;
+            $this->fk_soc = $obj->fk_soc;  // ADD THIS LINE
+            $this->paye = $obj->paye;
+            $this->periode = $this->db->jdate($obj->periode);
+            $this->import_key = $this->import_key;
 
-                $this->db->free($resql);
-
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
+            $this->db->free($resql);
+            return 1;
         }
         else
         {
-            $this->error = $this->db->lasterror();
-            return -1;
+            return 0;
         }
     }
+    else
+    {
+        $this->error = $this->db->lasterror();
+        return -1;
+    }
+}
+
 
 	/**
 	 * Check if a social contribution can be created into database
@@ -209,62 +216,65 @@ class ChargeSociales extends CommonObject
      *      @param	User	$user   User making creation
      *      @return int     		<0 if KO, id if OK
      */
-    public function create($user)
-    {
-    	global $conf;
-		$error = 0;
+  // Update the create method
+public function create($user)
+{
+    global $conf;
+    $error = 0;
+    $now = dol_now();
 
-        $now = dol_now();
+    // Nettoyage parametres
+    $newamount = price2num($this->amount, 'MT');
+    
+    // Clean fk_soc parameter
+    $this->fk_soc = (!empty($this->fk_soc) && $this->fk_soc > 0) ? (int) $this->fk_soc : null;
 
-        // Nettoyage parametres
-        $newamount = price2num($this->amount, 'MT');
+    if (!$this->check()) {
+         $this->error = "ErrorBadParameter";
+         return -2;
+    }
 
-		if (!$this->check()) {
-			 $this->error = "ErrorBadParameter";
-			 return -2;
-		}
+    $this->db->begin();
 
-        $this->db->begin();
+    $sql = "INSERT INTO ".MAIN_DB_PREFIX."chargesociales (fk_type, fk_account, fk_mode_reglement, libelle, date_ech, periode, amount, fk_projet, fk_soc, entity, fk_user_author, date_creation)";
+    $sql .= " VALUES (".$this->type;
+    $sql .= ", ".($this->fk_account > 0 ? $this->fk_account : 'NULL');
+    $sql .= ", ".($this->mode_reglement_id > 0 ? $this->mode_reglement_id : "NULL");
+    $sql .= ", '".$this->db->escape($this->label ? $this->label : $this->lib)."'";
+    $sql .= ", '".$this->db->idate($this->date_ech)."'";
+    $sql .= ", '".$this->db->idate($this->periode)."'";
+    $sql .= ", '".price2num($newamount)."'";
+    $sql .= ", ".($this->fk_project > 0 ? $this->fk_project : 'NULL');
+    $sql .= ", ".($this->fk_soc !== null ? (int)$this->fk_soc : "NULL");  // ADD THIS LINE
+    $sql .= ", ".$conf->entity;
+    $sql .= ", ".$user->id;
+    $sql .= ", '".$this->db->idate($now)."'";
+    $sql .= ")";
 
-        $sql = "INSERT INTO ".MAIN_DB_PREFIX."chargesociales (fk_type, fk_account, fk_mode_reglement, libelle, date_ech, periode, amount, fk_projet, entity, fk_user_author, date_creation)";
-        $sql .= " VALUES (".$this->type;
-        $sql .= ", ".($this->fk_account > 0 ? $this->fk_account : 'NULL');
-        $sql .= ", ".($this->mode_reglement_id > 0 ? $this->mode_reglement_id : "NULL");
-        $sql .= ", '".$this->db->escape($this->label ? $this->label : $this->lib)."'";
-        $sql .= ", '".$this->db->idate($this->date_ech)."'";
-		$sql .= ", '".$this->db->idate($this->periode)."'";
-        $sql .= ", '".price2num($newamount)."'";
-		$sql .= ", ".($this->fk_project > 0 ? $this->fk_project : 'NULL');
-        $sql .= ", ".$conf->entity;
-        $sql .= ", ".$user->id;
-        $sql .= ", '".$this->db->idate($now)."'";
-        $sql .= ")";
+    dol_syslog(get_class($this)."::create", LOG_DEBUG);
+    $resql = $this->db->query($sql);
+    if ($resql) {
+        $this->id = $this->db->last_insert_id(MAIN_DB_PREFIX."chargesociales");
 
-        dol_syslog(get_class($this)."::create", LOG_DEBUG);
-        $resql = $this->db->query($sql);
-        if ($resql) {
-            $this->id = $this->db->last_insert_id(MAIN_DB_PREFIX."chargesociales");
+        $result = $this->call_trigger('SOCIALCONTRIBUTION_CREATE', $user);
+        if ($result < 0) $error++;
 
-            //dol_syslog("ChargesSociales::create this->id=".$this->id);
-			$result = $this->call_trigger('SOCIALCONTRIBUTION_CREATE', $user);
-			if ($result < 0) $error++;
-
-			if (empty($error)) {
-				$this->db->commit();
-				return $this->id;
-			}
-			else {
-				$this->db->rollback();
-				return -1 * $error;
-			}
+        if (empty($error)) {
+            $this->db->commit();
+            return $this->id;
         }
-        else
-        {
-            $this->error = $this->db->error();
+        else {
             $this->db->rollback();
-            return -1;
+            return -1 * $error;
         }
     }
+    else
+    {
+        $this->error = $this->db->error();
+        $this->db->rollback();
+        return -1;
+    }
+}
 
 
     /**
@@ -344,55 +354,60 @@ class ChargeSociales extends CommonObject
      *      @param  int		$notrigger	    0=launch triggers after, 1=disable triggers
      *      @return int     		        <0 if KO, >0 if OK
      */
-    public function update($user, $notrigger = 0)
+  public function update($user, $notrigger = 0)
+{
+    $error = 0;
+    
+    // Clean fk_soc parameter
+    $this->fk_soc = (!empty($this->fk_soc) && $this->fk_soc > 0) ? (int) $this->fk_soc : null;
+    
+    $this->db->begin();
+
+    $sql = "UPDATE ".MAIN_DB_PREFIX."chargesociales SET";
+    $sql .= " libelle='".$this->db->escape($this->label ? $this->label : $this->lib)."'";
+    $sql .= ", date_ech='".$this->db->idate($this->date_ech)."'";
+    $sql .= ", periode='".$this->db->idate($this->periode)."'";
+    $sql .= ", amount='".price2num($this->amount, 'MT')."'";
+    $sql .= ", fk_projet=".($this->fk_project > 0 ? $this->db->escape($this->fk_project) : "NULL");
+    $sql .= ", fk_soc=".($this->fk_soc !== null ? (int)$this->fk_soc : "NULL");  // ADD THIS LINE
+    $sql .= ", fk_user_modif=".$user->id;
+    $sql .= " WHERE rowid=".$this->id;
+
+    dol_syslog(get_class($this)."::update", LOG_DEBUG);
+    $resql = $this->db->query($sql);
+
+    if (!$resql) {
+        $error++; $this->errors[] = "Error ".$this->db->lasterror();
+    }
+
+    if (!$error)
     {
-        $error = 0;
-        $this->db->begin();
-
-        $sql = "UPDATE ".MAIN_DB_PREFIX."chargesociales";
-        $sql .= " SET libelle='".$this->db->escape($this->label ? $this->label : $this->lib)."'";
-        $sql .= ", date_ech='".$this->db->idate($this->date_ech)."'";
-        $sql .= ", periode='".$this->db->idate($this->periode)."'";
-        $sql .= ", amount='".price2num($this->amount, 'MT')."'";
-        $sql .= ", fk_projet=".($this->fk_project > 0 ? $this->db->escape($this->fk_project) : "NULL");
-        $sql .= ", fk_user_modif=".$user->id;
-        $sql .= " WHERE rowid=".$this->id;
-
-        dol_syslog(get_class($this)."::update", LOG_DEBUG);
-        $resql = $this->db->query($sql);
-
-        if (!$resql) {
-            $error++; $this->errors[] = "Error ".$this->db->lasterror();
-        }
-
-        if (!$error)
+        if (!$notrigger)
         {
-            if (!$notrigger)
-            {
-                // Call trigger
-                $result = $this->call_trigger('SOCIALCHARGES_MODIFY', $user);
-                if ($result < 0) $error++;
-                // End call triggers
-            }
-        }
-
-        // Commit or rollback
-        if ($error)
-        {
-            foreach ($this->errors as $errmsg)
-            {
-                dol_syslog(get_class($this)."::update ".$errmsg, LOG_ERR);
-                $this->error .= ($this->error ? ', '.$errmsg : $errmsg);
-            }
-            $this->db->rollback();
-            return -1 * $error;
-        }
-        else
-        {
-            $this->db->commit();
-            return 1;
+            // Call trigger
+            $result = $this->call_trigger('SOCIALCHARGES_MODIFY', $user);
+            if ($result < 0) $error++;
+            // End call triggers
         }
     }
+
+    // Commit or rollback
+    if ($error)
+    {
+        foreach ($this->errors as $errmsg)
+        {
+            dol_syslog(get_class($this)."::update ".$errmsg, LOG_ERR);
+            $this->error .= ($this->error ? ', '.$errmsg : $errmsg);
+        }
+        $this->db->rollback();
+        return -1 * $error;
+    }
+    else
+    {
+        $this->db->commit();
+        return 1;
+    }
+}
 
     /**
      * Calculate amount remaining to pay by year

@@ -212,6 +212,18 @@ if (empty($reshook))
             $error++;
         }
 
+           // *** AJOUT DE LA VALIDATION DES CATÉGORIES ***
+    if ($conf->categorie->enabled) {
+        $categories = GETPOST('categories', 'array');
+        if (empty($categories) || count($categories) < 4)
+        {
+            setEventMessages($langs->trans('ErrorMinimum4CategoriesRequired'), null, 'errors');
+            $action = "create";
+            $error++;
+        }
+    }
+    // *** FIN DE L'AJOUT ***
+
         if (!$error)
         {
 	        $units = GETPOST('units', 'int');
@@ -447,6 +459,17 @@ if (empty($reshook))
     	        $stdobject->element = 'product';
     	        $stdobject->barcode_type = GETPOST('fk_barcode_type');
     	        $result = $stdobject->fetch_barcode();
+                     // *** AJOUT DE LA VALIDATION DES CATÉGORIES ***
+            if ($conf->categorie->enabled) {
+                $categories = GETPOST('categories', 'array');
+                if (empty($categories) || count($categories) < 4)
+                {
+                    setEventMessages($langs->trans('ErrorMinimum4CategoriesRequired'), null, 'errors');
+                    $action = "edit";
+                    $error++;
+                }
+            }
+            // *** FIN DE L'AJOUT ***
     	        if ($result < 0)
     	        {
     	        	$error++;
