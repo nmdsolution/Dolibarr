@@ -1,0 +1,573 @@
+<?php
+/* Copyright (C) 2001-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
+ * Copyright (C) 2004-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
+ * Copyright (C) 2005-2012 Regis Houssin        <regis.houssin@inodbox.com>
+ * Copyright (C) 2015      Jean-FranÃ§ois Ferry	<jfefe@aternatik.fr>
+ *
+
+
+/**
+ *	\file       htdocs/statistiques/template/statistiquesindex.php
+ *	\ingroup    statistiques
+ *	\brief      Home page of statistiques top menu
+ */
+
+// Load Dolibarr environment
+$res=0;
+// Try main.inc.php into web root known defined into CONTEXT_DOCUMENT_ROOT (not always defined)
+if (! $res && ! empty($_SERVER["CONTEXT_DOCUMENT_ROOT"])) $res=@include $_SERVER["CONTEXT_DOCUMENT_ROOT"]."/main.inc.php";
+// Try main.inc.php into web root detected using web root calculated from SCRIPT_FILENAME
+$tmp=empty($_SERVER['SCRIPT_FILENAME'])?'':$_SERVER['SCRIPT_FILENAME'];$tmp2=realpath(__FILE__); $i=strlen($tmp)-1; $j=strlen($tmp2)-1;
+while($i > 0 && $j > 0 && isset($tmp[$i]) && isset($tmp2[$j]) && $tmp[$i]==$tmp2[$j]) { $i--; $j--; }
+if (! $res && $i > 0 && file_exists(substr($tmp, 0, ($i+1))."/main.inc.php")) $res=@include substr($tmp, 0, ($i+1))."/main.inc.php";
+if (! $res && $i > 0 && file_exists(dirname(substr($tmp, 0, ($i+1)))."/main.inc.php")) $res=@include dirname(substr($tmp, 0, ($i+1)))."/main.inc.php";
+// Try main.inc.php using relative path
+if (! $res && file_exists("../main.inc.php")) $res=@include "../main.inc.php";
+if (! $res && file_exists("../../main.inc.php")) $res=@include "../../main.inc.php";
+if (! $res && file_exists("../../../main.inc.php")) $res=@include "../../../main.inc.php";
+if (! $res) die("Include of main fails");
+
+require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
+
+// Load translation files required by the page
+$langs->loadLangs(array("statistiques@statistiques"));
+
+$action=GETPOST('action', 'alpha');
+
+
+// Securite acces client
+
+if (isset($user->societe_id) && $user->societe_id > 0)
+{
+	$action = '';
+	$socid = $user->societe_id;
+}
+
+$max=5;
+$now=dol_now();
+
+
+/*
+ * Actions
+ */
+
+// None
+
+
+
+/*
+ * View
+ */
+
+$now=dol_now();
+
+
+$form = new Form($db);
+$formfile = new FormFile($db);
+
+
+llxHeader("",$langs->trans("Sells"));
+
+
+
+
+print '<div class="fichecenter"><div class="fichethirdleft">';
+		$varsearch_motcle_url4='sum('.MAIN_DB_PREFIX.'facturedet.total_ht ) AS totalht';
+	if ($_POST["donneesid"] == "ca")	
+	{
+		$varsearch_motcle_url4='sum('.MAIN_DB_PREFIX.'facturedet.total_ht ) AS totalht';
+		print load_fiche_titre($langs->trans("SalesPerMonth"),'','title_accountancy.png');
+
+	}
+	elseif ($_POST["donneesid"] == "marge")	
+	{
+		$varsearch_motcle_url4='sum('.MAIN_DB_PREFIX.'facturedet.total_ht - ( '.MAIN_DB_PREFIX.'facturedet.buy_price_ht)*'.MAIN_DB_PREFIX.'facturedet.qty *SIGN('.MAIN_DB_PREFIX.'facturedet.total_ht)) AS totalht';
+		print load_fiche_titre($langs->trans("MarginPerMonth"),'','title_accountancy.png');
+	}
+	else
+	{
+				print load_fiche_titre($langs->trans("SalesPerMonth"),'','title_accountancy.png');
+	}
+
+$clientid=$_POST["clientid"];
+$produitid=$_POST["produitid"];
+
+	if ($_POST["clientid"] > 0)	
+	{
+		$varsearch_motcle_url3='and ('.MAIN_DB_PREFIX.'facture.fk_soc = '.$clientid.')';
+	}
+		else
+	{
+		$varsearch_motcle_url3='';
+	}
+	$resql2=$db->query('select label from '.MAIN_DB_PREFIX.'categorie where rowid='.GETPOST('produitid').'');
+	if ($resql2)
+	{
+		$num2 = $db->num_rows($resql2);
+		$obj2 = $db->fetch_object($resql2);							
+		echo $obj2->label.'<br>';		
+	}
+	
+	
+	if ($_POST["produitid"] > 0)	
+	{
+		$varsearch_motcle_url2='and ('.MAIN_DB_PREFIX.'categorie.rowid="'.$produitid.'" or '.MAIN_DB_PREFIX.'categorie.fk_parent="'.$produitid.'")';
+		$varsearch_motcle_url5='left join '.MAIN_DB_PREFIX.'categorie_product on '.MAIN_DB_PREFIX.'categorie_product.fk_product='.MAIN_DB_PREFIX.'facturedet.fk_product inner join '.MAIN_DB_PREFIX.'categorie on '.MAIN_DB_PREFIX.'categorie.rowid = '.MAIN_DB_PREFIX.'categorie_product.fk_categorie';
+	}
+		else
+	{
+		$varsearch_motcle_url2='';
+		$varsearch_motcle_url5='';
+	}	
+
+if ($user->rights->statistiques->Ventes->SAVentes)
+{
+
+
+
+
+
+
+echo '<section style="position:relative; display:inline-block;height:600px;width:1000px;background-color:#fff;">';
+
+
+//if (GETPOST('anneedeb')>1)
+//{
+
+	//$debut=GETPOST('anneedeb');
+//}
+//else
+//{
+	$debut=DATE("Y");
+
+//}
+
+
+
+
+
+$array_mois = array("Janvier", "Février", "Mars", "Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre");
+
+echo '<div class="div-table-responsive-no-min">
+	<table class="noborder" max-width="600px"><tr class="liste_titre"><td>Mois</td><td style="text-align:right;">'.(date("Y")-3).'</td><td style="text-align:right;">'.(date("Y")-2).'</td><td style="text-align:right;">'.(date("Y")-1).'</td><td style="text-align:right;">'.date("Y").'</td></tr>';
+$mois=0;
+while ($mois<12)
+{
+$moisnom=$array_mois[$mois];
+	echo '<tr><td>'.$moisnom.'</td>';
+	$annee=((date("Y"))-3);
+	while ($annee<=(date("Y")))
+	{	
+				$reqcumul=$db->query('SELECT '.$varsearch_motcle_url4.' 
+										from '.MAIN_DB_PREFIX.'facture 
+										INNER JOIN '.MAIN_DB_PREFIX.'facturedet ON '.MAIN_DB_PREFIX.'facturedet.fk_facture = '.MAIN_DB_PREFIX.'facture.rowid
+										 '.$varsearch_motcle_url5.' 
+										where (YEAR('.MAIN_DB_PREFIX.'facture.datef)="'.$annee.'") '.$varsearch_motcle_url3.' '.$varsearch_motcle_url2.' and (month('.MAIN_DB_PREFIX.'facture.datef)<='.($mois+1).');');								
+				if ($reqcumul)
+				{
+							$objcumul = $db->fetch_object($reqcumul);
+								{
+									echo '<td style="text-align:right;">';
+																		if (($mois>=(date("m")) and ($annee==(date("Y")))))
+									{}
+								else
+								{
+									
+									echo number_format($objcumul->totalht, 0, ',', ' ');
+								}
+								echo '</td>';
+								}		
+				}
+				$annee++;
+	}
+	echo '</tr>';
+	$mois++;
+	}
+	echo '</table>';
+print '</div>';
+
+
+
+
+				$resqmax=$db->query('SELECT '.$varsearch_motcle_url4.', YEAR('.MAIN_DB_PREFIX.'facture.datef) as annee 
+									from '.MAIN_DB_PREFIX.'facture 
+									INNER JOIN '.MAIN_DB_PREFIX.'facturedet ON '.MAIN_DB_PREFIX.'facturedet.fk_facture = '.MAIN_DB_PREFIX.'facture.rowid
+									 '.$varsearch_motcle_url5.' 
+									where (YEAR('.MAIN_DB_PREFIX.'facture.datef)<="'.$debut.'") '.$varsearch_motcle_url3.' '.$varsearch_motcle_url2.' group by annee;');
+					
+													
+				if ($resqmax)
+				{
+					$nummax = $db->num_rows($resqlmax);
+					$b = 0;						
+						while ($b < $nummax)
+						{
+							$objmax = $db->fetch_object($resqmax);
+								if ($objmax->totalht>$max)
+								{
+									$max=$objmax->totalht;
+								}		
+							$b++;
+						}
+				}
+
+
+include ("calcul_echelle.php");		
+					
+					$coef=50/$premiere_grad;
+					$largeur=67;
+
+?>
+
+
+<canvas id="canvas1" width="1000" height="500" style="display:inline-block;">
+	Requiert un navigateur récent: Internet Explorer 9, Chrome, Firefox, Safari.
+</canvas>
+
+<script type="text/javascript">
+function draw(x1,y1,x2,y2,couleur)
+{
+
+  var canvas = document.getElementById("canvas1"); 
+  var ctx = canvas.getContext("2d");
+  
+  	ctx.lineWidth="2"; 
+	ctx.fill();
+	ctx.font="14px Arial";
+
+
+	
+
+	 ctx.moveTo(x1,y1);
+	 ctx.lineTo(x2,y2);
+	 ctx.stroke(); 
+ 
+  	ctx.beginPath();
+	ctx.lineCap = 'round';
+	ctx.moveTo(x1,y1);
+	ctx.strokeStyle=couleur;  
+	ctx.lineWidth="2";   
+	ctx.lineTo(x2,y2);
+	
+
+}
+
+function drawpoint(x2,y2,couleur)
+{
+  var canvas = document.getElementById("canvas1"); 
+  var ctx = canvas.getContext("2d");
+
+
+	ctx.fillStyle = couleur;
+	ctx.fillRect(x2,y2,5,5);
+}
+
+function drawx(mois,moisnom,largeur)
+{
+	var canvas = document.getElementById("canvas1"); 
+	var ctx = canvas.getContext("2d");
+	ctx.font = "08pt Verdana";
+	ctx.fillStyle = "black";
+	ctx.textAlign="center";
+	ctx.fillText(moisnom,738-largeur*mois,480);
+}
+
+
+function legende(cat,y,couleur)
+{
+	var canvas = document.getElementById("canvas1"); 
+	var ctx = canvas.getContext("2d");
+	ctx.lineWidth="2"; 
+	
+	ctx.fill();
+	ctx.font="14px Arial";
+	ctx.textAlign="left";
+	ctx.fillStyle = "#333";
+	ctx.fillText(cat, 850,y);
+	ctx.fillStyle = couleur;
+	ctx.fillRect(830,(y-11),16,12);
+}
+
+function draw3(valeurgrad,ygrad,largeur)
+{
+	var canvas = document.getElementById("canvas1"); 
+	var ctx1 = canvas.getContext("2d");
+	ctx1.font = "10pt Verdana";
+	ctx1.textAlign = "left";
+
+	ctx1.beginPath();
+
+for (i = 1; i < 9; i++) 
+{ 
+	const usNumberFormat = new Intl.NumberFormat('FR');
+	const usNumber = usNumberFormat.format(); // "99,999,999.99"
+   ctx1.textAlign = "right";
+   ctx1.fillText(usNumberFormat.format(valeurgrad*i),815,455-i*50);
+} 
+for (i = 0; i < 9; i++) 
+{ 
+// lignes horizontales (grille)
+	ctx1.moveTo(0,450-i*50);
+	ctx1.lineTo(750,450-i*50);
+} 
+
+for (i = 0; i < 10; i++) 
+{ 
+	//graduations axe horizontal
+	ctx1.fillStyle="#cccccc";
+   	ctx1.fillText("|",71+i*largeur,450);
+} 
+
+	//lignes verticales
+	ctx1.strokeStyle="#eeeeee"; 
+	ctx1.moveTo(0,0);
+	ctx1.lineTo(0,450);
+	ctx1.moveTo(50,450);
+	ctx1.lineTo(750,450);
+	ctx1.moveTo(750,0);
+	ctx1.lineTo(750,450);
+	ctx1.moveTo(750,0);
+	
+	ctx1.stroke(); 
+	
+	ctx1.fillStyle = "#cccccc";
+	ctx1.fillRect(820,0,180,500);	
+	ctx1.fillStyle = "#efefef";
+	ctx1.fillRect(822,2,176,496);	
+}
+
+//tracade des graduations de l'abscisse
+window.onload=draw3(<?php echo $premiere_grad;?>,430,67);	
+
+
+<?php
+
+$couleur =["#7FDFFD", "#5FBFED", "#3F9FED","#1E7FCB"];
+				
+$mois=12;
+$i=0;
+while ($mois>-1)
+{
+	$annee=((date("Y"))-3);
+	$j=0;
+	while ($annee<=(date("Y")))
+	{	
+				$reqcumul=$db->query('SELECT '.$varsearch_motcle_url4.' 
+									from '.MAIN_DB_PREFIX.'facture  
+									INNER JOIN '.MAIN_DB_PREFIX.'facturedet ON '.MAIN_DB_PREFIX.'facturedet.fk_facture = '.MAIN_DB_PREFIX.'facture.rowid 
+									 '.$varsearch_motcle_url5.' 
+									where (YEAR('.MAIN_DB_PREFIX.'facture.datef)="'.$annee.'") '.$varsearch_motcle_url2.' and (month('.MAIN_DB_PREFIX.'facture.datef)<='.($mois).') '.$varsearch_motcle_url3.';');								
+				if ($reqcumul)
+				{
+							$objcumul = $db->fetch_object($reqcumul);
+								{		
+									if (is_null($objcumul->totalht)) 
+										{
+											$mt_fact=0;
+										}
+										else
+										{
+											$mt_fact=$objcumul->totalht;
+										}						
+										if ($mois>11)
+										{
+											$valx1=855-$i*$largeur;
+										}
+										else
+										{
+											$num_coul=$j;
+										
+											
+											$valx1=805-($i)*$largeur;
+											$valy1=450-($montant_last[$j]*$coef);
+											$valx2=$valx1-$largeur;
+											$valy2=450-(($mt_fact)*$coef);
+											
+											if (($valy2==$valy1) and ($annee==(date("Y"))))
+											{
+												//ne pas tracer la courbe si valeur identique par rapport au mois précédent et que l'année est en cours (mois non passé)
+											}
+											else
+											{
+												?>window.onload=draw(<?php echo $valx1;?>,<?php echo $valy1;?>,<?php echo $valx2;?>,<?php echo $valy2;?>,"<?php echo $couleur[$j];?>"); <?php
+											}
+												
+												
+											
+										}
+										$montant_last[$j]=$mt_fact;
+																		$num_coul_last=$num_coul;
+										
+									$valx2=735-$i*$largeur;
+									$mt_fact=$objcumul->totalht;
+									$valy2=448-(($mt_fact)*$coef);
+									if (($mois>(date("m")) and ($annee==(date("Y")))))
+									{}
+								else
+									{										
+									?>window.onload=drawpoint(<?php echo $valx2;?>,<?php echo $valy2;?>,"<?php echo $couleur[$j];?>");<?	
+									}									
+								}		
+				}
+				$annee++;
+				$j++;
+	}
+$array_mois2 = array("Décembre", "Novembre", "Octobre", "Septembre","Août","Juillet","Juin","Mai","Avril","Mars","Février","Janvier");
+
+	$moisnom=$array_mois2[$mois];
+	
+	?>window.onload=drawx(<?php echo $mois;?>,"<?php echo $moisnom;?>",<?php echo $largeur;?>);<?
+	
+	$mois--;
+	$i++;
+	
+}
+//légende
+	$annee=((date("Y"))-3);
+	$j=0;
+	while ($j < 4)
+	{
+			?>window.onload=legende("<?php echo $annee?>",<?php echo ($j*20)+20;?>,"<?php echo $couleur[$j];?>");<?php
+		$j++;
+		$annee++;
+	}
+							
+
+
+
+				
+			
+
+
+?>
+
+
+
+</script>
+
+
+
+</section>
+
+<?php
+
+
+	echo $langs->trans("Year").' '.$debut;
+
+
+					//if (empty($socid))
+//{
+	// Show filter box
+	print '<form name="stats" method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+	print '<input type="hidden" name="mode" value="'.$mode.'">';
+	print '<table class="noborder" width="100%">';
+	print '<tr class="liste_titre"><td class="liste_titre" colspan="2">'.$langs->trans("Filter").'</td></tr>';
+
+			// type de données
+	print '<tr><td>'.$langs->trans("Unit").'</td><td>';
+	if ($_POST["donneesid"]=="marge")
+	{
+		print '<input type="radio" name="donneesid" value="ca" id="ca"/> <label for="ca">'.$langs->trans("Sales").'</label><br />
+			<input type="radio" name="donneesid" value="marge" id="marge" checked/> <label for="marge">'.$langs->trans("Margin").'</label></select></td></tr>';
+	}
+	else
+	{
+		print '<input type="radio" name="donneesid" value="ca" id="ca" checked/> <label for="ca">'.$langs->trans("Sales").'</label><br />
+			<input type="radio" name="donneesid" value="marge" id="marge" /> <label for="marge">'.$langs->trans("Margin").'</label></select></td></tr>';
+	}
+
+	// Client
+	print '<tr><td>'.$langs->trans("Customer").'</td><td>';
+
+								print '<select class="field" id="clientid" name="clientid">';
+								print '<OPTION value="0">'.$langs->trans("All").'</OPTION>';
+								$resql2=$db->query('select distinct nom, rowid, town from '.MAIN_DB_PREFIX.'societe where (client=1 or client=3)  order by nom asc');
+								if ($resql2)
+								{
+									$num = $db->num_rows($resql2);
+									$j = 0;
+									if ($num)
+									{
+										while ($j < $num)
+										{
+											$obj = $db->fetch_object($resq2);
+											if ($obj)
+											{
+												// You can use here results
+												
+													if ($_POST["clientid"] == $obj->rowid)	
+												{
+													
+													echo '<OPTION selected value="'.$obj->rowid.'">'.$obj->nom.'</OPTION>';
+												}
+												else
+												{
+													echo '<OPTION value="'.$obj->rowid.'">'.$obj->nom.'</OPTION>';	
+												}
+											}
+											$j++;
+										}
+									}
+								}
+								print '</select></td></tr>';		
+
+	// Familles
+	print '<tr><td>'.$langs->trans("ProductCategory").'</td><td>';
+								print '<select class="texte" name="produitid">';
+								print '<OPTION value="0">'.$langs->trans("All").'</OPTION>';
+								$resql2=$db->query('select distinct label, '.MAIN_DB_PREFIX.'categorie.rowid as row_id, '.MAIN_DB_PREFIX.'categorie.fk_parent as fk_parent from '.MAIN_DB_PREFIX.'categorie where type=0 order by fk_parent asc,label asc');
+								if ($resql2)
+								{
+									$num = $db->num_rows($resql2);
+									$j = 0;
+									if ($num)
+									{
+										while ($j < $num)
+										{
+											$obj = $db->fetch_object($resq2);
+											if ($obj)
+											{
+												if ($_POST["produitid"] == $obj->row_id)	
+												{
+													if (($obj->fk_parent)>0)
+													{
+														print '<OPTION selected value="'.$obj->row_id.'">- '.$obj->label.' -</OPTION>';
+													}
+													else
+													{
+														print '<OPTION selected value="'.$obj->row_id.'">'.$obj->label.'</OPTION>';
+													}
+												}
+												else
+												{
+													if (($obj->fk_parent)>0)
+													{
+														print '<OPTION value="'.$obj->row_id.'">- '.$obj->label.' -</OPTION>';
+													}
+													else
+													{
+														print '<OPTION value="'.$obj->row_id.'">'.$obj->label.'</OPTION>';
+													}
+												}													
+												// You can use here results
+												
+											}
+											$j++;
+										}
+									}
+								}
+								print '</select></td></tr>';
+	
+	print '<tr><td align="center" colspan="2"><input type="submit" name="submit" class="button" value="'.$langs->trans("Search").'"></td></tr>';
+	print '</table>';
+	print '</form>';
+	print '<br><br>';
+}
+else
+{
+	echo $langs->trans("Accès non autorisé.");
+}
+
+llxFooter();
+
+$db->close();

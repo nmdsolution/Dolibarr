@@ -1,0 +1,595 @@
+<?php
+/* Copyright (C) 2001-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
+ * Copyright (C) 2004-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
+ * Copyright (C) 2005-2012 Regis Houssin        <regis.houssin@inodbox.com>
+ * Copyright (C) 2015      Jean-FranÃ§ois Ferry	<jfefe@aternatik.fr>
+ *
+
+
+/**
+ *	\file       htdocs/statistiques/template/statistiquesindex.php
+ *	\ingroup    statistiques
+ *	\brief      Home page of statistiques top menu
+ */
+
+// Load Dolibarr environment
+$res=0;
+// Try main.inc.php into web root known defined into CONTEXT_DOCUMENT_ROOT (not always defined)
+if (! $res && ! empty($_SERVER["CONTEXT_DOCUMENT_ROOT"])) $res=@include $_SERVER["CONTEXT_DOCUMENT_ROOT"]."/main.inc.php";
+// Try main.inc.php into web root detected using web root calculated from SCRIPT_FILENAME
+$tmp=empty($_SERVER['SCRIPT_FILENAME'])?'':$_SERVER['SCRIPT_FILENAME'];$tmp2=realpath(__FILE__); $i=strlen($tmp)-1; $j=strlen($tmp2)-1;
+while($i > 0 && $j > 0 && isset($tmp[$i]) && isset($tmp2[$j]) && $tmp[$i]==$tmp2[$j]) { $i--; $j--; }
+if (! $res && $i > 0 && file_exists(substr($tmp, 0, ($i+1))."/main.inc.php")) $res=@include substr($tmp, 0, ($i+1))."/main.inc.php";
+if (! $res && $i > 0 && file_exists(dirname(substr($tmp, 0, ($i+1)))."/main.inc.php")) $res=@include dirname(substr($tmp, 0, ($i+1)))."/main.inc.php";
+// Try main.inc.php using relative path
+if (! $res && file_exists("../main.inc.php")) $res=@include "../main.inc.php";
+if (! $res && file_exists("../../main.inc.php")) $res=@include "../../main.inc.php";
+if (! $res && file_exists("../../../main.inc.php")) $res=@include "../../../main.inc.php";
+if (! $res) die("Include of main fails");
+
+require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
+
+// Load translation files required by the page
+$langs->loadLangs(array("statistiques@statistiques"));
+
+$action=GETPOST('action', 'alpha');
+
+
+// Securite acces client
+
+if (isset($user->societe_id) && $user->societe_id > 0)
+{
+	$action = '';
+	$socid = $user->societe_id;
+}
+
+$max=5;
+$now=dol_now();
+
+
+/*
+ * Actions
+ */
+
+// None
+
+
+
+/*
+ * View
+ */
+
+
+
+$form = new Form($db);
+$formfile = new FormFile($db);
+
+
+llxHeader("",$langs->trans("EvolutionPerSuppliers"));
+
+print load_fiche_titre($langs->trans("EvolutionPerSuppliers"),'','title_accountancy.png');
+
+
+print '<div class="fichecenter"><div class="fichethirdleft">';
+
+if ($user->rights->statistiques->Achats->SAAchats)
+{
+echo '<section style="position:relative; display:inline-block;height:600px;width:1000px;background-color:#fff;">';
+
+
+if (GETPOST('anneedeb')>1)
+{
+
+	$debut=GETPOST('anneedeb');
+}
+else
+{
+	$debut=DATE("Y");
+
+}
+
+				$resqmax=$db->query('SELECT sum('.MAIN_DB_PREFIX.'facture_fourn.total_ht) AS totalht, YEAR('.MAIN_DB_PREFIX.'facture_fourn.datef) as annee, month('.MAIN_DB_PREFIX.'facture_fourn.datef) as mois from '.MAIN_DB_PREFIX.'facture_fourn where (YEAR('.MAIN_DB_PREFIX.'facture_fourn.datef)<="'.$debut.'") group by annee, mois;');
+													
+				if ($resqmax)
+				{
+					$nummax = $db->num_rows($resqlmax);
+					$b = 0;						
+						while ($b < $nummax)
+						{
+							$objmax = $db->fetch_object($resqmax);
+								if ($objmax->totalht>$max)
+								{
+									$max=$objmax->totalht;
+								}		
+							$b++;
+						}
+				}
+
+
+					$premiere_grad=round(($max/7),-3);
+					if (GETPOST('zoom')>1)
+					{
+						$premiere_grad=$premiere_grad/GETPOST('zoom');
+					}
+				
+					//$premiere_grad=300;
+					
+					$coef=50/$premiere_grad;
+
+					$largeur=67;
+
+?>
+
+
+<canvas id="canvas1" width="1000" height="500" style="display:inline-block;">
+	Requiert un navigateur récent: Internet Explorer 9, Chrome, Firefox, Safari.
+</canvas>
+
+
+<script type="text/javascript">
+function draw(x1,y1,x2,y2,couleur)
+{
+
+  var canvas = document.getElementById("canvas1"); 
+  var ctx = canvas.getContext("2d");
+  
+  	ctx.lineWidth="2"; 
+	ctx.fill();
+	ctx.font="14px Arial";
+
+
+	
+
+	 ctx.moveTo(x1,y1);
+	 ctx.lineTo(x2,y2);
+	 ctx.stroke(); 
+ 
+  	ctx.beginPath();
+	ctx.moveTo(x1,y1);
+	ctx.strokeStyle=couleur;  
+	ctx.lineWidth="2";   
+	ctx.lineTo(x2,y2);
+	
+
+}
+
+function drawpoint(x2,y2,couleur)
+{
+  var canvas = document.getElementById("canvas1"); 
+  var ctx = canvas.getContext("2d");
+
+
+	ctx.fillStyle = couleur;
+	ctx.fillRect(x2,y2,5,5);
+}
+
+function drawx(mois,moisnom,largeur)
+{
+	var canvas = document.getElementById("canvas1"); 
+	var ctx = canvas.getContext("2d");
+	ctx.font = "08pt Verdana";
+	ctx.fillStyle = "black";
+	ctx.textAlign="center";
+	ctx.fillText(moisnom,738-largeur*mois,480);
+}
+
+function legende(cat,y,couleur)
+{
+	var canvas = document.getElementById("canvas1"); 
+	var ctx = canvas.getContext("2d");
+	ctx.lineWidth="2"; 
+	
+	ctx.fill();
+	ctx.font="14px Arial";
+	ctx.textAlign="left";
+	ctx.fillStyle = "#333";
+	ctx.fillText(cat, 850,y);
+	ctx.fillStyle = couleur;
+	ctx.fillRect(830,(y-11),16,12);
+}
+
+function draw3(valeurgrad,ygrad,largeur)
+{
+	var canvas = document.getElementById("canvas1"); 
+	var ctx1 = canvas.getContext("2d");
+	ctx1.font = "10pt Verdana";
+	ctx1.textAlign = "left";
+
+	ctx1.beginPath();
+
+for (i = 1; i < 9; i++) 
+{ 
+	const frNumberFormat = new Intl.NumberFormat('FR');
+   ctx1.textAlign = "right";
+   ctx1.fillText(frNumberFormat.format(valeurgrad*i),815,455-i*50);
+} 
+for (i = 0; i < 9; i++) 
+{ 
+// lignes horizontales (grille)
+	ctx1.moveTo(0,450-i*50);
+	ctx1.lineTo(750,450-i*50);
+} 
+
+for (i = 0; i < 10; i++) 
+{ 
+	//graduations axe horizontal
+	ctx1.fillStyle="#cccccc";
+   	ctx1.fillText("|",71+i*largeur,450);
+} 
+
+	//lignes verticales
+	ctx1.strokeStyle="#eeeeee"; 
+	ctx1.moveTo(0,0);
+	ctx1.lineTo(0,450);
+	ctx1.moveTo(50,450);
+	ctx1.lineTo(750,450);
+	ctx1.moveTo(750,0);
+	ctx1.lineTo(750,450);
+	ctx1.moveTo(750,0);
+	
+
+	ctx1.stroke(); 
+	
+	ctx1.fillStyle = "#cccccc";
+	ctx1.fillRect(820,0,180,500);	
+	ctx1.fillStyle = "#efefef";
+	ctx1.fillRect(822,2,176,496);	
+}
+
+
+
+//tracade des graduations de l'abscisse
+window.onload=draw3(<?php echo round($premiere_grad,1);?>,430,67);	
+
+<?php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+				
+	
+					
+$resql=$db->query('SELECT monthname( '.MAIN_DB_PREFIX.'facture_fourn.datef ) AS moisnom, month('.MAIN_DB_PREFIX.'facture_fourn.datef) as mois, YEAR( '.MAIN_DB_PREFIX.'facture_fourn.datef ) AS annee FROM '.MAIN_DB_PREFIX.'facture_fourn 
+where (YEAR('.MAIN_DB_PREFIX.'facture_fourn.datef)<="'.$debut.'")
+GROUP BY annee, mois ORDER by annee DESC, mois DESC limit 0,13;');
+
+
+
+$array_mois = array("Janvier", "Février", "Mars", "Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre");				
+
+if ($resql)
+{
+	$num = $db->num_rows($resql);
+setlocale(LC_CTYPE, 'fr_FR.UTF-8');
+	$i = 0; //i est la valeur de mois
+	if ($num)
+	{
+		while ($i < $num)
+		{
+			$obj = $db->fetch_object($resql);
+			if ($obj)
+			{
+				//echo $obj->mois.' '.$obj->annee.'<br>';
+				$mois=$array_mois[($obj->mois)-1];
+				//$mois=$obj->moisnom;
+				
+																?>
+																
+													window.onload=drawx(<?php echo $i;?>,"<?php echo $mois;?>",<?php echo $largeur;?>); 
+													
+																								//<?php echo ($obj->moisnom);?>
+																							
+													
+												<?php
+				
+				$resq2=$db->query('SELECT '.MAIN_DB_PREFIX.'societe.nom as nom, '.MAIN_DB_PREFIX.'societe.rowid as rowid, count('.MAIN_DB_PREFIX.'facture_fourn.rowid) as compteur FROM '.MAIN_DB_PREFIX.'societe inner join '.MAIN_DB_PREFIX.'facture_fourn on '.MAIN_DB_PREFIX.'facture_fourn.fk_soc = '.MAIN_DB_PREFIX.'societe.rowid where fournisseur=1 and (status=1) group by '.MAIN_DB_PREFIX.'societe.nom order by '.MAIN_DB_PREFIX.'societe.rowid;');
+
+				if ($resq2)
+				{
+					$num2 = $db->num_rows($resql2);
+
+					$j = 0; //j est la valeur de fournisseur
+		
+						while ($j < $num2)
+						{
+							$obj2 = $db->fetch_object($resq2);
+							
+
+							
+												//création d'une couleur aléatoire à partir de première lettre et dernière lettre du nom du fournisseur et dernier chiffre du code fournisseur
+					// convertir nom du fournisseur en chaine hexadecimale
+					$couleur=substr($obj2->nom, 0, 1).substr($obj2->nom, -1, 1);
+				
+					$couleur=substr(bin2hex($obj2->nom),1,3).substr(bin2hex($obj2->nom),-1,2);
+					//echo $couleur.'<br>';
+					//prendre les 6ers caratères pour créer couleur aléatoire
+					
+					
+					//echo $couleur.'<br>';
+					$longueur=($obj2->rowid)-round((strlen($obj2->nom)),0);
+					//echo $longueur.'<br>';
+				
+					$couleur='#'.substr($longueur,-1).substr($obj2->rowid,-1).(substr($couleur, 0, 6));
+					$colortab[$j]=$couleur;
+					//echo $couleur.'<br>';
+						
+							
+							
+	
+								
+												$resq3=$db->query('SELECT sum('.MAIN_DB_PREFIX.'facture_fourn.total_ht) AS totalht 
+												FROM '.MAIN_DB_PREFIX.'facture_fourn 
+												where '.MAIN_DB_PREFIX.'facture_fourn.fk_soc='.$obj2->rowid.' and YEAR('.MAIN_DB_PREFIX.'facture_fourn.datef)="'.$obj->annee.'" and month('.MAIN_DB_PREFIX.'facture_fourn.datef)="'.$obj->mois.'"');
+						
+												if ($resq3)
+												{
+													
+													$obj3 = $db->fetch_object($resq3);
+													$k = 0;
+															if (is_null($obj3->totalht)) 
+																{
+																	$mt_fact=0;
+																}
+																else
+																{
+																	$mt_fact=$obj3->totalht;
+																}
+																
+																		if ($i<1)
+																		{
+																			$valx1=855-$i*$largeur;
+																		}
+																		else
+																		{
+																			$num_coul=$j;
+																			//if ($i==11)
+																			//{																			
+																			//	$num_coul=$j-1;
+																			//}
+																			
+																			$valx1=805-$i*$largeur;
+																			$valy1=450-($montant_last[$j]*$coef);
+																			$valx2=$valx1-$largeur;
+																			$valy2=450-(($mt_fact)*$coef);
+																			if ($_POST[$obj2->rowid]==1)
+																			{
+																				
+																				
+																				?>window.onload=draw(<?php echo $valx1;?>,<?php echo $valy1;?>,<?php echo $valx2;?>,<?php echo $valy2;?>,"<?php echo $couleur;?>"); 					<?php
+																				
+																			}
+																		}		
+																		
+																		$montant_last[$j]=$mt_fact;
+																		$num_coul_last=$num_coul;
+														$valx2=735-$i*$largeur;
+														$valy2=448-(($mt_fact)*$coef);
+														if ($_POST[$obj2->rowid]==1)
+														{			
+														?>window.onload=drawpoint(<?php echo $valx2;?>,<?php echo $valy2;?>,"<?php echo $couleur;?>"); <?php														
+													}
+												}
+
+							
+							$j++;	
+							
+						}	
+				}
+			}
+			$i++;
+			
+		}
+	}
+}
+// légende. la requête doit être strictement identique à celle précédemment utilisée (pour que les couleurs de la légende soient adaptées aux couleurs du graphique
+$resql5=$db->query('SELECT '.MAIN_DB_PREFIX.'societe.nom as nom, '.MAIN_DB_PREFIX.'societe.rowid as rowid, count('.MAIN_DB_PREFIX.'facture_fourn.rowid) as compteur FROM '.MAIN_DB_PREFIX.'societe inner join '.MAIN_DB_PREFIX.'facture_fourn on '.MAIN_DB_PREFIX.'facture_fourn.fk_soc = '.MAIN_DB_PREFIX.'societe.rowid where fournisseur=1 and (status=1) group by '.MAIN_DB_PREFIX.'societe.nom order by '.MAIN_DB_PREFIX.'societe.rowid;');
+
+								if ($resql5)
+								{
+									$num5 = $db->num_rows($resql5);
+									$m = 0;
+									$n=0;
+									if ($num5)
+									{
+										while ($m < $num5)
+										{
+											$obj5 = $db->fetch_object($resq5);
+											
+											
+												if ($_POST[$obj5->rowid]==1)
+												{
+													$n=$n+1; //(on incrémente que si la ligne doit être affichée afin de trouver l'ordonnée)
+													$ordonnee=$n*20;
+												
+												?>window.onload=legende("<?php echo $obj5->nom;?>",<?php echo ($n*20);?>,"<?php echo $colortab[$m];?>");<?php
+												}
+											
+											$m++;
+										}
+									}
+								}
+
+
+
+
+					
+
+
+
+
+
+
+
+				
+			
+
+
+?>
+
+
+
+</script>
+
+</section>
+
+<?php
+	echo $langs->trans("Year").' '.$debut;
+
+
+					//if (empty($socid))
+//{
+	// Show filter box
+	print '<form name="stats" method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+	print '<input type="hidden" name="mode" value="'.$mode.'">';
+	print '<table class="noborder" width="100%">';
+	print '<tr class="liste_titre"><td class="liste_titre" colspan="2">'.$langs->trans("Filter").'</td></tr>';
+
+
+	// Year
+	print '<tr><td>'.$langs->trans("ReferentYear").'</td><td>';
+
+	
+
+	print '<input type="hidden" name="anneedeb">';?>
+								<select class="field" name="anneedeb" id="annedeb">
+								
+									<?php
+										$i=0;
+										while ($i < 10)
+										{		
+											if ((GETPOST('anneedeb')==(Date('Y')-$i)))
+											{
+												echo '<OPTION selected id="'.(Date('Y')-$i).'">'.(Date('Y')-$i).'</OPTION>'; 
+											}
+											else
+											{
+												echo '<OPTION id="'.(Date('Y')-$i).'">'.(Date('Y')-$i).'</OPTION>'; 
+											}	
+										$i++;
+										}?>
+								</select>
+								
+	
+								
+								<?php
+
+	
+	print '</td></tr>';
+
+	// zoom
+	print '<tr><td>'.$langs->trans("Zoom").'</td><td>';
+
+	
+
+	print '<input type="hidden" name="zoom">';
+								echo '<select class="field" name="zoom" id="zoom">';
+								if (GETPOST('zoom')==1)
+								{
+									echo '<OPTION selected id="1">1</OPTION>';
+								}
+								else
+								{
+									echo '<OPTION id="1">1</OPTION>';
+								}									
+								if (GETPOST('zoom')==2)
+								{
+									echo '<OPTION selected id="2">2</OPTION>';
+								}
+								else
+								{
+									echo '<OPTION id="2">2</OPTION>';
+								}
+								if (GETPOST('zoom')==4)
+								{
+									echo '<OPTION selected id="4">4</OPTION>';
+								}
+								else
+								{
+									echo '<OPTION id="4">4</OPTION>';
+								}								
+								if (GETPOST('zoom')==8)
+								{
+									echo '<OPTION selected id="8">8</OPTION>';
+								}
+								else
+								{
+									echo '<OPTION id="8">8</OPTION>';
+								}	
+								if (GETPOST('zoom')==16)
+								{
+									echo '<OPTION selected id="16">16</OPTION>';
+								}
+								else
+								{
+									echo '<OPTION id="16">16</OPTION>';
+								}													
+										
+								echo '</select>';
+								
+	
+								
+								
+
+	
+	print '</td></tr>';	
+
+		// Familles
+	print '<tr><td>'.$langs->trans("Supplier").'</td><td>';
+
+								
+								$resql4=$db->query('SELECT '.MAIN_DB_PREFIX.'societe.nom, '.MAIN_DB_PREFIX.'societe.rowid as rowid, count('.MAIN_DB_PREFIX.'facture_fourn.rowid) as compteur FROM '.MAIN_DB_PREFIX.'societe inner join '.MAIN_DB_PREFIX.'facture_fourn on '.MAIN_DB_PREFIX.'facture_fourn.fk_soc = '.MAIN_DB_PREFIX.'societe.rowid where (fournisseur=1) and (status=1) group by '.MAIN_DB_PREFIX.'societe.nom;');
+								if ($resql4)
+								{
+									$num4 = $db->num_rows($resql4);
+									$l = 0;
+									if ($num4)
+									{
+										while ($l < $num4)
+										{
+											$obj4 = $db->fetch_object($resq4);
+											if ($obj4->compteur>1) //propose fournisseur que si plusieurs factures ont déjà été faites
+											{
+												if ($_POST[$obj4->rowid]==1)
+												{
+												// You can use here results
+												print '<input type="checkbox" checked name="'.$obj4->rowid.'" value=1> '.$obj4->nom.'</br>';
+												
+												}
+else
+												{
+												// You can use here results
+												print '<input type="checkbox" name="'.$obj4->rowid.'" value=1> '.$obj4->nom.'</br>';
+												}	
+											}
+											$l++;
+										}
+									}
+								}
+								print '</td></tr>';
+	
+	print '<tr><td align="center" colspan="2"><input type="submit" name="submit" class="button" value="'.$langs->trans("Search").'"></td></tr>';
+	print '</table>';
+	print '</form>';
+	print '<br><br>';
+	}
+else
+{
+	echo $langs->trans("Accès non autorisé.");
+}
+
+
+llxFooter();
+
+$db->close();

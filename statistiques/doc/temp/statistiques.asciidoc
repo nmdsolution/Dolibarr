@@ -1,0 +1,41 @@
+= MYMODULE =
+:subtitle: STATISTIQUES SPECIFICATIONS
+
+
+
+== TOPIC OF DOCUMENT
+
+This document describe specifications of module Statistiques
+
+
+*Log of versions of document*
+
+[options="header",format="csv"]
+|=== 
+Author, Date, Version
+---Put here your own copyright and developer email---, Date YYY-MM-DD, Version 1.0
+|===
+
+
+[NOTE]
+==============
+This document was generated using Dolibarr ERP CRM process
+==============
+
+<<<
+
+///include::README.md[]
+
+///include::ChangeLog.md[]
+
+
+
+
+== DATA SPECIFICATIONS...
+
+TODO...
+
+
+== CHANGELOG...
+
+TODO...

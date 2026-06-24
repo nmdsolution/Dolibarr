@@ -1,0 +1,223 @@
+<?php
+/* Copyright (C) 2001-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
+ * Copyright (C) 2004-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
+ * Copyright (C) 2005-2012 Regis Houssin        <regis.houssin@inodbox.com>
+ * Copyright (C) 2015      Jean-François Ferry	<jfefe@aternatik.fr>
+ */
+
+/**
+ *	\file       htdocs/statistiques/template/statistiquesindex.php
+ *	\ingroup    statistiques
+ *	\brief      Home page of statistiques top menu
+ */
+
+// Load Dolibarr environment
+$res=0;
+// Try main.inc.php into web root known defined into CONTEXT_DOCUMENT_ROOT (not always defined)
+if (! $res && ! empty($_SERVER["CONTEXT_DOCUMENT_ROOT"])) $res=@include $_SERVER["CONTEXT_DOCUMENT_ROOT"]."/main.inc.php";
+// Try main.inc.php into web root detected using web root calculated from SCRIPT_FILENAME
+$tmp=empty($_SERVER['SCRIPT_FILENAME'])?'':$_SERVER['SCRIPT_FILENAME'];$tmp2=realpath(__FILE__); $i=strlen($tmp)-1; $j=strlen($tmp2)-1;
+while($i > 0 && $j > 0 && isset($tmp[$i]) && isset($tmp2[$j]) && $tmp[$i]==$tmp2[$j]) { $i--; $j--; }
+if (! $res && $i > 0 && file_exists(substr($tmp, 0, ($i+1))."/main.inc.php")) $res=@include substr($tmp, 0, ($i+1))."/main.inc.php";
+if (! $res && $i > 0 && file_exists(dirname(substr($tmp, 0, ($i+1)))."/main.inc.php")) $res=@include dirname(substr($tmp, 0, ($i+1)))."/main.inc.php";
+// Try main.inc.php using relative path
+if (! $res && file_exists("../main.inc.php")) $res=@include "../main.inc.php";
+if (! $res && file_exists("../../main.inc.php")) $res=@include "../../main.inc.php";
+if (! $res && file_exists("../../../main.inc.php")) $res=@include "../../../main.inc.php";
+if (! $res) die("Include of main fails");
+
+require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
+
+// Load translation files required by the page
+$langs->loadLangs(array("statistiques@statistiques"));
+
+$action=GETPOST('action', 'alpha');
+
+// Securite acces client
+if (isset($user->societe_id) && $user->societe_id > 0)
+{
+	$action = '';
+	$socid = $user->societe_id;
+}
+
+$max=5;
+$now=dol_now();
+
+/*
+ * Actions
+ */
+
+/*
+ * View
+ */
+
+$form = new Form($db);
+$formfile = new FormFile($db);
+
+llxHeader("",$langs->trans("Stock"));
+
+print load_fiche_titre($langs->trans("Stock"),'','title_accountancy.png');
+
+print '<div class="fichecenter"><div class="fichethirdleft">';
+
+if ($user->rights->statistiques->Stock->SAStock)
+{	
+    echo '<section style="position:relative; display:inline-block;height:600px;width:1000px;background-color:#fff;">';
+
+    // Déterminer la période (jour ou mois)
+    $period_type = ($_POST["donneesid"] == "mois") ? "month" : "day";
+    
+    // Calcul du stock actuel une seule fois
+    $stock_actuel = 0;
+    $resql_stock = $db->query('SELECT SUM(p.pmp * ps.reel) AS total
+        FROM '.MAIN_DB_PREFIX.'product_stock ps
+        INNER JOIN '.MAIN_DB_PREFIX.'product p ON p.rowid = ps.fk_product
+        WHERE ps.reel IS NOT NULL AND p.pmp IS NOT NULL');
+    
+    if ($resql_stock) {
+        $obj_stock = $db->fetch_object($resql_stock);
+        if ($obj_stock) {
+            $stock_actuel = $obj_stock->total;
+        }
+    }
+    
+    // Requête optimisée pour obtenir l'historique des stocks par période
+    if ($period_type == "month") {
+        echo 'Par mois';
+        $sql_periods = 'SELECT 
+            YEAR(sm.datem) as annee, 
+            MONTH(sm.datem) as mois, 
+            MONTHNAME(sm.datem) as moisnom,
+            DATE_FORMAT(sm.datem, "%Y-%m-01") as date_comp,
+            SUM(p.pmp * sm.value * -1) as variation_stock
+        FROM '.MAIN_DB_PREFIX.'stock_mouvement sm
+        INNER JOIN '.MAIN_DB_PREFIX.'product p ON p.rowid = sm.fk_product
+        WHERE sm.datem >= DATE_SUB(NOW(), INTERVAL 18 MONTH)
+        GROUP BY YEAR(sm.datem), MONTH(sm.datem), MONTHNAME(sm.datem), DATE_FORMAT(sm.datem, "%Y-%m-01")
+        ORDER BY annee DESC, mois DESC
+        LIMIT 18';
+    } else {
+        echo 'Par jour';
+        $sql_periods = 'SELECT 
+            YEAR(sm.datem) as annee, 
+            MONTH(sm.datem) as mois, 
+            DAY(sm.datem) as jour,
+            WEEK(sm.datem) as semaine, 
+            MONTHNAME(sm.datem) as moisnom,
+            DATE(sm.datem) as date_comp,
+            SUM(p.pmp * sm.value * -1) as variation_stock
+        FROM '.MAIN_DB_PREFIX.'stock_mouvement sm
+        INNER JOIN '.MAIN_DB_PREFIX.'product p ON p.rowid = sm.fk_product
+        WHERE sm.datem >= DATE_SUB(NOW(), INTERVAL 18 DAY)
+        GROUP BY DATE(sm.datem)
+        ORDER BY sm.datem DESC
+        LIMIT 18';
+    }
+    
+    // Récupération des données pour le calcul de l'échelle
+    $stock_values = array();
+    $resql_periods = $db->query($sql_periods);
+    
+    $maxi = $stock_actuel; // Le stock actuel est déjà le maximum de base
+    $current_stock = $stock_actuel;
+    
+    if ($resql_periods) {
+        $num = $db->num_rows($resql_periods);
+        $periods_data = array();
+        
+        for ($i = 0; $i < $num; $i++) {
+            $obj = $db->fetch_object($resql_periods);
+            if ($obj) {
+                $current_stock += $obj->variation_stock;
+                $periods_data[] = array(
+                    'stock_value' => $current_stock,
+                    'variation' => $obj->variation_stock,
+                    'date_comp' => $obj->date_comp,
+                    'annee' => $obj->annee,
+                    'mois' => $obj->mois,
+                    'jour' => isset($obj->jour) ? $obj->jour : 1,
+                    'moisnom' => isset($obj->moisnom) ? $obj->moisnom : ''
+                );
+                
+                if ($current_stock > $maxi) {
+                    $maxi = $current_stock;
+                }
+            }
+        }
+        
+        // Inverser l'ordre pour afficher du plus ancien au plus récent
+        $periods_data = array_reverse($periods_data);
+    }
+    
+    // Calcul de l'échelle
+    if ($stock_actuel > 400) {
+        $premiere_grad = round(($stock_actuel/4), -2);				
+        $maxcoef = 50/$premiere_grad;
+    } else {
+        $premiere_grad = round(($maxi/5), -2);	
+        if ($premiere_grad < 1) {
+            $premiere_grad = round(($maxi/5), -2);	
+        }
+        $maxcoef = 50/$premiere_grad;
+    }
+    
+    // Affichage du graphique
+    echo '<div style="display:inline-block;position:absolute; background-color:#222; width:3px; height:350px; left:70px;top:50px; margin:0px;"></div>';
+    
+    $largeur = (800/20);
+    
+    // Affichage des barres historiques
+    if (!empty($periods_data)) {
+        foreach ($periods_data as $j => $period) {
+            $stock_instant = $period['stock_value'];
+            
+            echo '<div class="barreN" style="display: inline-block; position: absolute; left: '.(808-($largeur*$j)).'px; width:'.($largeur-5).'px; bottom:+200px; height:'.($stock_instant*$maxcoef).'px; border-radius:3px;background-color:#1E7FCB;z-index:1;"><div class="bulle">'.number_format($stock_instant, 2, ',', ' ').' '.$conf->global->MAIN_MONNAIE.'</div></div>';
+            echo '<div style="display: inline-block; position: absolute;  transform: rotate(315deg); left: '.(829-($largeur*$j)).'px; width:'.($largeur+35).'px; bottom:120px;  height:50px;text-align:center;color:#666;font-size:10px;">'.$period['jour'].'/'.$period['mois'].'/'.$period['annee'].'</div>';
+            echo '<div class="valeurhistogramme" style="display: inline-block; position: absolute; transform: rotate(270deg);left: '.(810-($largeur*$j)).'px; width:'.($largeur-5).'px; bottom:+220px; height:20px;text-align:center;z-index:3">'.number_format($stock_instant, 0, ',', ' ').'</div>';
+        }
+    }
+    
+    // Affichage de la dernière barre: le stock actuel
+    echo '<div class="barreN" style="display: inline-block; position: absolute; left: '.(848).'px; width:'.($largeur-5).'px; bottom:+200px; height:'.($stock_actuel*$maxcoef).'px; border-radius:3px;background-color:#1E7FCB;z-index:1;"><div class="bulle">'.number_format($stock_actuel, 2, ',', ' ').' '.$conf->global->MAIN_MONNAIE.'</div></div>';
+    echo '<div class="valeurhistogramme" style="display: inline-block; position: absolute; transform: rotate(270deg);left: '.(850).'px; width:'.($largeur-5).'px; bottom:+220px; height:20px;text-align:center;z-index:3">'.number_format($stock_actuel, 0, ',', ' ').'</div>';
+    
+    // Axes et quadrillage
+    echo '<div style="display:block;position:absolute; background-color:#222; width:830px; height:3px;left:70px; top:400px;bottom:0px; margin:0px;"></div>';
+    
+    // Quadrillage et échelle des ordonnées
+    for ($l = 1; $l <= 6; $l++) {
+        echo '<div style="display:block;position:absolute; background-color:#888; width:830px; height:1px;left:70px; top:'.(((7-$l)*50)+50).'px;bottom:0px; margin:0px;"></div>';
+        echo '<div style="display:block;position:absolute; width:50px; text-align:right;height:30px;left:15px; top:'.(((7-$l)*50)+43).'px;bottom:0px; margin:0px; z-index:0;color:#888;">'.number_format(($premiere_grad*$l), 0, ',', ' ').'</div>';
+    }
+
+    echo '</section>';
+    
+    // Formulaire de filtre
+    print '<form name="stats" method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+    print '<input type="hidden" name="mode" value="'.$mode.'">';
+    print '<table class="noborder" width="100%">';
+    print '<tr class="liste_titre"><td class="liste_titre" colspan="2">'.$langs->trans("Filter").'</td></tr>';
+    
+    // Type de données
+    print '<tr><td>'.$langs->trans("Scale").'</td><td>';
+    if ($_POST["donneesid"]=="mois") {
+        print '<input type="radio" name="donneesid" value="jour" id="jour"/> <label for="jour">'.$langs->trans("Day").'</label><br />
+            <input type="radio" name="donneesid" value="mois" id="mois" checked/> <label for="mois">'.$langs->trans("Month").'</label></td></tr>';
+    } else {
+        print '<input type="radio" name="donneesid" value="jour" id="jour" checked/> <label for="jour">'.$langs->trans("Day").'</label><br />
+            <input type="radio" name="donneesid" value="mois" id="mois" /> <label for="mois">'.$langs->trans("Month").'</label></td></tr>';
+    }
+    
+    print '<tr><td align="center" colspan="2"><input type="submit" name="submit" class="button" value="'.$langs->trans("Refresh").'"></td></tr>';
+    print '</table>';
+    print '</form>';
+    print '<br><br>';
+}
+else
+{
+    echo $langs->trans("Accès non autorisé.");
+}
+    
+llxFooter();
+$db->close();
+?>

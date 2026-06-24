@@ -1,0 +1,104 @@
+ModuleStatistiquesDesc=This module allow you to create graphcs and boards helping you to supervise your business (Sales, margin) with filters like products / services categories or customers categories. You can also have graphics about stock level evolution, bests customers, paiement time, etc...
+
+
+
+
+AchatsParFournisseurs=Purshases by supplier
+All=All
+And=and
+
+Brand=Brand
+BrandsCategoriesDistribution=Brands & categories Distribution
+
+CategoryBrand=Category / Brand
+Changes have been saved=Changes have been saved
+Comment=Comment
+CountryOfOriginDistribution=Country of origin distribution
+CumulAnnuel=Annual cumulation
+Customer=Customer
+
+ClientsCréésParMois=Created customers per month
+ComparedTo= - Compared to  
+CustomerCategoryDistribution=Customer categories distribution
+CustomerCategoryEvolution=Customer categories evolution
+CustomerCategory=Customer category
+
+Date=Date
+DateInvoice=Invoice date
+Delete=Delete
+
+
+EvolutionPerSuppliers=Evolution per suppliers
+
+Filter=Filter
+
+InvoicedBy=Invoiced by
+
+Label=Label
+BrandnameDistribution=Brandname distribution
+Margin=Margin
+MarginPerMonth=Margin per month
+MarginPerProductsServices=Margin per products and services
+MarginCustomerCategoryDistribution=Customer categories margin distribution
+MeilleursClients=Best customers
+Meilleursdépartements=Best departments / Area
+MeilleuresVilles=Best towns
+Modify=Modify
+
+PerProductServices=Per products and services
+PerSuppliers=Per supplier
+PurchasePrice=Purchase price by product
+PaymentTime=Payment time
+PR_NOTSIGNED=Not signed
+PR_SIGNED=Signed
+PR_FAC=Billed
+PR_OPEN=Open
+Products=Products
+ProductCategory=Product / Services category
+ProductServiceCategoryDistribution=Products & Services categories distribution
+ProductsServicesCategorySales=Sales per products & services categories
+ProductServiceCategoryEvolution=Products & Services categories evolution
+PurchaseMulticriteria=Purchases (Multicriteria)
+Purchases=Purchases
+PurchasePerMonth= Purchases by month
+
+Quote=Quote
+QuotesValidated=Quotes validated
+QuotationNumberByMonth=Quotation number by month
+Qty=Qty
+
+Ranking=Classement
+ReferentYear=Referent year
+Ref=Ref.
+
+Seller=Seller
+Scale=Scale
+Sales=Sales
+
+SalesCustomerCategoryDistribution=Customer categories sales distribution
+SalesMulticriteria=Sells (multicriteria)
+SellsPerProductsServices=Sells per products et services
+SalesPerproducts&Services=Sells per products / services
+SellsPerCustomerCategory=Sells per customer category
+SalesPerMonth=Sells per month
+Search=Search
+Sells=Sales
+Services=Services
+Since=Since
+Statutdesdevis=Quote State
+Stock=Stock
+SupplyerDistribution=Supplier distribution
+SuppliersComparison=Supplier comparison
+
+TopProduit=Top products
+TopCustomers=Top customers
+TopCustomersMargin=Top customers (margin)
+TopTowns=Top towns
+TopTownsMargin=Top Towns (marge)
+TopDepartment=Top départments
+TopDepartmentMargin=Top départments (margin)
+
+Unit=Unit
+
+Year=Year
+YearAnalysed=Analysed year

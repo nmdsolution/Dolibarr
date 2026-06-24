@@ -1,0 +1,137 @@
+ModuleStatistiquesDesc=El módulo permite crear gráficos para realizar un seguimiento de su actividad: - Facturación - Los ingresos por familia de productos - Distribución de Ingresos por la familia del cliente - Marge - Foto - Compras - Las compras por proveedor - Los 20 clientes de los ingresos - Clientes / perspectivas creado - Familia de clientes / prospectos creado
+
+PurchasePerMonth= Compras per mez
+
+AchatsParFournisseurs=Adquisiciones por proveedor
+Annéeanalysée=Año analizado
+
+BrandsCategoriesDistribution=Dividir por marcas y categorías
+Billed=Cargado
+
+Clients=Clientes
+ClientsProspectsCréésParMois=Clients / Clientes potentiales créados por mes
+ClientsCréésParMois=Clientes créados por mes
+CountryOfOriginDistribution=Dividir por país de origen
+Comment=Comentario
+comparée=comparado
+Changes have been saved=Las modificaciones han sido registradas
+CustomerCategory=Categoría de clientes
+CustomerCategoryDistribution=Desglose por familias de clientes
+
+Date=Fecha
+DateInvoice=Fecha de la factura
+Delete=Suprimir
+
+Filter=Filtro
+
+Invoices=Facturas
+
+Label=Redacción
+Ref=Réf.
+
+Qty=Cantidad
+Search=Buscar
+
+
+
+Signé=Firmado
+Facturé=Facturado
+Refusé=Negado
+Ouvert=Abierto
+
+
+Statutdesdevis=Situación de las estimaciones
+
+
+MarginProductServiceCategoryDistribution=Dividir por categorías de productos/servicios (Margin)
+MarginCustomerCategoryDistribution=Desglose por familias de clientes (Margin)
+Meilleursdépartements=Mejores departamientos
+MeilleuresVilles=Mejores ciudades
+MeilleursClients=Mejores clientes
+MeilleursClients=Mejores clientes
+Modify=Cambiar
+
+NbSell=Total de ventas
+
+
+
+
+
+ReferentYear=Año de referencia
+
+
+SellsMulticriteria=Ventas (multicriterio)
+Customer=Clientes
+Brand=Marca
+
+Seller=Vendedor
+Scale=Escala
+Unit=Unitad
+Sales=Volumen de negocios
+Margin=Margen
+ProductCategory=Categoría de productos/servicios
+All=Todo
+SellsPerCustomerCategory=Ventas per categoría de clientes
+SalesPerMonth=Ventas per meses
+ComparedTo= - Comparada con 
+And=y
+SalesPerproducts&Services=Ventas per meses productos / servicios
+Products=Productos
+Services=Servicios
+
+MarginPerMonth=Margen per meses
+Purchases=Compras
+Stock=Reservas
+MarginPerProductsServices=Marges per productos y servicios
+SellsPerProductsServices=Ventas per productos y servicios
+Quote=Presupuesto 
+QuotesValidated=Presupuesto validados
+SalesMulticriteria=Ventas (multicriterio)
+EvolutionPerSellers=Evolution per venderors
+PerProductServices=Per productos y servicios
+PerSuppliers=Per proveedor
+PurchasePrice=Precio de compra per productos
+PaymentTime=Plazo de pago
+Sells=Ventas
+PurchaseMulticriteria=Compras (Multicriterio)
+Statistiques=Estadísticas
+
+
+ProductServiceCategoryDistribution=Dividir por categorías de productos/servicios
+CustomerCategoryDistribution=Dividir por categorías de clientes
+
+CustomerCategoryEvolution=Evolución por categorías de clientes
+
+Open=Abierto
+
+ProductsServicesCategorySales=Ventas por categorías de producto/servicio
+ProductServiceCategoryEvolution=Evolución por categorías de producto/servicio
+PR_NOTSIGNED=No firmado
+PR_OPEN=Abierto
+PR_SIGNED=Firmado
+PR_FAC=Cargado
+
+Ranking=Clasificación
+
+BrandnameDistribution=Dividir por marcas
+SalesProductServiceCategoryDistribution=Dividir por categorías de productos/servicios (ventas)
+SalesCustomerCategoryDistribution=Desglose por familias de clientes (Sales)
+SellsPerCustomerCategory=Ventas por categorías de clientes
+Signed=Firmado
+Since=Desde
+SupplierDistribution=Desglose por proveedor
+
+TopProduit=Mejores productos
+TopProduits=Mejores productos
+TopCustomers=Mejores clientes
+TopCustomersMargin=Mejores clientes (margen)
+TopTowns=Mejores ciudades
+TopTownsMargin=Mejores ciudades (margen)
+TopDepartment=Mejores departamientos
+TopDepartmentMargin=Mejores departamientos (marge)
+SuppliersComparison= Comparación de proveedores
+EvolutionPerSuppliers=Comparación de proveedores
+QuotationNumberByMonth=presupuestos al mes
+
+Year=Año
+YearAnalysed=Año analizado
