@@ -1,0 +1,17 @@
+# Copyright (C) 2026
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+ProjectAnalyticDescription=Project analytic expenses, never posted to accountancy
+ProjectAnalyticDescriptionLong=Lets you allocate a cost to a project for the project Overview (Profit) tab, without ever impacting accountancy (purchases journal, FEC/ledger export). Useful for a cost already booked globally elsewhere (e.g. bulk purchase of consumables) whose share you want to track against a specific project.
+ProjectAnalyticExpense=Project analytic expense
+ProjectAnalyticExpenses=Project analytic expenses
+NewProjectAnalyticExpense=New project analytic expense
+AddProjectAnalyticExpense=Add analytic expense
+ListProjectAnalyticExpenseAssociatedProject=Analytic expenses (not posted to accountancy)
+RealSupplier=Real supplier (informative)
+ProjectAnalyticExpenseRealSupplierHelp=Real supplier of the expense, for information only. Never used by accountancy.
+ProjectAnalyticExpenseSourceInvoice=Source supplier invoice (traceability)
+ProjectAnalyticExpenseSourceInvoiceHelp=Global supplier invoice where this cost was already booked (e.g. bulk purchase of consumables). This link is purely informative: it lets you trace back the origin of the amount, but has no impact on accountancy. This analytic expense is never exported to accountancy (purchases journal, FEC): it only feeds the project Profit calculation, so it never duplicates the cost already booked globally on the supplier invoice.

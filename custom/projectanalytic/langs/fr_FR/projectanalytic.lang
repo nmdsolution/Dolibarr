@@ -1,0 +1,17 @@
+# Copyright (C) 2026
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+ProjectAnalyticDescription=Dépenses analytiques de projet, non comptabilisées
+ProjectAnalyticDescriptionLong=Permet de rattacher un coût à un projet pour la vue d'ensemble (Profit) du projet, sans jamais impacter la comptabilité (journal des achats, FEC). Utile pour un coût déjà comptabilisé globalement ailleurs (ex : achat de consommables en gros) et dont on veut suivre la part imputable à un projet donné.
+ProjectAnalyticExpense=Dépense analytique de projet
+ProjectAnalyticExpenses=Dépenses analytiques de projet
+NewProjectAnalyticExpense=Nouvelle dépense analytique de projet
+AddProjectAnalyticExpense=Ajouter une dépense analytique
+ListProjectAnalyticExpenseAssociatedProject=Dépenses analytiques (non comptabilisées)
+RealSupplier=Fournisseur réel (information)
+ProjectAnalyticExpenseRealSupplierHelp=Fournisseur réel de la dépense, à titre indicatif uniquement. N'est jamais utilisé par la comptabilité.
+ProjectAnalyticExpenseSourceInvoice=Facture fournisseur source (traçabilité)
+ProjectAnalyticExpenseSourceInvoiceHelp=Facture fournisseur globale dans laquelle ce coût a déjà été comptabilisé (ex : achat en gros de consommables). Ce lien est uniquement informatif : il permet de retrouver l'origine du montant, mais n'a aucun impact sur la comptabilité. Cette dépense analytique n'est jamais exportée en comptabilité (journal des achats, FEC) : elle ne sert qu'au calcul du Profit du projet, pour éviter tout doublon avec la facture fournisseur déjà comptabilisée globalement.
