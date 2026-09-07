@@ -1,0 +1,118 @@
+ModuleStatistiquesDesc=Le module permet de créer des graphiques et tableaux permettant de suivre votre activité (Chiffre d'affaires, marge) avec filtres selon les catégories de produits / services et catégories de clients. Vous pouvez également avoir un graphique concernant l'évolution de votre niveau de stock, des classements de client, leur délai de paiement, etc...
+ClientsProspectsCréésParMois=Clients / Prospects créés par mois
+PurchasePerMonth=Achats par mois
+Features=Caractéristiques
+
+AmountQuotationbyMonth=Montant des devis par mois
+
+Billed=Facturé
+BrandsCategoriesDistribution=Répartition par marques et catégories
+Brand=Marque
+
+CategoryBrand=Catégorie / marque
+Comment=Commentaire
+CountryOfOriginDistribution=Répartition par pays d'origine
+CumulAnnuel=Cumul annuel
+ClientsCréésParMois=Clients créés par mois
+CustomerCategory=Famille de clients
+
+Date=Date
+DateInvoice=Date de la facture
+
+
+
+Ref=Réf.
+InvoicedBy=Facturé par
+Label=Libellé
+Qty=Qté
+Search=Rechercher
+NbSell=Nombre de ventes
+Quarter=Trimestre
+
+
+YearAnalysed=Année analysée
+Modify=Modifier
+Delete=Supprimer
+Changes have been saved=Les modifications ont été enregistrées
+ReferentYear=Année de référence
+AchatsParFournisseurs=Achats par fournisseurs
+BrandnameDistribution=Répartition par marques
+
+Filter=Filtre
+SellsMulticriteria=Ventes (multicritères)
+Customer=Client
+
+Year=Année
+Seller=Commercial
+Statutdesdevis=Statut des propositions commerciales
+Scale=Echelle
+Unit=Unité
+Sales=Chiffre d'affaires
+Margin=Marge
+ProductCategory=Catégorie de produits/services
+All=Tous
+SellsPerCustomerCategory=Ventes par catégories de clients
+SalesPerMonth=Ventes par mois
+ComparedTo=Comparée à 
+And=et
+SalesPerproducts&Services=Ventes par mois produits & services
+MarginPerproducts&Services=Marge par mois produits & services
+Products=Produits
+Services=Services
+
+MarginPerMonth=Marge par mois
+Purchases=Achats
+Stock=Stock
+MarginPerProductsServices=Marge par produits et services
+SellsPerProductsServices=Ventes par produits et services
+Quote=Devis
+QuotesValidated=Devis validés
+SalesMulticriteria=Ventes (multicritères)
+EvolutionPerSellers=Evolution par commerciaux
+PerProductServices=Par produits et services
+PerSuppliers=Par fournisseur
+PurchasePrice=Prix d'achat
+PaymentTime=Délai de paiement
+Sells=Ventes
+PurchaseMulticriteria=Achats (Multicritères)
+
+ProductServiceCategoryDistribution=Répartion par catégories de produits /services
+CustomerCategoryDistribution=Répartion par catégories de clients
+ProductServiceCategoryEvolution=Evolution des catégories de produits /services
+CustomerCategoryEvolution=Evolution des catégories de clients
+Ranking=Classement
+
+MeilleursClients=Meilleurs clients
+Meilleursdépartements=Meilleurs départements
+
+Open=Ouverte
+
+PR_OPEN=Ouverte
+PR_FAC=Facturee
+PR_NOTSIGNED=Refusee
+PR_SIGNED=Signee
+ProductsServicesCategorySales=Ventes par catégories de produits et services
+
+Signed=Signé
+Since=Depuis
+SupplierDistribution=Répartition des achats par fournisseurs
+
+TopCustomers=Top clients
+TopProducts=Top produits
+TopProduit=Top produits
+TopCustomersMargin=Top clients (marge)
+TopTowns=Top villes
+TopTownsMargin=Top villes (marge)
+TopDepartment=Top départements
+TopDepartmentMargin=Top départements (marge)
+
+SalesProductServiceCategoryDistribution=Répartion des ventes par catégories de produits /services
+MarginProductServiceCategoryDistribution=Répartion de la marge par catégories de produits /services
+SalesCustomerCategoryDistribution=Répartion des ventes par catégories de clients
+MarginCustomerCategoryDistribution=Répartion de la marge par catégories de clients
+MarginPerCustomerCategory=Marge par catégories de clients
+Invoices=Factures
+SuppliersComparison= Comparaison entre fournisseurs
+EvolutionPerSuppliers Evolution par fournisseur
+QuotationNumberByMonth=Nombre de devis par mois
+MeilleuresVilles=Meilleurs villes

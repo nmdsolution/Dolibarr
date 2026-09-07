@@ -1,0 +1,67 @@
+DescriptionModule=This module allow you to create graphcs and boards helping you to supervise your business (Sales, margin) with filters like products / services categories or customers categories. You can also have graphics about stock level evolution, bests customers, paiement time, etc...
+Comment=Comment
+Date=Date
+DateInvoice=Invoice date
+Ref=Ref.
+Label=Label
+Qty=Qty
+Search=Search
+
+Estadísticas 
+
+
+YearAnalysed=Analysed year
+
+Modify=Modify
+Delete=Delete
+
+Changes have been saved=Changes have been saved
+
+
+ReferentYear=Referent year
+CustomerCategory=Customer category
+Filter=Filter
+SellsMulticriteria=Sells (Multicriteria)
+Customer=Customer
+Brand=Brand
+Year=Year
+Seller=Seller
+Scale=Scale
+Unit=Unit
+Sales=Sales
+Margin=Margin
+ProductCategory=Product / Services category
+All=All
+SellsPerCustomerCategory=Sells per customer category
+SalesPerMonth=Sells per month
+ComparedTo= - Compared to  
+And=and
+SalesPerproducts&Services=Sells per products / services
+Products=Products
+Services=Services
+MarginPerMonth=Margin per month
+Purchases=Purchases
+Stock=Stock
+MarginPerProductsServices=Margin per products and services
+SellsPerProductsServices=Sells per products et services
+Quote=Quote
+QuotesValidated=Quotes validated
+SalesMulticriteria=Sells (multicriteria)
+EvolutionPerSellers=Evolution per sellers
+PerProductServices=Per products and services
+PerSuppliers=Per supplier
+PurchasePrice=Purchase price by product
+PaymentTime=Payment time
+PurchaseMulticriteria=Purchases (Multicriteria)
+
+ProductServiceCategoryDistribution=Répartion par catégories de produits /services
+CustomerCategoryDistribution=Répartion par catégories de clients
+ProductServiceCategoryEvolution=Evolution des catégories de produits /services
+CustomerCategoryEvolution=Evolution des catégories de clients
+Ranking=Classement
+TopCustomers=Top clients
+TopCustomersMargin=Top clients (margin)
+TopTowns=Top towns
+TopTownsMargin=Top Towns (marge)
+TopDepartment=Top départments
+TopDepartmentMargin=Top départments (margin)

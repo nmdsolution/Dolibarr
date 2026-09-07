@@ -1,0 +1,89 @@
+El módulo permite crear gráficos para realizar un seguimiento de su actividad: - Facturación - Los ingresos por familia de productos - Distribución de Ingresos por la familia del cliente - Marge - Foto - Compras - Las compras por proveedor - Los 20 clientes de los ingresos - Clientes / perspectivas creado - Familia de clientes / prospectos creado
+
+Comment=Comentario
+Date=Fecha
+DateInvoice=Fecha de la factura
+Ref=Réf.
+Label=Redacción
+Qty=Cantidad
+Search=Buscar
+
+
+
+NbSell=Total de ventas
+NbFailure=Número de fallos
+FailureRate=Margen de error
+FailureDelay=Durada antes de avería
+FailureChartByBrand=Graphique des pannes par marques
+
+YearAnalysed=Año analizado
+
+Modify=Cambiar
+Delete=Suprimir
+
+Changes have been saved=Las modificaciones han sido registradas
+
+
+ReferentYear=Año de referencia
+CustomerCategory=Categoría de clientes
+Filter=Filtro
+SellsMulticriteria=Ventas (multicriterio)
+Customer=Clientes
+Brand=Marca
+Year=Año
+Seller=Vendedor
+Scale=Escala
+Unit=Unitad
+Sales=Volumen de negocios
+Margin=Margen
+ProductCategory=Categoría de productos/servicios
+All=Todo
+SellsPerCustomerCategory=Ventas per categoría de clientes
+SalesPerMonth=Ventas per meses
+ComparedTo= - Comparada con 
+And=y
+SalesPerproducts&Services=Ventas per meses productos / servicios
+Products=Productos
+Services=Servicios
+7=Julio
+8=Augosto
+9=Septiembre
+10=Octubre
+11=Noviembre
+12=Diciembre
+1=Enero
+2=Febreor
+3=Marzo
+4=Abril
+5=Mayo
+6=Juno
+MarginPerMonth=Margen per meses
+Purchases=Compras
+Stock=Reservas
+MarginPerProductsServices=Marges per productos y servicios
+SellsPerProductsServices=Ventes per productos y servicios
+Quote=Presupuesto 
+QuotesValidated=Presupuesto validados
+SalesMulticriteria=Ventas (multicriterio)
+EvolutionPerSellers=Evolution per venderors
+PerProductServices=Per productos y servicios
+PerSuppliers=Per proveedor
+PurchasePrice=Precio de compra per productos
+PaymentTime=Plazo de pago
+Sells=Ventas
+PurchaseMulticriteria=Compras (Multicriterio)
+Statistiques=Estadísticas
+
+ProductServiceCategoryDistribution=Répartion par catégories de produits /services
+CustomerCategoryDistribution=Répartion par catégories de clients
+ProductServiceCategoryEvolution=Evolution des catégories de produits /services
+CustomerCategoryEvolution=Evolution des catégories de clients
+Ranking=Clasificación
+TopCustomers=Mejores clientes
+TopCustomersMargin=Mejores clientes (margen)
+TopTowns=Mejores ciudades
+TopTownsMargin=Mejores ciudades (margen)
+TopDepartment=Mejores departamientos
+TopDepartmentMargin=Mejores departamientos (marge)
+SuppliersComparison= Comparación de proveedores
+EvolutionPerSuppliers=Comparación de proveedores

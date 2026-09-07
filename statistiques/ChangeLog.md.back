@@ -1,0 +1,88 @@
+# CHANGELOG STATISTIQUES FOR <a href="https://www.dolibarr.org">DOLIBARR ERP CRM</a>
+## 12.00 - Juillet 2020
+<ul>
+	<li>Compatibilité Dolibarr 12</li>
+    <li>Amélioration des traductions</li>
+</ul>
+
+## 11.03 - Mai 2020
+<ul>
+	<li>Effet 3D sur les barres des histogrammes</li>
+    <li>Affichage de la valeur exacte au survol d'une barre de l'histogramme</li>
+    <li>Séparateur de milliers pour améliorer la lecture</li>
+    <li>Affichage de la valeur sur la barre de l'histogramme uniquement si l'espace est suffisant (pour éviter chavauchement d'affichage)</li>
+	<li>Améliorations mineures sur les traductions</li>
+    <li>Si un fournisseur est sélectionné pour le graphique des achats, le fournisseur reste sélectionné lors du clic vers le graphique "cumul annuel"</li>
+    <li>Amélioration du fonctionnement de l'installation automatique du module</li>
+</ul>
+
+## 10.05 - Avril 2020
+<ul>
+	<li>Possibilité d'afficher le graphique cumul (achats et ventes) pour un seul client ou fournisseur</li>
+    <li>Ajout de nouveaux graphique dans l'onglet "graphique" d'un client</li>
+</ul>
+
+## 10.04 - Mars 2020
+<ul>
+	<li>Détection automatique des préfixes de tables: les tables ayant un préfixe autre que celui par défaut peuvent également fonctionner. </li>
+</ul>
+## 10.03 - Octobre 2019
+<ul>
+	<li>Distinction entre "commercial" et "facturé par" dans le graphique des ventes multicritères </li>
+</ul>
+## 10.02 - Septembre 2019
+<ul>
+	<li>Graphique "prix d'achat" via un onglet de la fiche produit</li>
+	<li>Graphique circulaire sur la situation des devis</li>
+	<li>Graphique circulaire "Situation des devis" via un onglet depuis la fiche d'un client</li>
+</ul>	
+## 10.01 - Août 2019
+<ul>
+	<li>Graphique "prix d'achat" via un onglet de la fiche produit</li>
+	<li>Graphique "répartition du chiffre d'affaire" via un onglet depuis la fiche client</li>
+	<li>Installation dans le dossier "custom"</li>
+	<li>Amélioration de la lisibilité des diagrammes circulaires (couleur clair sur quartiers foncés)</li>
+	<li>Ajout automatique du champ "Marque" dans "Produits" à l'installation du module</li>
+</ul>	
+
+
+## 10.0 - Juillet 2019
+<ul>
+    <li>Graphique "prix d'achat" via un onglet de la fiche produit</li>
+    <li>Graphique "répartition du chiffre d'affaire" via un onglet depuis la fiche client</li>
+    <li>Installation dans le dossier "custom"</li>
+    <li>Amélioration de la lisibilité des diagrammes circulaires (couleur clair sur quartiers foncés)</li>
+    <li>Ajout automatique du champ "Marque" dans "Produits" à l'installation du module</li>
+</ul>
+
+## 9.0 - Juin 2019
+<ul>
+    <li>Amélioration de la gestion des catégories de produits (tags)</li>
+    <li>Répartition du Chiffre d'Affaires et de la marge par client, depuis le top 20 clients</li>
+</ul>
+
+## 8.0 - Novembre 2018
+<ul>
+<li>Graphique cumul annuel des ventes</li>
+<li>Graphique cumul annuel des achats</li>
+<li>Gestion des autorisations utilisateurs</li>
+</ul>
+
+## 7.0 - Juin 2018
+<ul>
+    <li>Possibilité d'afficher tout ou partie des séries dans les graphiques de type "courbes" pour améliorer la lisibilité et la comparaison entre catégories</li>
+    <li>Les diagrammes circulaires liés aux catégories afficheront les couleurs qui ont été attribuées aux catégories à leur création. En l'absence de couleur attribuée, une couleur aléatoire sera utilisée.</li>
+    <li>Amélioration de l'algorythme d'attribution de couleur aléatoire par fournisseur dans "Prix d'achat par article" pour mieux visualiser les différences entre fournisseurs.</li>
+</ul>
+
+## 6.0 - Juillet 2018
+<ul>
+    <li>Rassemblement des déclinaisons "Ventes" & "Marge" de chaque item dans un même item paramétrable</li>
+    <li>Items ventes multicritères</li>
+    <li>Amélioration des traductions "Anglais" et "Espagnol"</li>
+    <li>Création du tableau "Délais de paiement" dans la rubrique clients</li>
+</ul>
+
+## 1.0 - Décembre 2016
+Initial version
+
