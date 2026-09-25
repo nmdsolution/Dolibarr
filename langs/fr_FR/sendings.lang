@@ -74,3 +74,11 @@ SumOfProductWeights=Somme des poids des produits
 # warehouse details
 DetailWarehouseNumber= Détail de l'entrepôt
 DetailWarehouseFormat= W:%s (Qté : %d)
+
+# Bon de livraison / reception (KMS)
+BonDeLivraison=Bon de livraison
+QtyDelivered=Qté livrée
+TagLine=We are helping to save lives by providing YOU the best and most affordable health solutions
+CustomerApreciation=Be amongst the best\nBe a KMS customer
+SignatureCompanyNameAndSignature=KMS (Nom et signature)
+SignatureCustomerNameAndSignature=Client (Nom et signature)

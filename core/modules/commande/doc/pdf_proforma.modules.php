@@ -40,6 +40,10 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/pdf.lib.php';
  */
 class pdf_proforma extends pdf_eratosthene
 {
+	/**
+	 * @var int Extra height (mm) reserved above the footer for the KMS tagline (read by pdf_eratosthene)
+	 */
+	public $extraheightforfooter = 22;
 
 	/**
 	 *	Constructor
@@ -76,5 +80,41 @@ class pdf_proforma extends pdf_eratosthene
 		global $conf, $langs, $hookmanager;
 
 		return parent::_pagehead($pdf, $object, $showaddress, $outputlangs, $outputlangsbis, $titlekey);
+	}
+
+	// phpcs:disable PEAR.NamingConventions.ValidFunctionName.PublicUnderscore
+	/**
+	 *  Show footer of page, preceded by the KMS tagline and customer appreciation texts.
+	 *
+	 *  @param	TCPDF		$pdf     			PDF
+	 *  @param	Commande	$object				Object to show
+	 *  @param	Translate	$outputlangs		Object lang for output
+	 *  @param	int			$hidefreetext		1=Hide free text
+	 *  @return	int								Return height of bottom margin including footer text
+	 */
+	protected function _pagefoot(&$pdf, $object, $outputlangs, $hidefreetext = 0)
+	{
+		// phpcs:enable
+		$footerheight = parent::_pagefoot($pdf, $object, $outputlangs, $hidefreetext);
+
+		$outputlangs->load('sendings');
+		$default_font_size = pdf_getPDFFontSize($outputlangs);
+
+		$wtext = 110;
+		$xtext = ($this->page_largeur - $wtext) / 2;
+		$ytext = $this->page_hauteur - $footerheight - 22;
+
+		// Tagline (black, bold) then customer appreciation (red, bold)
+		$pdf->SetFont('', 'B', $default_font_size - 1);
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY($xtext, $ytext);
+		$pdf->MultiCell($wtext, 4, $outputlangs->transnoentities("TagLine"), 0, 'C');
+
+		$pdf->SetTextColor(200, 0, 0);
+		$pdf->SetXY($xtext, $pdf->GetY() + 2);
+		$pdf->MultiCell($wtext, 4, $outputlangs->transnoentities("CustomerApreciation"), 0, 'C');
+		$pdf->SetTextColor(0, 0, 0);
+
+		return $footerheight;
 	}
 }

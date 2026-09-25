@@ -74,3 +74,11 @@ SumOfProductWeights=Sum of product weights
 # warehouse details
 DetailWarehouseNumber= Warehouse details
 DetailWarehouseFormat= W:%s (Qty: %d)
+
+# Delivery note / receipt (KMS)
+BonDeLivraison=Delivery note
+QtyDelivered=Qty delivered
+TagLine=We are helping to save lives by providing YOU the best and most affordable health solutions
+CustomerApreciation=Be amongst the best\nBe a KMS customer
+SignatureCompanyNameAndSignature=KMS (Name and signature)
+SignatureCustomerNameAndSignature=Customer (Name and signature)

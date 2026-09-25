@@ -201,7 +201,7 @@ class pdf_typhon extends ModelePDFDeliveryOrder
 		}
 
 		// Load translation files required by the page
-		$outputlangs->loadLangs(array("main", "dict", "companies", "bills", "products", "sendings", "deliveries"));
+		$outputlangs->loadLangs(array("main", "dict", "companies", "bills", "products", "sendings", "deliveries", "orders"));
 
 		if ($conf->expedition->dir_output) {
 			$object->fetch_thirdparty();
@@ -239,7 +239,7 @@ class pdf_typhon extends ModelePDFDeliveryOrder
 				// Create pdf instance
 				$pdf = pdf_getInstance($this->format);
 				$default_font_size  = pdf_getPDFFontSize($outputlangs);
-				$heightforinfotot   = 30;
+				$heightforinfotot   = 52; // Place pour signatures, slogan et remerciement sous le tableau
 				$heightforfreetext  = (isset($conf->global->MAIN_PDF_FREETEXT_HEIGHT) ? $conf->global->MAIN_PDF_FREETEXT_HEIGHT : 5);
 				$heightforfooter    = $this->marge_basse + 8;
 				if (getDolGlobalInt('MAIN_GENERATE_DOCUMENTS_SHOW_FOOT_DETAILS') > 0) {
@@ -513,17 +513,36 @@ class pdf_typhon extends ModelePDFDeliveryOrder
 		global $conf, $mysoc;
 		$default_font_size = pdf_getPDFFontSize($outputlangs);
 
-		$pdf->SetFont('', '', $default_font_size);
-		$pdf->SetXY($this->marge_gauche, $posy);
+		$posy += 3; // Sous le tableau des lignes
+		$larg_sign = 70;
+		$xleft = $this->marge_gauche;
+		$xright = $this->page_largeur - $this->marge_droite - $larg_sign;
 
-		$larg_sign = ($this->page_largeur - $this->marge_gauche - $this->marge_droite) / 3;
-		$pdf->Rect($this->marge_gauche, $posy + 1, $larg_sign, 25);
-		$pdf->SetXY($this->marge_gauche + 2, $posy + 2);
-		$pdf->MultiCell($larg_sign, 2, $outputlangs->trans("For").' '.$outputlangs->convToOutputCharset($mysoc->name).":", '', 'L');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetFont('', '', $default_font_size - 1);
 
-		$pdf->Rect(2 * $larg_sign + $this->marge_gauche, $posy + 1, $larg_sign, 25);
-		$pdf->SetXY(2 * $larg_sign + $this->marge_gauche + 2, $posy + 2);
-		$pdf->MultiCell($larg_sign, 2, $outputlangs->trans("ForCustomer").':', '', 'L');
+		// Signature KMS
+		$pdf->SetXY($xleft, $posy);
+		$pdf->MultiCell($larg_sign, 4, $outputlangs->transnoentities("SignatureCompanyNameAndSignature"), 0, 'L');
+		$pdf->Rect($xleft, $posy + 5, $larg_sign, 15);
+
+		// Signature Client
+		$pdf->SetXY($xright, $posy);
+		$pdf->MultiCell($larg_sign, 4, $outputlangs->transnoentities("SignatureCustomerNameAndSignature"), 0, 'L');
+		$pdf->Rect($xright, $posy + 5, $larg_sign, 15);
+
+		// Slogan (noir, gras) puis remerciement (rouge, gras), centres au-dessus du pied de page
+		$wtext = 110;
+		$xtext = ($this->page_largeur - $wtext) / 2;
+
+		$pdf->SetFont('', 'B', $default_font_size - 1);
+		$pdf->SetXY($xtext, $posy + 23);
+		$pdf->MultiCell($wtext, 4, $outputlangs->transnoentities("TagLine"), 0, 'C');
+
+		$pdf->SetTextColor(200, 0, 0);
+		$pdf->SetXY($xtext, $pdf->GetY() + 2);
+		$pdf->MultiCell($wtext, 4, $outputlangs->transnoentities("CustomerApreciation"), 0, 'C');
+		$pdf->SetTextColor(0, 0, 0);
 	}
 
 
@@ -796,38 +815,9 @@ class pdf_typhon extends ModelePDFDeliveryOrder
 
 		$default_font_size = pdf_getPDFFontSize($outputlangs);
 
-		// ---- Zone de signatures KMS ----
-		$posy = 215;
-		$posx = $this->page_largeur - $this->marge_droite - 100;
-
-		$pdf->SetFont('', '', $default_font_size - 1);
-
-		// Signature KMS
-		$pdf->SetXY(10, $posy);
-		$pdf->MultiCell(100, 5, "KMS (Nom et Signature)", 0, 'L');
-		$pdf->Rect(10, $posy + 5, 70, 15);
-
-		// Signature Client
-		$pdf->SetXY($posx + 30, $posy);
-		$pdf->MultiCell(100, 5, "Client (Nom et Signature)", 0, 'L');
-		$pdf->Rect($posx + 30, $posy + 5, 70, 15);
-
-		// Tagline
-		$posy += 20;
-		$outputlangs->load('sendings');
-		$pdf->SetXY(50, $posy + 10);
-		$pdf->MultiCell(100, 5, $outputlangs->transnoentities("TagLine"), 0, 'C');
-
-		$pdf->SetFont('', 'b', $default_font_size);
-		$pdf->SetTextColor(200, 0, 0);
-		$posy += 25;
-		$pdf->SetXY(80, $posy);
-		$pdf->MultiCell(35, 5, $outputlangs->transnoentities("CustomerApreciation"), 0, 'C');
-		$pdf->SetFont('', '', $default_font_size - 2);
-		$pdf->SetTextColor(0, 0, 0);
-
 		// ---- Image de pied de page KMS ----
-		$posy += 15;
+		// (la zone de signatures est dans _tableau_info, sous le tableau)
+		$posy = $this->page_hauteur - 22;
 		$footerImage = DOL_DOCUMENT_ROOT.'/docs/footer.jpg';
 		if (is_readable($footerImage)) {
 			$height = pdf_getHeightForLogo($footerImage);
