@@ -1,0 +1,25 @@
+# Dolibarr language file - fr_FR - stockalert
+StockAlertDescription=Alertes de stock, reliquats fournisseurs et retards de livraison
+StockAlertDescriptionLong=Gestion des stocks en alerte, des reliquats de livraisons partielles fournisseurs, widget d'accueil et fiche récapitulative PDF.
+StockAlertReport=Stocks en alerte
+StockAlertTitle=État des stocks en alerte et réapprovisionnements
+StockAlertBoxTitle=Stocks en alerte
+StockAlertKpiAlert=Références sous le seuil d'alerte
+StockAlertKpiReliquats=Reliquats fournisseurs en attente
+StockAlertKpiLate=Livraisons en retard
+StockAlertTop5=Articles les plus urgents
+StockAlertFullReport=Voir le rapport complet
+StockAlertNothing=Aucun produit en alerte
+StockAlertPart1=1. Produits en rupture / alerte critique
+StockAlertPart2=2. Produits en attente de livraisons partielles
+StockAlertPhysical=Stock physique
+StockAlertDesired=Stock souhaité
+StockAlertReliquat=Reliquat attendu
+StockAlertDueDate=Date d'alerte / échéance
+StockAlertSuggested=Qté suggérée
+StockAlertLate=Alerte retard livraison
+StockAlertGeneratePdf=Générer le PDF
+StockAlertPrintedOn=Imprimé le
+StockAlertPrintedBy=par
+StockAlertSignature=Validation des achats - Nom, date et signature
+StockAlertNotAllowed=Seule une personne ayant le droit "Gestionnaire de stock" peut modifier les seuils de stock.

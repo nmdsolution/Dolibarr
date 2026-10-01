@@ -1,0 +1,25 @@
+# Dolibarr language file - en_US - stockalert
+StockAlertDescription=Stock alerts, supplier back-orders and late deliveries
+StockAlertDescriptionLong=Stock alerts, supplier partial delivery back-orders (reliquats), home widget and PDF summary sheet.
+StockAlertReport=Stock alerts
+StockAlertTitle=Stock alerts and replenishment status
+StockAlertBoxTitle=Stock alerts
+StockAlertKpiAlert=References below alert threshold
+StockAlertKpiReliquats=Pending supplier back-orders
+StockAlertKpiLate=Late deliveries
+StockAlertTop5=Most urgent items
+StockAlertFullReport=See full report
+StockAlertNothing=No product in alert
+StockAlertPart1=1. Out of stock / critical alert products
+StockAlertPart2=2. Products awaiting partial deliveries
+StockAlertPhysical=Physical stock
+StockAlertDesired=Desired stock
+StockAlertReliquat=Expected back-order
+StockAlertDueDate=Alert / due date
+StockAlertSuggested=Suggested qty
+StockAlertLate=Late delivery alert
+StockAlertGeneratePdf=Generate PDF
+StockAlertPrintedOn=Printed on
+StockAlertPrintedBy=by
+StockAlertSignature=Purchase validation - Name, date and signature
+StockAlertNotAllowed=Only users with the "Stock manager" right can change stock thresholds.
