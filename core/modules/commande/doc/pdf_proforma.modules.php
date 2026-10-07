@@ -46,6 +46,16 @@ class pdf_proforma extends pdf_eratosthene
 	public $extraheightforfooter = 22;
 
 	/**
+	 * @var float Height (mm) of the KMS top band image, printed at the top right edge of the page
+	 */
+	public $kmsHeaderBandHeight = 24;
+
+	/**
+	 * @var float Height (mm) of the KMS bottom band image, printed full width at the bottom of the page
+	 */
+	public $kmsFooterBandHeight = 23.1;
+
+	/**
 	 *	Constructor
 	 *
 	 *  @param		DoliDB		$db      Database handler
@@ -58,6 +68,10 @@ class pdf_proforma extends pdf_eratosthene
 
 		$this->name = "proforma";
 		$this->description = $langs->trans('PDFProformaDescription');
+
+		// Leave room for the KMS top band (header) and bottom band (footer) printed on every page
+		$this->marge_haute = $this->kmsHeaderBandHeight + 4;
+		$this->marge_basse = $this->kmsFooterBandHeight + 4;
 	}
 
 
@@ -79,7 +93,16 @@ class pdf_proforma extends pdf_eratosthene
 		// phpcs:enable
 		global $conf, $langs, $hookmanager;
 
-		return parent::_pagehead($pdf, $object, $showaddress, $outputlangs, $outputlangsbis, $titlekey);
+		$topshift = parent::_pagehead($pdf, $object, $showaddress, $outputlangs, $outputlangsbis, $titlekey);
+
+		// KMS top band (company activities and tax/trade register numbers), 112 mm wide, flush with the right edge
+		$band = DOL_DOCUMENT_ROOT.'/theme/common/kms/kms_header_band.png';
+		if (is_readable($band)) {
+			$w = 112;
+			$pdf->Image($band, $this->page_largeur - $w, 0, $w, $this->kmsHeaderBandHeight);
+		}
+
+		return $topshift;
 	}
 
 	// phpcs:disable PEAR.NamingConventions.ValidFunctionName.PublicUnderscore
@@ -95,6 +118,12 @@ class pdf_proforma extends pdf_eratosthene
 	protected function _pagefoot(&$pdf, $object, $outputlangs, $hidefreetext = 0)
 	{
 		// phpcs:enable
+		// KMS bottom band (address, phones, website, email), full page width, drawn first so texts stay above it
+		$band = DOL_DOCUMENT_ROOT.'/theme/common/kms/kms_footer_band.png';
+		if (is_readable($band)) {
+			$pdf->Image($band, 0, $this->page_hauteur - $this->kmsFooterBandHeight, $this->page_largeur, $this->kmsFooterBandHeight);
+		}
+
 		$footerheight = parent::_pagefoot($pdf, $object, $outputlangs, $hidefreetext);
 
 		$outputlangs->load('sendings');
