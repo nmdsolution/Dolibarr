@@ -708,6 +708,69 @@ function pdf_build_address($outputlangs, $sourcecompany, $targetcompany = '', $t
 
 
 /**
+ *	Tell if the KMS header/footer bands must be printed on PDF documents (constant MAIN_PDF_KMS_BANDS).
+ *
+ *	@return	boolean		True if bands are enabled
+ */
+function pdf_kms_bands_enabled()
+{
+	return (getDolGlobalInt('MAIN_PDF_KMS_BANDS', 0) == 1);
+}
+
+/**
+ *	Print the KMS top band, flush with the top right corner of the current page.
+ *
+ *	@param	TCPDF	$pdf	Object PDF
+ *	@return	int				1 if printed, 0 if disabled or image missing
+ */
+function pdf_kms_header_band(&$pdf)
+{
+	$file = DOL_DOCUMENT_ROOT.'/theme/common/kms/kms_header_band.png';
+	if (!pdf_kms_bands_enabled() || !is_readable($file)) {
+		return 0;
+	}
+	$w = 112;
+	$pdf->Image($file, $pdf->getPageWidth() - $w, 0, $w, 24);
+	return 1;
+}
+
+/**
+ *	Print the KMS bottom band, full width at the bottom of the current page.
+ *
+ *	@param	TCPDF	$pdf	Object PDF
+ *	@return	int				1 if printed, 0 if disabled or image missing
+ */
+function pdf_kms_footer_band(&$pdf)
+{
+	$file = DOL_DOCUMENT_ROOT.'/theme/common/kms/kms_footer_band.png';
+	if (!pdf_kms_bands_enabled() || !is_readable($file)) {
+		return 0;
+	}
+	$h = 23.1;
+	$pdf->Image($file, 0, $pdf->getPageHeight() - $h, $pdf->getPageWidth(), $h);
+	return 1;
+}
+
+/**
+ *	Print the KMS logo (bundled image) at the top left, used by templates that no longer have the old header image.
+ *
+ *	@param	TCPDF	$pdf	Object PDF
+ *	@param	float	$x		Left position (mm)
+ *	@param	float	$y		Top position (mm)
+ *	@param	float	$h		Height (mm)
+ *	@return	int				1 if printed, 0 otherwise
+ */
+function pdf_kms_logo(&$pdf, $x = 10, $y = 6, $h = 20)
+{
+	$file = DOL_DOCUMENT_ROOT.'/theme/common/kms/kms_logo.png';
+	if (!is_readable($file)) {
+		return 0;
+	}
+	$pdf->Image($file, $x, $y, 0, $h);
+	return 1;
+}
+
+/**
  *   	Show header of page for PDF generation
  *
  *   	@param      TCPDF			$pdf     		Object PDF
@@ -729,6 +792,9 @@ function pdf_pagehead(&$pdf, $outputlangs, $page_height)
 			$pdf->SetAutoPageBreak(1, 0); // Restore pagebreak
 		}
 	}
+
+	// KMS top band (only when MAIN_PDF_KMS_BANDS is on)
+	pdf_kms_header_band($pdf);
 }
 
 
@@ -996,6 +1062,9 @@ function pdf_bank(&$pdf, $outputlangs, $curx, $cury, $account, $onlynumber = 0, 
 function pdf_pagefoot(&$pdf, $outputlangs, $paramfreetext, $fromcompany, $marge_basse, $marge_gauche, $page_hauteur, $object, $showdetails = 0, $hidefreetext = 0, $page_largeur = 0, $watermark = '')
 {
 	global $conf, $user, $mysoc, $hookmanager;
+
+	// KMS bottom band, printed first so footer texts stay above it (only when MAIN_PDF_KMS_BANDS is on)
+	pdf_kms_footer_band($pdf);
 
 	$outputlangs->load("dict");
 	$line = '';

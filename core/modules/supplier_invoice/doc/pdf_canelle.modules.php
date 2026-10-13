@@ -1122,10 +1122,19 @@ class pdf_canelle extends ModelePDFSuppliersInvoices
 		if (is_readable($headerImage))
 			{
 			    $height = pdf_getHeightForLogo($headerImage);
-			    $pdf->Image($headerImage, $this->marge_gauche, $posy - 7, $this->page_largeur - 20, $height); // width=0 (auto)
+			    if (pdf_kms_bands_enabled()) {
+			        pdf_kms_header_band($pdf);
+			        pdf_kms_logo($pdf, $this->marge_gauche, 4, 20);
+			    } else {
+			        $pdf->Image($headerImage, $this->marge_gauche, $posy - 7, $this->page_largeur - 20, $height); // width=0 (auto)
+			    }
 			}
 	
 		$posy = $height + 2;
+		// Keep the document title below the KMS top band
+		if (pdf_kms_bands_enabled() && $posy < 28) {
+			$posy = 28;
+		}
 
 		$pdf->SetFont('', 'B', $default_font_size + 3);
 		$pdf->SetXY($posx, $posy);
@@ -1320,7 +1329,11 @@ class pdf_canelle extends ModelePDFSuppliersInvoices
 		{
 			$height = pdf_getHeightForLogo($footerImage);
 			$height += 5;
-			$pdf->Image($footerImage, $this->marge_gauche, $posy, $this->page_largeur - 20, $height); // width=0 (auto)
+			if (pdf_kms_bands_enabled()) {
+				pdf_kms_footer_band($pdf);
+			} else {
+				$pdf->Image($footerImage, $this->marge_gauche, $posy, $this->page_largeur - 20, $height); // width=0 (auto)
+			}
 		}
         //global $conf;
         //$showdetails = $conf->global->MAIN_GENERATE_DOCUMENTS_SHOW_FOOT_DETAILS;

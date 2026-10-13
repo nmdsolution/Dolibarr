@@ -650,10 +650,19 @@ class pdf_typhon extends ModelePDFDeliveryOrder
 		$height = 0;
 		if (is_readable($headerImage)) {
 			$height = pdf_getHeightForLogo($headerImage);
-			$pdf->Image($headerImage, $this->marge_gauche, $posy - 7, $this->page_largeur - 20, $height);
+			if (pdf_kms_bands_enabled()) {
+				// New KMS header: top band is printed by pdf_pagehead(), logo at the left
+				pdf_kms_logo($pdf, $this->marge_gauche, 4, 20);
+			} else {
+				$pdf->Image($headerImage, $this->marge_gauche, $posy - 7, $this->page_largeur - 20, $height);
+			}
 		}
 
 		$posy = $height + 2;
+		// Keep the document title below the KMS top band
+		if (pdf_kms_bands_enabled() && $posy < 28) {
+			$posy = 28;
+		}
 
 		// Titre : BON DE LIVRAISON
 		$pdf->SetFont('', 'B', $default_font_size + 2);
@@ -822,7 +831,11 @@ class pdf_typhon extends ModelePDFDeliveryOrder
 		if (is_readable($footerImage)) {
 			$height = pdf_getHeightForLogo($footerImage);
 			$height += 5;
-			$pdf->Image($footerImage, $this->marge_gauche, $posy, $this->page_largeur - 20, $height);
+			if (pdf_kms_bands_enabled()) {
+				pdf_kms_footer_band($pdf);
+			} else {
+				$pdf->Image($footerImage, $this->marge_gauche, $posy, $this->page_largeur - 20, $height);
+			}
 		}
 	}
 }

@@ -1649,9 +1649,18 @@ class pdf_crabe extends ModelePDFFactures
 		if (is_readable($headerImage))
 			{
 			    $height = pdf_getHeightForLogo($headerImage) + 10;
-			    $pdf->Image($headerImage, $this->marge_gauche, $posy - 7, $this->page_largeur, $height); // width=0 (auto)
+			    if (pdf_kms_bands_enabled()) {
+			        // New KMS header: top band is printed by pdf_pagehead(), logo at the left
+			        pdf_kms_logo($pdf, $this->marge_gauche, 4, 20);
+			    } else {
+			        $pdf->Image($headerImage, $this->marge_gauche, $posy - 7, $this->page_largeur, $height); // width=0 (auto)
+			    }
 			}
 		$posy = $height;
+		// Keep the document title below the KMS top band
+		if (pdf_kms_bands_enabled() && $posy < 28) {
+			$posy = 28;
+		}
 		// LOGO
 		/*if (empty($conf->global->PDF_DISABLE_MYCOMPANY_LOGO))
 		{
@@ -1979,7 +1988,11 @@ class pdf_crabe extends ModelePDFFactures
 		{
 			$height = pdf_getHeightForLogo($footerImage);
 			$height += 5;
-			$pdf->Image($footerImage, $this->marge_gauche, $posy, $this->page_largeur - 20, $height); // width=0 (auto)
+			if (pdf_kms_bands_enabled()) {
+				pdf_kms_footer_band($pdf);
+			} else {
+				$pdf->Image($footerImage, $this->marge_gauche, $posy, $this->page_largeur - 20, $height); // width=0 (auto)
+			}
 		}
 		//return pdf_pagefoot($pdf, $outputlangs, 'INVOICE_FREE_TEXT', $this->emetteur, $this->marge_basse, $this->marge_gauche, $this->page_hauteur, $object, $showdetails, $hidefreetext);
 	}
