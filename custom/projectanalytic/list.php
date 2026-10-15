@@ -111,7 +111,7 @@ print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("Project").'</td>';
 print '<td>'.$langs->trans("Label").'</td>';
 print '<td class="center">'.$langs->trans("Date").'</td>';
-print '<td>'.$langs->trans("ProjectAnalyticExpenseSourceInvoice").'</td>';
+print "<td>".$langs->trans("Supplier")." / ".$langs->trans("SupplierInvoice")."</td>";
 print '<td class="right">'.$langs->trans("AmountHT").'</td>';
 print '<td class="right">'.$langs->trans("AmountTTC").'</td>';
 print '<td></td>';
@@ -145,11 +145,23 @@ if (count($lines) == 0) {
 		print '<td>'.$expenseline->getNomUrl(1).' '.dol_escape_htmltag($expenseline->label).'</td>';
 		print '<td class="center">'.dol_print_date($expenseline->datep, 'day').'</td>';
 		print '<td>';
-		if (!empty($expenseline->fk_facture_fourn_source)) {
+		$linked = $expenseline->getLinkedSuppliersAndInvoices();
+		if (!empty($linked['suppliers'])) {
+			require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
+			foreach ($linked['suppliers'] as $socid) {
+				$tmpsoc = new Societe($db);
+				if ($tmpsoc->fetch($socid) > 0) {
+					print '<div>'.$tmpsoc->getNomUrl(1, 'supplier').'</div>';
+				}
+			}
+		}
+		if (!empty($linked['invoices'])) {
 			require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.facture.class.php';
-			$invoice = new FactureFournisseur($db);
-			if ($invoice->fetch($expenseline->fk_facture_fourn_source) > 0) {
-				print $invoice->getNomUrl(1);
+			foreach ($linked['invoices'] as $invid) {
+				$invoice = new FactureFournisseur($db);
+				if ($invoice->fetch($invid) > 0) {
+					print '<div>'.$invoice->getNomUrl(1).'</div>';
+				}
 			}
 		}
 		print '</td>';

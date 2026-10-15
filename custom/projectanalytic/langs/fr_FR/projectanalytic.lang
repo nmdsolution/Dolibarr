@@ -15,3 +15,7 @@ RealSupplier=Fournisseur réel (information)
 ProjectAnalyticExpenseRealSupplierHelp=Fournisseur réel de la dépense, à titre indicatif uniquement. N'est jamais utilisé par la comptabilité.
 ProjectAnalyticExpenseSourceInvoice=Facture fournisseur source (traçabilité)
 ProjectAnalyticExpenseSourceInvoiceHelp=Facture fournisseur globale dans laquelle ce coût a déjà été comptabilisé (ex : achat en gros de consommables). Ce lien est uniquement informatif : il permet de retrouver l'origine du montant, mais n'a aucun impact sur la comptabilité. Cette dépense analytique n'est jamais exportée en comptabilité (journal des achats, FEC) : elle ne sert qu'au calcul du Profit du projet, pour éviter tout doublon avec la facture fournisseur déjà comptabilisée globalement.
+
+ProjectAnalyticLines=Lignes de détail
+ProjectAnalyticLineDescription=Consommable / désignation
+ProjectAnalyticLineAutoTotals=Totaux calculés automatiquement

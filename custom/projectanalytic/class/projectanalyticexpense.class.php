@@ -69,10 +69,10 @@ class ProjectAnalyticExpense extends CommonObject
 		'fk_projet'               => array('type'=>'integer:Project:projet/class/project.class.php:1', 'label'=>'Project', 'picto'=>'project', 'enabled'=>1, 'visible'=>1, 'notnull'=>1, 'index'=>1, 'position'=>10, 'css'=>'maxwidth500 widthcentpercentminusxx'),
 		'label'                   => array('type'=>'varchar(255)', 'label'=>'Label', 'enabled'=>1, 'visible'=>1, 'notnull'=>1, 'position'=>20, 'searchall'=>1, 'css'=>'minwidth300', 'cssview'=>'wordbreak'),
 		'datep'                   => array('type'=>'date', 'label'=>'Date', 'enabled'=>1, 'visible'=>1, 'notnull'=>1, 'position'=>30),
-		'total_ht'                => array('type'=>'price', 'label'=>'AmountHT', 'enabled'=>1, 'visible'=>1, 'notnull'=>1, 'default'=>0, 'position'=>40, 'isameasure'=>1),
-		'total_ttc'               => array('type'=>'price', 'label'=>'AmountTTC', 'enabled'=>1, 'visible'=>1, 'notnull'=>1, 'default'=>0, 'position'=>41, 'isameasure'=>1),
-		'fk_soc'                  => array('type'=>'integer:Societe:societe/class/societe.class.php:1', 'picto'=>'company', 'label'=>'RealSupplier', 'enabled'=>1, 'visible'=>-1, 'position'=>50, 'notnull'=>-1, 'index'=>1, 'help'=>'ProjectAnalyticExpenseRealSupplierHelp'),
-		'fk_facture_fourn_source' => array('type'=>'integer:FactureFournisseur:fourn/class/fournisseur.facture.class.php:1', 'picto'=>'bill', 'label'=>'ProjectAnalyticExpenseSourceInvoice', 'enabled'=>1, 'visible'=>-1, 'position'=>51, 'notnull'=>-1, 'index'=>1, 'help'=>'ProjectAnalyticExpenseSourceInvoiceHelp'),
+		'total_ht'                => array('type'=>'price', 'label'=>'AmountHT', 'enabled'=>1, 'visible'=>5, 'noteditable'=>1, 'notnull'=>1, 'default'=>0, 'position'=>40, 'isameasure'=>1),
+		'total_ttc'               => array('type'=>'price', 'label'=>'AmountTTC', 'enabled'=>1, 'visible'=>5, 'noteditable'=>1, 'notnull'=>1, 'default'=>0, 'position'=>41, 'isameasure'=>1),
+		'fk_soc'                  => array('type'=>'integer:Societe:societe/class/societe.class.php:1', 'picto'=>'company', 'label'=>'RealSupplier', 'enabled'=>1, 'visible'=>5, 'position'=>50, 'notnull'=>-1, 'index'=>1, 'help'=>'ProjectAnalyticExpenseRealSupplierHelp'),
+		'fk_facture_fourn_source' => array('type'=>'integer:FactureFournisseur:fourn/class/fournisseur.facture.class.php:1', 'picto'=>'bill', 'label'=>'ProjectAnalyticExpenseSourceInvoice', 'enabled'=>1, 'visible'=>5, 'position'=>51, 'notnull'=>-1, 'index'=>1, 'help'=>'ProjectAnalyticExpenseSourceInvoiceHelp'),
 		'note'                    => array('type'=>'text', 'label'=>'Note', 'enabled'=>1, 'visible'=>3, 'position'=>60),
 		'fk_user_creat'           => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'picto'=>'user', 'enabled'=>1, 'visible'=>-2, 'notnull'=>1, 'position'=>510, 'foreignkey'=>'user.rowid'),
 		'fk_user_modif'           => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'picto'=>'user', 'enabled'=>1, 'visible'=>-2, 'notnull'=>-1, 'position'=>511),
@@ -94,6 +94,9 @@ class ProjectAnalyticExpense extends CommonObject
 	public $fk_user_modif;
 	public $date_creation;
 	public $tms;
+
+	/** @var ProjectAnalyticExpenseLine[] Detail lines, loaded by fetchLines() */
+	public $lines = array();
 	// END PROPERTIES
 
 	/**
@@ -235,7 +238,102 @@ class ProjectAnalyticExpense extends CommonObject
 	 */
 	public function delete(User $user, $notrigger = false)
 	{
+		// Detail lines go with their expense
+		$this->db->query("DELETE FROM ".$this->db->prefix()."projectanalytic_expense_det WHERE fk_expense = ".((int) $this->id));
+
 		return $this->deleteCommon($user, $notrigger);
+	}
+
+	/**
+	 * Load the detail lines of this expense, ordered.
+	 *
+	 * @return ProjectAnalyticExpenseLine[]  Array of lines (empty if none)
+	 */
+	public function fetchLines()
+	{
+		require_once __DIR__.'/projectanalyticexpenseline.class.php';
+
+		$this->lines = array();
+		$sql = "SELECT rowid, fk_expense, fk_soc, fk_facture_fourn, description, qty, unit_price_ht, tva_tx, total_ht, total_tva, total_ttc, rang";
+		$sql .= " FROM ".$this->db->prefix()."projectanalytic_expense_det WHERE fk_expense = ".((int) $this->id)." ORDER BY rang, rowid";
+		$resql = $this->db->query($sql);
+		if ($resql) {
+			while ($obj = $this->db->fetch_object($resql)) {
+				$line = new ProjectAnalyticExpenseLine($this->db);
+				$line->id = (int) $obj->rowid;
+				$line->fk_expense = (int) $obj->fk_expense;
+				$line->fk_soc = $obj->fk_soc;
+				$line->fk_facture_fourn = $obj->fk_facture_fourn;
+				$line->description = $obj->description;
+				$line->qty = (float) $obj->qty;
+				$line->unit_price_ht = (float) $obj->unit_price_ht;
+				$line->tva_tx = (float) $obj->tva_tx;
+				$line->total_ht = (float) $obj->total_ht;
+				$line->total_tva = (float) $obj->total_tva;
+				$line->total_ttc = (float) $obj->total_ttc;
+				$line->rang = (int) $obj->rang;
+				$this->lines[] = $line;
+			}
+			$this->db->free($resql);
+		}
+		return $this->lines;
+	}
+
+	/**
+	 * Recompute the expense totals (HT and TTC) as the sum of its detail lines and save them.
+	 *
+	 * @return int  >0 if OK, <0 if KO
+	 */
+	public function updateTotalsFromLines()
+	{
+		$sql = "SELECT SUM(total_ht) as tht, SUM(total_ttc) as ttc FROM ".$this->db->prefix()."projectanalytic_expense_det WHERE fk_expense = ".((int) $this->id);
+		$resql = $this->db->query($sql);
+		if (!$resql) {
+			$this->error = $this->db->lasterror();
+			return -1;
+		}
+		$obj = $this->db->fetch_object($resql);
+		$this->total_ht = price2num((float) $obj->tht, 'MT');
+		$this->total_ttc = price2num((float) $obj->ttc, 'MT');
+
+		$sql = "UPDATE ".$this->db->prefix().$this->table_element." SET total_ht = ".((float) $this->total_ht).", total_ttc = ".((float) $this->total_ttc);
+		$sql .= " WHERE rowid = ".((int) $this->id);
+		if (!$this->db->query($sql)) {
+			$this->error = $this->db->lasterror();
+			return -1;
+		}
+		return 1;
+	}
+
+	/**
+	 * Distinct supplier ids and supplier invoice ids used by the detail lines of this expense
+	 * (falls back to the legacy header fields for an expense that has no line).
+	 *
+	 * @return array  array('suppliers'=>int[], 'invoices'=>int[])
+	 */
+	public function getLinkedSuppliersAndInvoices()
+	{
+		$res = array('suppliers' => array(), 'invoices' => array());
+		$sql = "SELECT DISTINCT fk_soc, fk_facture_fourn FROM ".$this->db->prefix()."projectanalytic_expense_det WHERE fk_expense = ".((int) $this->id);
+		$resql = $this->db->query($sql);
+		if ($resql) {
+			while ($obj = $this->db->fetch_object($resql)) {
+				if ($obj->fk_soc > 0) {
+					$res['suppliers'][(int) $obj->fk_soc] = (int) $obj->fk_soc;
+				}
+				if ($obj->fk_facture_fourn > 0) {
+					$res['invoices'][(int) $obj->fk_facture_fourn] = (int) $obj->fk_facture_fourn;
+				}
+			}
+			$this->db->free($resql);
+		}
+		if (empty($res['suppliers']) && $this->fk_soc > 0) {
+			$res['suppliers'][(int) $this->fk_soc] = (int) $this->fk_soc;
+		}
+		if (empty($res['invoices']) && $this->fk_facture_fourn_source > 0) {
+			$res['invoices'][(int) $this->fk_facture_fourn_source] = (int) $this->fk_facture_fourn_source;
+		}
+		return $res;
 	}
 
 	/**

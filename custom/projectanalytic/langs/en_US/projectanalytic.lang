@@ -15,3 +15,7 @@ RealSupplier=Real supplier (informative)
 ProjectAnalyticExpenseRealSupplierHelp=Real supplier of the expense, for information only. Never used by accountancy.
 ProjectAnalyticExpenseSourceInvoice=Source supplier invoice (traceability)
 ProjectAnalyticExpenseSourceInvoiceHelp=Global supplier invoice where this cost was already booked (e.g. bulk purchase of consumables). This link is purely informative: it lets you trace back the origin of the amount, but has no impact on accountancy. This analytic expense is never exported to accountancy (purchases journal, FEC): it only feeds the project Profit calculation, so it never duplicates the cost already booked globally on the supplier invoice.
+
+ProjectAnalyticLines=Detail lines
+ProjectAnalyticLineDescription=Consumable / description
+ProjectAnalyticLineAutoTotals=Totals computed automatically

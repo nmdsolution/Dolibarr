@@ -163,7 +163,7 @@ class ActionsProjectanalytic
 		$out .= '<tr class="liste_titre">';
 		$out .= '<td>'.$langs->trans('Label').'</td>';
 		$out .= '<td class="center">'.$langs->trans('Date').'</td>';
-		$out .= '<td>'.$langs->trans('ProjectAnalyticExpenseSourceInvoice').'</td>';
+		$out .= '<td>'.$langs->trans('Supplier').' / '.$langs->trans('SupplierInvoice').'</td>';
 		$out .= '<td class="right">'.$langs->trans('AmountHT').'</td>';
 		$out .= '<td class="right">'.$langs->trans('AmountTTC').'</td>';
 		$out .= '<td></td>';
@@ -177,11 +177,23 @@ class ActionsProjectanalytic
 				$out .= '<td>'.$line->getNomUrl(1).' '.dol_escape_htmltag($line->label).'</td>';
 				$out .= '<td class="center">'.dol_print_date($line->datep, 'day').'</td>';
 				$out .= '<td>';
-				if (!empty($line->fk_facture_fourn_source)) {
+				$linked = $line->getLinkedSuppliersAndInvoices();
+				if (!empty($linked['suppliers'])) {
+					require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
+					foreach ($linked['suppliers'] as $socid) {
+						$tmpsoc = new Societe($this->db);
+						if ($tmpsoc->fetch($socid) > 0) {
+							$out .= '<div>'.$tmpsoc->getNomUrl(1, 'supplier').'</div>';
+						}
+					}
+				}
+				if (!empty($linked['invoices'])) {
 					require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.facture.class.php';
-					$invoice = new FactureFournisseur($this->db);
-					if ($invoice->fetch($line->fk_facture_fourn_source) > 0) {
-						$out .= $invoice->getNomUrl(1);
+					foreach ($linked['invoices'] as $invid) {
+						$invoice = new FactureFournisseur($this->db);
+						if ($invoice->fetch($invid) > 0) {
+							$out .= '<div>'.$invoice->getNomUrl(1).'</div>';
+						}
 					}
 				}
 				$out .= '</td>';
