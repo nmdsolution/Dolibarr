@@ -518,7 +518,23 @@ if (empty($reshook)) {
 				if (GETPOST('deletephoto')) {
 					$object->photo = '';
 				}
-				if (!empty($_FILES['photo']['name'])) {
+				if (!empty($_FILES['photo']['name']) && !empty($_FILES['photo']['error'])) {
+					// The upload itself failed (file too big for php.ini upload_max_filesize/post_max_size, partial file, no temp dir...):
+					// stop here, otherwise the photo name would be saved in database without any file.
+					$error++;
+					$langs->load("errors");
+					$uploaderror = (int) $_FILES['photo']['error'];
+					if ($uploaderror == UPLOAD_ERR_INI_SIZE || $uploaderror == UPLOAD_ERR_FORM_SIZE) {
+						setEventMessages($langs->trans("ErrorFileSizeTooLarge").' (max '.ini_get('upload_max_filesize').')', null, 'errors');
+					} elseif ($uploaderror == UPLOAD_ERR_PARTIAL) {
+						setEventMessages($langs->trans("ErrorPartialFile"), null, 'errors');
+					} elseif ($uploaderror == UPLOAD_ERR_NO_TMP_DIR) {
+						setEventMessages($langs->trans("ErrorNoTmpDir", ini_get('upload_tmp_dir')), null, 'errors');
+					} else {
+						setEventMessages($langs->trans("ErrorFailedToSaveFile").' (code '.$uploaderror.')', null, 'errors');
+					}
+					dol_syslog("User photo upload failed with PHP upload error code ".$uploaderror, LOG_WARNING);
+				} elseif (!empty($_FILES['photo']['name'])) {
 					$isimage = image_format_supported($_FILES['photo']['name']);
 					if ($isimage > 0) {
 						$object->photo = dol_sanitizeFileName($_FILES['photo']['name']);
@@ -596,6 +612,8 @@ if (empty($reshook)) {
 							$result = dol_move_uploaded_file($_FILES['photo']['tmp_name'], $newfile, 1, 0, $_FILES['photo']['error']);
 
 							if (!($result > 0)) {
+								// The file was not stored: do not keep its name in database
+								$error++;
 								setEventMessages($langs->trans("ErrorFailedToSaveFile"), null, 'errors');
 							} else {
 								// Create thumbs
