@@ -42,6 +42,7 @@ class ProjectAnalyticExpenseLine
 	public $fk_expense;
 	public $fk_soc;
 	public $fk_facture_fourn;
+	public $fk_product;
 	public $description;
 	public $qty = 1;
 	public $unit_price_ht = 0;
@@ -116,8 +117,8 @@ class ProjectAnalyticExpenseLine
 		}
 
 		$sql = "INSERT INTO ".$this->db->prefix().$this->table_element;
-		$sql .= " (fk_expense, fk_soc, fk_facture_fourn, description, qty, unit_price_ht, tva_tx, total_ht, total_tva, total_ttc, rang, date_creation)";
-		$sql .= " VALUES (".((int) $this->fk_expense).", ".($this->fk_soc > 0 ? ((int) $this->fk_soc) : "NULL").", ".($this->fk_facture_fourn > 0 ? ((int) $this->fk_facture_fourn) : "NULL").",";
+		$sql .= " (fk_expense, fk_soc, fk_facture_fourn, fk_product, description, qty, unit_price_ht, tva_tx, total_ht, total_tva, total_ttc, rang, date_creation)";
+		$sql .= " VALUES (".((int) $this->fk_expense).", ".($this->fk_soc > 0 ? ((int) $this->fk_soc) : "NULL").", ".($this->fk_facture_fourn > 0 ? ((int) $this->fk_facture_fourn) : "NULL").", ".($this->fk_product > 0 ? ((int) $this->fk_product) : "NULL").",";
 		$sql .= " '".$this->db->escape(dol_trunc(trim($this->description), 255, 'right', 'UTF-8', 1))."',";
 		$sql .= " ".((float) $this->qty).", ".((float) $this->unit_price_ht).", ".((float) $this->tva_tx).",";
 		$sql .= " ".((float) $this->total_ht).", ".((float) $this->total_tva).", ".((float) $this->total_ttc).", ".((int) $this->rang).", '".$this->db->idate(dol_now())."')";
@@ -145,6 +146,7 @@ class ProjectAnalyticExpenseLine
 		$sql = "UPDATE ".$this->db->prefix().$this->table_element." SET";
 		$sql .= " fk_soc = ".($this->fk_soc > 0 ? ((int) $this->fk_soc) : "NULL").",";
 		$sql .= " fk_facture_fourn = ".($this->fk_facture_fourn > 0 ? ((int) $this->fk_facture_fourn) : "NULL").",";
+		$sql .= " fk_product = ".($this->fk_product > 0 ? ((int) $this->fk_product) : "NULL").",";
 		$sql .= " description = '".$this->db->escape(dol_trunc(trim($this->description), 255, 'right', 'UTF-8', 1))."',";
 		$sql .= " qty = ".((float) $this->qty).", unit_price_ht = ".((float) $this->unit_price_ht).", tva_tx = ".((float) $this->tva_tx).",";
 		$sql .= " total_ht = ".((float) $this->total_ht).", total_tva = ".((float) $this->total_tva).", total_ttc = ".((float) $this->total_ttc);

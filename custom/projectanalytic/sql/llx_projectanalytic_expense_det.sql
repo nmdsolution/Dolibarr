@@ -8,6 +8,7 @@ CREATE TABLE llx_projectanalytic_expense_det(
 	fk_expense integer NOT NULL,
 	fk_soc integer DEFAULT NULL,
 	fk_facture_fourn integer DEFAULT NULL,
+	fk_product integer DEFAULT NULL,
 	description varchar(255) NOT NULL,
 	qty double(24,8) DEFAULT 1 NOT NULL,
 	unit_price_ht double(24,8) DEFAULT 0 NOT NULL,

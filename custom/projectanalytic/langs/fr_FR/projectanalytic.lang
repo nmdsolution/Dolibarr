@@ -19,3 +19,5 @@ ProjectAnalyticExpenseSourceInvoiceHelp=Facture fournisseur globale dans laquell
 ProjectAnalyticLines=Lignes de détail
 ProjectAnalyticLineDescription=Consommable / désignation
 ProjectAnalyticLineAutoTotals=Totaux calculés automatiquement
+ProjectAnalyticLineDescriptionHelp=Désignation (facultative si un produit est choisi)
+ProjectAnalyticLineProduct=Produit de la liste

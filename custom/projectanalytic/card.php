@@ -119,8 +119,27 @@ if ($object->id > 0 && in_array($action, array('addline', 'updateline', 'confirm
 		$line->fk_soc = GETPOST('line_fk_soc', 'int');
 		$line->fk_facture_fourn = GETPOST('line_fk_facture_fourn', 'int');
 		$line->qty = price2num(GETPOST('line_qty', 'alpha'));
+		$line->fk_product = GETPOST('line_fk_product', 'int');
 		$line->unit_price_ht = price2num(GETPOST('line_pu', 'alpha'));
 		$line->tva_tx = price2num(GETPOST('line_tva', 'alpha'));
+
+		// A product of the catalog was chosen: empty fields are filled from it
+		// (description = ref - label, unit price = weighted average cost, VAT rate = product VAT rate)
+		if ($line->fk_product > 0) {
+			require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
+			$prod = new Product($db);
+			if ($prod->fetch($line->fk_product) > 0) {
+				if (trim((string) $line->description) === '') {
+					$line->description = $prod->ref.' - '.$prod->label;
+				}
+				if (trim(GETPOST('line_pu', 'alpha')) === '') {
+					$line->unit_price_ht = ($prod->pmp > 0 ? $prod->pmp : ($prod->cost_price > 0 ? $prod->cost_price : 0));
+				}
+				if (trim(GETPOST('line_tva', 'alpha')) === '') {
+					$line->tva_tx = $prod->tva_tx;
+				}
+			}
+		}
 		if ($line->qty === '' || $line->qty === null) {
 			$line->qty = 1;
 		}
@@ -306,8 +325,10 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 	require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
 	require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.facture.class.php';
+	require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 	$tmpsoc = new Societe($db);
 	$tmpinv = new FactureFournisseur($db);
+	$tmpprod = new Product($db);
 
 	print load_fiche_titre($langs->trans('ProjectAnalyticLines'), '', '');
 
@@ -340,7 +361,8 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 		if ($action == 'editline' && $lineid == $l->id && $permissiontoadd) {
 			print '<tr class="oddeven">';
-			print '<td><input type="hidden" name="lineid" value="'.$l->id.'"><input type="text" name="line_description" class="minwidth200 maxwidth300" value="'.dol_escape_htmltag($l->description).'"></td>';
+			print '<td><input type="hidden" name="lineid" value="'.$l->id.'">'.$form->select_produits($l->fk_product, 'line_fk_product', '', 0, 0, -1, 2, '', 1, array(), 0, '1', 0, 'minwidth200 maxwidth300', 1);
+			print '<br><input type="text" name="line_description" class="minwidth200 maxwidth300 margintoponly" value="'.dol_escape_htmltag($l->description).'"></td>';
 			print '<td>'.$form->select_company($l->fk_soc, 'line_fk_soc', 's.fournisseur = 1', 1, 0, 0, array(), 0, 'minwidth150 maxwidth200').'</td>';
 			print '<td>'.$form->selectarray('line_fk_facture_fourn', $invoiceoptions, $l->fk_facture_fourn, 1, 0, 0, '', 0, 0, 0, '', 'minwidth150 maxwidth250', 1).'</td>';
 			print '<td class="right"><input type="text" name="line_qty" class="width50 right" value="'.dol_escape_htmltag(price2num($l->qty, 'MS')).'"></td>';
@@ -351,7 +373,19 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			print '</tr>';
 		} else {
 			print '<tr class="oddeven">';
-			print '<td>'.dol_escape_htmltag($l->description).'</td>';
+			print '<td>';
+			if ($l->fk_product > 0 && $tmpprod->fetch($l->fk_product) > 0) {
+				print $tmpprod->getNomUrl(1).' ';
+				// Description is shown only when it adds something to the product label
+				if (trim($l->description) !== '' && trim($l->description) !== $tmpprod->ref.' - '.$tmpprod->label) {
+					print '<span class="opacitymedium">'.dol_escape_htmltag($l->description).'</span>';
+				} else {
+					print dol_escape_htmltag($tmpprod->label);
+				}
+			} else {
+				print dol_escape_htmltag($l->description);
+			}
+			print '</td>';
 			print '<td>';
 			if ($l->fk_soc > 0 && $tmpsoc->fetch($l->fk_soc) > 0) {
 				print $tmpsoc->getNomUrl(1, 'supplier');
@@ -385,12 +419,13 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	// Add line form
 	if ($permissiontoadd && $action != 'editline') {
 		print '<tr class="liste_titre nodrag nodrop">';
-		print '<td><input type="text" name="line_description" class="minwidth200 maxwidth300" placeholder="'.dol_escape_htmltag($langs->trans('ProjectAnalyticLineDescription')).'" value="'.dol_escape_htmltag(GETPOST('line_description', 'alphanohtml')).'"></td>';
+		print '<td>'.$form->select_produits(GETPOST('line_fk_product', 'int'), 'line_fk_product', '', 0, 0, -1, 2, '', 1, array(), 0, '1', 0, 'minwidth200 maxwidth300', 1);
+		print '<br><input type="text" name="line_description" class="minwidth200 maxwidth300 margintoponly" placeholder="'.dol_escape_htmltag($langs->trans('ProjectAnalyticLineDescriptionHelp')).'" value="'.dol_escape_htmltag(GETPOST('line_description', 'alphanohtml')).'"></td>';
 		print '<td>'.$form->select_company(GETPOST('line_fk_soc', 'int'), 'line_fk_soc', 's.fournisseur = 1', 1, 0, 0, array(), 0, 'minwidth150 maxwidth200').'</td>';
 		print '<td>'.$form->selectarray('line_fk_facture_fourn', $invoiceoptions, GETPOST('line_fk_facture_fourn', 'int'), 1, 0, 0, '', 0, 0, 0, '', 'minwidth150 maxwidth250', 1).'</td>';
 		print '<td class="right"><input type="text" id="line_qty" name="line_qty" class="width50 right" value="1"></td>';
 		print '<td class="right"><input type="text" id="line_pu" name="line_pu" class="width75 right" value=""></td>';
-		print '<td class="right"><input type="text" id="line_tva" name="line_tva" class="width50 right" value="0"></td>';
+		print '<td class="right"><input type="text" id="line_tva" name="line_tva" class="width50 right" value="" placeholder="auto"></td>';
 		print '<td class="right opacitymedium" colspan="3" id="line_preview">'.$langs->trans('ProjectAnalyticLineAutoTotals').'</td>';
 		print '<td class="center"><button type="submit" class="button buttongen" name="action" value="addline">'.$langs->trans('Add').'</button></td>';
 		print '</tr>';

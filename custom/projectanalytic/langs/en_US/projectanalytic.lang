@@ -19,3 +19,5 @@ ProjectAnalyticExpenseSourceInvoiceHelp=Global supplier invoice where this cost 
 ProjectAnalyticLines=Detail lines
 ProjectAnalyticLineDescription=Consumable / description
 ProjectAnalyticLineAutoTotals=Totals computed automatically
+ProjectAnalyticLineDescriptionHelp=Description (optional if a product is chosen)
+ProjectAnalyticLineProduct=Product from the list

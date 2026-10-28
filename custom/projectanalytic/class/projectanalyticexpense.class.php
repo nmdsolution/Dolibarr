@@ -254,7 +254,7 @@ class ProjectAnalyticExpense extends CommonObject
 		require_once __DIR__.'/projectanalyticexpenseline.class.php';
 
 		$this->lines = array();
-		$sql = "SELECT rowid, fk_expense, fk_soc, fk_facture_fourn, description, qty, unit_price_ht, tva_tx, total_ht, total_tva, total_ttc, rang";
+		$sql = "SELECT rowid, fk_expense, fk_soc, fk_facture_fourn, fk_product, description, qty, unit_price_ht, tva_tx, total_ht, total_tva, total_ttc, rang";
 		$sql .= " FROM ".$this->db->prefix()."projectanalytic_expense_det WHERE fk_expense = ".((int) $this->id)." ORDER BY rang, rowid";
 		$resql = $this->db->query($sql);
 		if ($resql) {
@@ -264,6 +264,7 @@ class ProjectAnalyticExpense extends CommonObject
 				$line->fk_expense = (int) $obj->fk_expense;
 				$line->fk_soc = $obj->fk_soc;
 				$line->fk_facture_fourn = $obj->fk_facture_fourn;
+				$line->fk_product = $obj->fk_product;
 				$line->description = $obj->description;
 				$line->qty = (float) $obj->qty;
 				$line->unit_price_ht = (float) $obj->unit_price_ht;
