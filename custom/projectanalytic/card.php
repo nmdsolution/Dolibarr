@@ -305,6 +305,16 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	// Detail lines
 	$object->fetchLines();
 
+	// All products and services of the catalog (searchable combo, like the suppliers list)
+	$productoptions = array();
+	$sqlp = "SELECT p.rowid, p.ref, p.label FROM ".MAIN_DB_PREFIX."product as p WHERE p.entity IN (".getEntity('product').") ORDER BY p.ref";
+	$resp = $db->query($sqlp);
+	if ($resp) {
+		while ($op = $db->fetch_object($resp)) {
+			$productoptions[$op->rowid] = $op->ref.' - '.dol_trunc($op->label, 60);
+		}
+	}
+
 	// Supplier invoices available to be linked (validated ones, newest first)
 	$invoiceoptions = array();
 	$sqli = "SELECT f.rowid, f.ref, f.ref_supplier, f.datef, s.nom as supplier";
@@ -361,7 +371,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 		if ($action == 'editline' && $lineid == $l->id && $permissiontoadd) {
 			print '<tr class="oddeven">';
-			print '<td><input type="hidden" name="lineid" value="'.$l->id.'">'.$form->select_produits($l->fk_product, 'line_fk_product', '', 0, 0, -1, 2, '', 1, array(), 0, '1', 0, 'minwidth200 maxwidth300', 1);
+			print '<td><input type="hidden" name="lineid" value="'.$l->id.'">'.$form->selectarray('line_fk_product', $productoptions, $l->fk_product, 1, 0, 0, '', 0, 0, 0, '', 'minwidth200 maxwidth300', 1);
 			print '<br><input type="text" name="line_description" class="minwidth200 maxwidth300 margintoponly" value="'.dol_escape_htmltag($l->description).'"></td>';
 			print '<td>'.$form->select_company($l->fk_soc, 'line_fk_soc', 's.fournisseur = 1', 1, 0, 0, array(), 0, 'minwidth150 maxwidth200').'</td>';
 			print '<td>'.$form->selectarray('line_fk_facture_fourn', $invoiceoptions, $l->fk_facture_fourn, 1, 0, 0, '', 0, 0, 0, '', 'minwidth150 maxwidth250', 1).'</td>';
@@ -419,7 +429,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	// Add line form
 	if ($permissiontoadd && $action != 'editline') {
 		print '<tr class="liste_titre nodrag nodrop">';
-		print '<td>'.$form->select_produits(GETPOST('line_fk_product', 'int'), 'line_fk_product', '', 0, 0, -1, 2, '', 1, array(), 0, '1', 0, 'minwidth200 maxwidth300', 1);
+		print '<td>'.$form->selectarray('line_fk_product', $productoptions, GETPOST('line_fk_product', 'int'), 1, 0, 0, '', 0, 0, 0, '', 'minwidth200 maxwidth300', 1);
 		print '<br><input type="text" name="line_description" class="minwidth200 maxwidth300 margintoponly" placeholder="'.dol_escape_htmltag($langs->trans('ProjectAnalyticLineDescriptionHelp')).'" value="'.dol_escape_htmltag(GETPOST('line_description', 'alphanohtml')).'"></td>';
 		print '<td>'.$form->select_company(GETPOST('line_fk_soc', 'int'), 'line_fk_soc', 's.fournisseur = 1', 1, 0, 0, array(), 0, 'minwidth150 maxwidth200').'</td>';
 		print '<td>'.$form->selectarray('line_fk_facture_fourn', $invoiceoptions, GETPOST('line_fk_facture_fourn', 'int'), 1, 0, 0, '', 0, 0, 0, '', 'minwidth150 maxwidth250', 1).'</td>';
